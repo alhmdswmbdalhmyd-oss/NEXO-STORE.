@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NEXO STORE</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--b:#1550e8;--bd:#0e3bb5;--k:#111;--g:#6b7280;--l:#eef1f6;--r:12px}
+*{box-sizing:border-box;margin:0}
+body{font-family:Cairo,sans-serif;background:#fff;color:var(--k);line-height:1.6;min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0}
+#splash{position:fixed;inset:0;background:#fff;z-index:99;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .4s}
+#splash.off{opacity:0;pointer-events:none}
+.spin{width:34px;height:34px;border:4px solid var(--l);border-top-color:var(--b);border-radius:50%;animation:s 1s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+.logo{font-weight:800;font-size:26px;letter-spacing:1px;direction:ltr}
+.logo b{color:var(--b)}
+.ann{position:relative;overflow:hidden;direction:ltr;background:linear-gradient(90deg,#0a2a8f,#1550e8,#3b82f6,#1550e8,#0a2a8f);background-size:300% 100%;animation:bg 8s linear infinite;color:#fff;font-weight:800;padding:8px 0;box-shadow:0 2px 12px rgba(21,80,232,.45)}
+.ann::after{content:"";position:absolute;top:0;bottom:0;width:80px;left:-120px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 3.5s ease-in-out infinite}
+.track{display:flex;width:max-content;animation:mq 16s linear infinite}
+.track span{display:inline-flex;align-items:center;gap:10px;padding:0 34px;white-space:nowrap;direction:rtl;text-shadow:0 0 10px rgba(255,255,255,.7)}
+.track i{display:inline-block;font-style:normal;animation:spin 2.4s linear infinite;filter:drop-shadow(0 0 4px #fff)}
+@keyframes mq{to{transform:translateX(-50%)}}
+@keyframes bg{to{background-position:300% 0}}
+@keyframes shine{0%{left:-120px}60%,100%{left:110%}}
+@keyframes spin{to{transform:rotateY(360deg)}}
+header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--l);z-index:20}
+.bar{max-width:1100px;margin:auto;padding:10px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.bar .logo{flex:none}
+.search{flex:1;min-width:180px;padding:11px 14px;border:1.5px solid var(--l);border-radius:var(--r);background:var(--l)}
+.search:focus{outline:2px solid var(--b);background:#fff}
+main{max-width:1100px;margin:auto;padding:14px}
+.cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px}
+.cat{padding:9px 18px;border-radius:99px;background:var(--l);font-weight:600;white-space:nowrap;min-height:44px}
+.cat.on{background:var(--k);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin-top:8px}
+.card{border:1px solid var(--l);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.img{aspect-ratio:1;background:var(--l);display:flex;align-items:center;justify-content:center;color:var(--g);font-size:13px;text-align:center;padding:8px;overflow:hidden}
+.img img{width:100%;height:100%;object-fit:contain;background:#fff;cursor:pointer}
+.ci{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.ci h3{font-size:15px;line-height:1.4;cursor:pointer}
+.ci p{font-size:13px;color:var(--g);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pr{font-weight:800;color:var(--b);font-size:18px}
+.st{font-size:12px;color:var(--g)}
+.st.low{color:#c2410c}
+.btn{width:100%;padding:11px;border-radius:var(--r);background:var(--b);color:#fff;font-weight:700;min-height:44px;margin-top:auto;display:block;text-align:center;text-decoration:none}
+.btn:hover{background:var(--bd)}
+.btn:disabled{background:#c5cad3;cursor:not-allowed}
+.btn.alt{background:var(--l);color:var(--k)}
+.btn.wa{background:#16a34a}
+.empty{text-align:center;color:var(--g);padding:50px 10px}
+#fab{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:64px;height:64px;border-radius:50%;background:linear-gradient(145deg,#3b82f6,var(--b));color:#fff;z-index:30;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(21,80,232,.5);transition:transform .2s}
+#fab:active{transform:scale(.92)}
+#fab svg{width:30px;height:30px}
+#fab.bump{animation:bump .4s}
+@keyframes bump{50%{transform:scale(1.2)}}
+#cc{position:absolute;top:-4px;right:-4px;min-width:24px;height:24px;padding:0 6px;border-radius:99px;background:#ef4444;border:2px solid #fff;font-size:13px;font-weight:800;line-height:20px;text-align:center}
+#cc.z{display:none}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;display:none;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.sheet{background:#fff;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;border-radius:18px 18px 0 0;padding:16px}
+@media(min-width:700px){.ov{align-items:center}.sheet{border-radius:18px}}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sh h2{font-size:19px}
+.x{background:var(--l);width:40px;height:40px;border-radius:50%;font-size:18px}
+.opts{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.opt{padding:9px 14px;border:1.5px solid var(--l);border-radius:var(--r);background:#fff;font-weight:600;min-height:44px}
+.opt.on{border-color:var(--b);background:#eef3ff;color:var(--b)}
+.qty{display:inline-flex;align-items:center;gap:4px;direction:ltr}
+.qty button{width:40px;height:40px;border-radius:10px;background:var(--l);font-size:18px;font-weight:700}
+.qty span{min-width:30px;text-align:center;font-weight:700}
+.row{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--l)}
+.row img,.row .ph{width:64px;height:64px;object-fit:contain;border-radius:10px;background:var(--l);flex:none}
+.row .in{flex:1;min-width:0;font-size:14px}
+.row .in b{display:block}
+.del{background:none;color:#dc2626;font-size:13px;font-weight:600;padding:6px}
+.sum div{display:flex;justify-content:space-between;padding:3px 0}
+.sum .t{font-weight:800;font-size:18px;border-top:2px solid var(--k);margin-top:6px;padding-top:8px}
+.f{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.f label{font-size:14px;font-weight:600}
+.f input,.f select,.f textarea{padding:11px;border:1.5px solid var(--l);border-radius:10px;width:100%}
+.f input:focus,.f select:focus,.f textarea:focus{outline:2px solid var(--b)}
+.seg{display:flex;gap:8px}
+.seg label{flex:1;border:1.5px solid var(--l);border-radius:10px;padding:10px;text-align:center;font-weight:600;cursor:pointer;min-height:44px}
+.seg input{display:none}
+.seg label:has(input:checked){border-color:var(--b);background:#eef3ff;color:var(--b)}
+.err{color:#dc2626;font-size:13px;margin:6px 0}
+.note{background:#fff7ed;border:1px solid #fed7aa;padding:10px;border-radius:10px;font-size:13px;margin:8px 0}
+.ok{text-align:center;padding:14px 0}
+.ok .tick{width:64px;height:64px;border-radius:50%;background:#16a34a;color:#fff;font-size:34px;line-height:64px;margin:0 auto 10px}
+.oid{font-size:26px;font-weight:800;color:var(--b);direction:ltr;margin:6px 0}
+footer{text-align:center;color:var(--g);font-size:13px;padding:24px 10px 90px;border-top:1px solid var(--l);margin-top:24px}
+@media(prefers-reduced-motion:reduce){.track,.ann,.ann::after,.track i{animation:none}}
+</style>
+</head>
+
+<body>
+
+<div id="splash">
+  <div class="logo"><b>NEXO</b> STORE</div>
+  <div class="spin"></div>
+  <div>جاري تجهيز المتجر...</div>
+</div>
+
+<div class="ann" role="note" aria-label="التوصيل داخل مكة فقط">
+  <div class="track" id="track"></div>
+</div>
+
+<header>
+  <div class="bar">
+    <div class="logo"><b>NEXO</b> STORE</div>
+    <input id="q" class="search" type="search" placeholder="ابحث عن منتج..." aria-label="بحث">
+  </div>
+</header>
+
+<main>
+  <div class="cats" id="cats"></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="none" hidden>لا توجد منتجات مطابقة للبحث</div>
+</main>
+
+<footer>
+  NEXO STORE — للتواصل:
+  <a href="tel:0501203710">0501203710</a>
+</footer>
+
+<button id="fab" onclick="openCart()" aria-label="السلة">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="20" r="1.5"/>
+    <circle cx="18" cy="20" r="1.5"/>
+    <path d="M2 3h3l2.6 12.4a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L21 8H6"/>
+  </svg>
+  <span id="cc" class="z">0</span>
+</button>
+
+<div class="ov" id="ov">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+const PHONE="0501203710",
+WA="966501203710",
+FEE=15,
+CAT2="المنتجات المتنوعة",
+CITY="مكة";
+
+/* الصور الآن من نفس مكان index.html مباشرة */
+const I="";
+
+const P=[
+{
+ id:1,
+ n:"FASTER FT-71 - شاحن جداري بمنفذين USB مع الكيبل",
+ p:10,
+ q:36,
+ i:I+"faster-ft71.jpg",
+ d:"شاحن جداري أصلي بمنفذين USB شحن سريع 2.4A مع الكيبل، يشحن جوالين بنفس الوقت، حماية من الحرارة والتيار الزائد."
+},
+
+{
+ id:2,
+ n:"LDNIO LS63 - كيبل Toughness",
+ p:10,
+ q:20,
+ i:I+"ldnio-ls63-typec.jpg",
+ d:"كيبل LDNIO Toughness متين بثلاثة أنواع، اختر النوع المناسب لجوالك.",
+ o:[
+  {
+   k:"Micro",
+   n:"كيبل LDNIO LS63 Micro Toughness - للجوالات القديمة",
+   d:"كيبل مايكرو أصلي للجوالات القديمة - يركب على سامسونج جالكسي القديم وهواوي وكل جوال مدخله Micro - شحن سريع 2.4A - يتحمل 6 مرات أكثر من العادي - ضمان سنة.",
+   p:10,
+   q:20,
+   i:I+"ldnio-ls63-micro.jpg"
+  },
+  {
+   k:"Type-C",
+   n:"كيبل LDNIO Toughness Type-C - للجوالات الجديدة",
+   d:"كيبل LDNIO Toughness من نوع Type-C - يركب على الجوالات الجديدة مثل سامسونج وشاومي وهواوي الجديد - شحن سريع ونقل بيانات - خامة متينة.",
+   p:10,
+   q:20,
+   i:I+"ldnio-ls63-typec.jpg"
+  },
+  {
+   k:"iPhone Lightning",
+   n:"كيبل LDNIO Toughness Lightning - للآيفون",
+   d:"كيبل LDNIO Toughness بمدخل Lightning - يركب على أجهزة الآيفون التي تستخدم منفذ Lightning مثل آيفون 6 و7 و8 وX و11 و12 و13 و14 - شحن سريع ونقل بيانات.",
+   p:10,
+   q:20,
+   i:I+"ldnio-ls63-lightning.jpg"
+  }
+ ]
+},
+
+{
+ id:3,
+ n:"LDNIO للآيفون Lightning Toughness - للآيفون القديم",
+ p:10,
+ q:23,
+ i:I+"ldnio-ls543.jpg",
+ d:"كيبل آيفون Lightning أصلي - يركب على آيفون 6 / 7 / 8 / X / 11 / 12 / 13 / 14 - شحن سريع ونقل بيانات."
+},
+
+{
+ id:4,
+ n:"GLOW GM-03 - ستاند سيارة مغناطيسي شكل L",
+ p:10,
+ q:30,
+ i:I+"glow-gm03.jpg",
+ d:"ستاند سيارة مغناطيسي GLOW GM-03 - شكل L يركب على فتحة المكيف، مغناطيس سوبر قوي يمسك الجوال حتى مع المطبات القوية - تصميم L Shape أنيق وصغير ما يأخذ مساحة - تركيب سهل بدون أدوات - يجي معه لزقة حديد تركب ورا الجوال أو الكفر - يدور معاك ويثبت بثبات - يركب على كل أنواع السيارات والجوالات."
+},
+
+{
+ id:5,
+ n:"NITO N-100 - سماعة سلكية مع مايكروفون",
+ p:5,
+ q:35,
+ i:I+"nito-n100.jpg",
+ d:"سماعة سلكية بصوت نقي وبيز قوي مع مايكروفون للمكالمات، مريحة للأذن، تركب على الجوالات المتوافقة."
+},
+
+{
+ id:6,
+ n:"iPlus I-18 - سماعة آيفون Lightning مع نافذة منبثقة",
+ p:5,
+ q:4,
+ i:I+"iplus-i18.jpg",
+ d:"سماعة آيفون مدخل Lightning مع نافذة منبثقة Pop-up، صوت ستيريو نقي ومايك واضح للمكالمات."
+},
+
+{
+ id:7,
+ n:"GLOW GLH-32 - ستاند سيارة مغناطيسي دوران 360 درجة",
+ p:10,
+ q:10,
+ i:I+"glow-glh32.jpg",
+ d:"ستاند سيارة مغناطيسي قوي دوران 360 درجة، يثبت على الطبلون، مغناطيس قوي يمسك الجوال حتى مع المطبات."
+},
+
+{
+ id:8,
+ n:"NITO N-H673 - سماعة سلكية Type-C",
+ p:10,
+ q:19,
+ i:I+"nito-nh673.jpg",
+ d:"سماعة سلكية Type-C ستيريو STEREO، صوت نقي، مايك للمكالمات والألعاب."
+},
+
+{
+ id:9,
+ n:"KUMS - كيبل Type-C قماش 1200mm طول 1.2 متر 3.4A",
+ p:5,
+ q:24,
+ i:I+"kums-typec-1200mm.jpg",
+ d:"كيبل تايب سي قماش مجدول 1200mm طول 1.2 متر، 3.4A شحن سريع جدًا، خامة متينة."
+},
+
+{
+ id:10,
+ n:"WINMFIX LED - لمبة LED ثلاثي + حامل جوال 2 في 1",
+ p:5,
+ q:4,
+ i:I+"winmfix-led.jpg",
+ d:"لمبة LED ثلاثية الإضاءة مع حامل جوال 2 في 1، إضاءة قوية للسيارة والبيت، تتحول لستاند جوال."
+},
+
+{
+ id:11,
+ n:"X.LOOD X-73 - كيبل Type-C تايب سي 3.1A",
+ p:5,
+ q:18,
+ i:I+"xlood-x73.jpg",
+ d:"كيبل تايب سي 3.1A شحن سريع، خامة مرنة وشحن ثابت وآمن للجوالات."
+},
+
+{
+ id:12,
+ n:"UNIVERSAL CLIP - حامل جوال السيارة يركب على المراية",
+ p:10,
+ q:8,
+ i:I+"universal-clip.jpg",
+ d:"حامل جوال للسيارة يركب على مراية السيارة، UNIVERSAL يركب على كثير من السيارات والجوالات."
+},
+
+{
+ id:13,
+ n:"GLOW GLH-29 - ستاند سيارة مغناطيسي مسطرة",
+ p:10,
+ q:30,
+ i:I+"glow-glh29.jpg",
+ d:"ستاند سيارة مغناطيسي مسطرة يركب على مسطرة المكيف، شكل أنيق ومغناطيس قوي يمسك الجوال بثبات."
+},
+
+{
+ id:14,
+ n:"NITO CH-512 - راس شاحن مخرجين",
+ p:10,
+ q:42,
+ i:I+"nito-ch512.jpg",
+ d:"راس شاحن مخرجين USB شحن سريع، يشحن جوالين بنفس الوقت، حماية من الحرارة والشحن الزائد."
+},
+
+{
+ id:15,
+ n:"PROMASS PM-8509 - راس شاحن سريع PD+QC مجموع 38W",
+ p:10,
+ q:12,
+ i:I+"promass-pm8509.jpg",
+ d:"راس شاحن سريع 38W مجموع، منفذ PD 20W + منفذ QC 18W."
+},
+
+{
+ id:16,
+ n:"GLOW GLH-26 - ستاند سيارة مغناطيسي صغير ميني",
+ p:10,
+ q:9,
+ i:I+"glow-glh26.jpg",
+ d:"ستاند سيارة مغناطيسي صغير ميني MINI، حجم صغير وأنيق، دوران حر 360، مغناطيس قوي."
+}
+];
+
+P.forEach(x=>x.c=CAT2);
+
+const CATS=["الكل","المنتجات الرقمية",CAT2];
+
+const $=id=>document.getElementById(id);
+
+const ld=(k,d)=>{
+ try{
+  return JSON.parse(localStorage.getItem(k))??d
+ }catch(e){
+  return d
+ }
+};
+
+const sv=(k,v)=>{
+ try{
+  localStorage.setItem(k,JSON.stringify(v))
+ }catch(e){}
+};
+
+const esc=s=>String(s??"").replace(
+ /[&<>"']/g,
+ c=>({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
+ }[c])
+);
+
+let cart=ld("nexo_cart",[]);
+let sold=ld("nexo_sold",{});
+let cat="الكل";
+let cur=null;
+let selOpt=null;
+let selQty=1;
+
+const key=(p,o)=>p.id+(o?"-"+o.k:"");
+
+const src=(p,o)=>o||p;
+
+const stock=(p,o)=>
+ Math.max(0,src(p,o).q-(sold[key(p,o)]||0));
+
+const pid=id=>P.find(x=>x.id==id);
+
+const imgTag=(u,n)=>
+ u
+ ? `<img src="${esc(u)}" alt="${esc(n)}" loading="lazy" onerror="this.parentNode.textContent='لا توجد صورة'">`
+ : "لا توجد صورة";
+
+function badge(bump){
+ const n=cart.reduce((a,c)=>a+c.qty,0);
+ const e=$("cc");
+
+ e.textContent=n;
+ e.className=n?"":"z";
+
+ if(bump){
+  const f=$("fab");
+  f.classList.remove("bump");
+  void f.offsetWidth;
+  f.classList.add("bump");
+ }
+}
+
+(function(){
+ const one=`<span><i>🚚</i>التوصيل داخل مكة المكرمة فقط<i>🚚</i></span>`;
+ $("track").innerHTML=one.repeat(8);
+})();
+
+function render(){
+
+ $("cats").innerHTML=CATS.map(c=>
+  `<button class="cat ${c==cat?"on":""}" onclick="cat='${c}';render()">${c}</button>`
+ ).join("");
+
+ const t=$("q").value.trim().toLowerCase();
+
+ const list=P.filter(p=>
+  (cat=="الكل"||p.c==cat)&&
+  (
+   !t||
+   [
+    p.n,
+    p.d,
+    p.c,
+    ...(p.o||[]).flatMap(o=>[o.k,o.n,o.d])
+   ].join(" ").toLowerCase().includes(t)
+  )
+ );
+
+ $("none").hidden=list.length>0;
+
+ $("grid").innerHTML=list.map(p=>{
+
+  const s=p.o
+   ?p.o.reduce((a,o)=>a+stock(p,o),0)
+   :stock(p);
+
+  const pr=p.o
+   ?"من "+Math.min(...p.o.map(o=>o.p))
+   :p.p;
+
+  return `
+  <div class="card">
+
+   <div class="img" onclick="openProd(${p.id})">
+    ${imgTag(p.i,p.n)}
+   </div>
+
+   <div class="ci">
+
+    <h3 onclick="openProd(${p.id})">
+     ${esc(p.n)}
+    </h3>
+
+    <p>${esc(p.d)}</p>
+
+    <div class="pr">
+     ${pr} ريال
+    </div>
+
+    <div class="st ${s<=5?"low":""}">
+     ${
+      s
+      ?(s<=10?"متبقي "+s+" فقط":"متوفر: "+s)
+      :"نفد المخزون"
+     }
+    </div>
+
+    ${
+     p.o
+     ?`<button class="btn" onclick="openProd(${p.id})">عرض المنتج</button>`
+     :`<button class="btn" ${s?"":"disabled"} onclick="quickAdd(${p.id})">أضف للسلة</button>`
+    }
+
+   </div>
+  </div>
+  `;
+ }).join("");
+
+ badge();
+}
+
+function show(html){
+ $("sheet").innerHTML=html;
+ $("ov").classList.add("on");
+}
+
+function hide(){
+ $("ov").classList.remove("on");
+}
+
+$("ov").addEventListener("click",e=>{
+ if(e.target.id=="ov")hide();
+});
+
+document.addEventListener("keydown",e=>{
+ if(e.key=="Escape")hide();
+});
+
+$("q").addEventListener("input",render);
+
+let toastT;
+
+function toast(m){
+
+ let t=$("toast");
+
+ if(!t){
+  t=document.createElement("div");
+  t.id="toast";
+  t.style.cssText=
+   "position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 18px;border-radius:10px;z-index:99;font-size:14px";
+  document.body.appendChild(t);
+ }
+
+ t.textContent=m;
+ t.style.display="block";
+
+ clearTimeout(toastT);
+
+ toastT=setTimeout(
+  ()=>t.style.display="none",
+  2200
+ );
+}
+
+function addLine(p,o,n){
+
+ const k=key(p,o);
+ const ex=cart.find(c=>c.k==k);
+ const have=ex?ex.qty:0;
+ const st=stock(p,o);
+
+ if(have+n>st){
+  toast(`المتاح في المخزون ${st} فقط`);
+  return false;
+ }
+
+ if(ex)
+  ex.qty+=n;
+ else
+  cart.push({
+   k,
+   id:p.id,
+   o:o?o.k:null,
+   qty:n
+  });
+
+ saveCart(true);
+
+ return true;
+}
+
+function quickAdd(id){
+ if(addLine(pid(id),null,1))
+  toast("تمت الإضافة إلى السلة");
+}
+
+function openProd(id){
+ cur=pid(id);
+ selOpt=null;
+ selQty=1;
+ drawProd();
+}
+
+function drawProd(){
+
+ const p=cur;
+ const o=selOpt;
+ const v=src(p,o);
+ const s=stock(p,o);
+
+ show(`
+  <div class="sh">
+   <h2>${esc(v.n)}</h2>
+   <button class="x" onclick="hide()" aria-label="إغلاق">✕</button>
+  </div>
+
+  <div class="img" style="aspect-ratio:auto;min-height:200px">
+   ${imgTag(v.i,v.n)}
+  </div>
+
+  <p style="margin:10px 0">
+   ${esc(v.d)}
+  </p>
+
+  ${
+   p.o
+   ?`
+    <b>اختر النوع:</b>
+    <div class="opts">
+     ${p.o.map(x=>
+      `<button class="opt ${o&&o.k==x.k?"on":""}" onclick="pickOpt('${x.k}')">${esc(x.k)}</button>`
+     ).join("")}
+    </div>
+   `
+   :""
+  }
+
+  <div class="pr">
+   ${o||!p.o?v.p+" ريال":"اختر النوع لعرض السعر"}
+  </div>
+
+  <div class="st">
+   ${o||!p.o?(s?"المخزون: "+s:"نفد المخزون"):""}
+  </div>
+
+  <div style="margin:12px 0;display:flex;align-items:center;gap:12px">
+   <b>الكمية:</b>
+
+   <div class="qty">
+    <button onclick="selQty=Math.max(1,selQty-1);drawProd()">−</button>
+    <span>${selQty}</span>
+    <button onclick="selQty=Math.min(${s||1},selQty+1);drawProd()">+</button>
+   </div>
+  </div>
+
+  <button
+   class="btn"
+   ${(p.o&&!o)||!s?"disabled":""}
+   onclick="addFromProd()"
+  >
+   ${p.o&&!o?"اختر النوع أولاً":s?"أضف للسلة":"نفد المخزون"}
+  </button>
+ `);
+}
+
+function pickOpt(k){
+ selOpt=cur.o.find(x=>x.k==k);
+ selQty=1;
+ drawProd();
+}
+
+function addFromProd(){
+ if(addLine(cur,selOpt,selQty)){
+  hide();
+  toast("تمت الإضافة إلى السلة");
+ }
+}
+
+function calc(mode){
+
+ const items=cart.map(c=>{
+
+  const p=pid(c.id);
+  const o=c.o?p.o.find(x=>x.k==c.o):null;
+  const v=src(p,o);
+
+  return {
+   ...c,
+   p,
+   opt:o,
+   name:v.n,
+   price:v.p,
+   img:v.i,
+   total:v.p*c.qty
+  };
+ });
+
+ const n=items.reduce((a,c)=>a+c.qty,0);
+
+ const sub=items.reduce((a,c)=>a+c.total,0);
+
+ const pc=
+  n>=20?15:
+  n>=10?10:
+  n>=5?5:
+  0;
+
+ const disc=Math.round(sub*pc)/100;
+
+ const fee=
+  (!items.length||mode=="pickup")
+  ?0
+  :FEE;
+
+ return {
+  items,
+  n,
+  sub,
+  pc,
+  disc,
+  fee,
+  total:sub-disc+fee
+ };
+}
+
+function summary(c){
+
+ return `
+ <div class="sum">
+
+  <div>
+   <span>الإجمالي الفرعي</span>
+   <span>${c.sub} ريال</span>
+  </div>
+
+  <div>
+   <span>الخصم${c.pc?" ("+c.pc+"%)":""}</span>
+   <span>−${c.disc} ريال</span>
+  </div>
+
+  <div>
+   <span>رسوم التوصيل</span>
+   <span>${c.fee} ريال</span>
+  </div>
+
+  <div class="t">
+   <span>الإجمالي النهائي</span>
+   <span>${c.total} ريال</span>
+  </div>
+
+ </div>
+ `;
+}
+
+function openCart(){
+
+ cart=cart
+ .filter(c=>pid(c.id))
+ .map(c=>{
+  const p=pid(c.id);
+  const o=c.o?p.o.find(x=>x.k==c.o):null;
+  c.qty=Math.min(c.qty,stock(p,o));
+  return c;
+ })
+ .filter(c=>c.qty>0);
+
+ saveCart();
+
+ const c=calc("delivery");
+
+ show(`
+  <div class="sh">
+   <h2>السلة</h2>
+   <button class="x" onclick="hide()" aria-label="إغلاق">✕</button>
+  </div>
+
+  ${
+   c.items.length
+   ?c.items.map((i,x)=>
+    `
+    <div class="row">
+
+     ${
+      i.img
+      ?`<img src="${esc(i.img)}" alt="" onerror="this.style.visibility='hidden'">`
+      :`<div class="ph"></div>`
+     }
+
+     <div class="in">
+      <b>${esc(i.name)}</b>
+
+      ${
+       i.o
+       ?`<span class="st">النوع: ${esc(i.o)}</span><br>`
+       :""
+      }
+
+      <span class="pr" style="font-size:15px">
+       ${i.price} ريال
+      </span>
+     </div>
+
+     <div>
+
+      <div class="qty">
+       <button onclick="chg(${x},-1)">−</button>
+       <span>${i.qty}</span>
+       <button onclick="chg(${x},1)">+</button>
+      </div>
+
+      <button class="del" onclick="rm(${x})">
+       حذف
+      </button>
+
+     </div>
+
+    </div>
+    `
+   ).join("")
+
+   +
+   `
+   <div class="note">
+    خصم الجملة: 5 قطع = 5% · 10 قطع = 10% · 20 قطعة = 15%
+   </div>
+
+   ${summary(c)}
+
+   <p class="st">
+    رسوم التوصيل تُحتسب حسب طريقة الاستلام في الخطوة التالية.
+   </p>
+
+   <button class="btn" style="margin-top:10px" onclick="openCheckout()">
+    إتمام الطلب
+   </button>
+   `
+
+   :`
+   <div class="empty">
+    السلة فارغة. أضف منتجات من المتجر.
+   </div>
+
+   <button class="btn alt" onclick="hide()">
+    تصفح المنتجات
+   </button>
+   `
+  }
+ `);
+}
+
+function chg(x,d){
+
+ const c=cart[x];
+ const p=pid(c.id);
+ const o=c.o?p.o.find(y=>y.k==c.o):null;
+ const n=c.qty+d;
+
+ if(n<1)
+  return rm(x);
+
+ if(n>stock(p,o)){
+  toast(`المتاح ${stock(p,o)} فقط`);
+  return;
+ }
+
+ c.qty=n;
+
+ saveCart();
+
+ openCart();
+}
+
+function rm(x){
+ cart.splice(x,1);
+ saveCart();
+ openCart();
+}
+
+function openCheckout(mode){
+
+ mode=mode||"delivery";
+
+ const c=calc(mode);
+
+ const f=window._f||{};
+
+ show(`
+  <div class="sh">
+   <h2>إتمام الطلب</h2>
+   <button class="x" onclick="hide()" aria-label="إغلاق">✕</button>
+  </div>
+
+  <div class="f">
+   <label>الاسم</label>
+   <input id="fn" value="${esc(f.n)}" autocomplete="name">
+  </div>
+
+  <div class="f">
+   <label>رقم الجوال</label>
+   <input id="fp" type="tel" inputmode="tel" value="${esc(f.p)}" autocomplete="tel">
+  </div>
+
+  <div class="f">
+   <label>طريقة الاستلام</label>
+
+   <div class="seg">
+
+    <label>
+     <input type="radio" name="m" value="delivery" ${mode=="delivery"?"checked":""} onchange="keepF();openCheckout('delivery')">
+     التوصيل (داخل مكة)
+    </label>
+
+    <label>
+     <input type="radio" name="m" value="pickup" ${mode=="pickup"?"checked":""} onchange="keepF();openCheckout('pickup')">
+     الاستلام
+    </label>
+
+   </div>
+  </div>
+
+  ${
+   mode=="delivery"
+   ?`
+    <div class="f">
+     <label>العنوان في مكة (الحي والشارع)</label>
+     <textarea id="fa" rows="2">${esc(f.a)}</textarea>
+    </div>
+   `
+   :`
+    <div class="note">
+     للاستلام تواصل معنا على:
+     <b><a href="tel:${PHONE}">${PHONE}</a></b>
+    </div>
+   `
+  }
+
+  <div class="f">
+   <label>طريقة الدفع</label>
+
+   <select id="fpay">
+    <option>كاش</option>
+    <option>بطاقة / شبكة</option>
+    <option>PayPal</option>
+   </select>
+  </div>
+
+  <div class="f">
+   <label>ملاحظات</label>
+   <textarea id="fnote" rows="2">${esc(f.t)}</textarea>
+  </div>
+
+  ${summary(c)}
+
+  <div class="err" id="err"></div>
+
+  <button class="btn wa" onclick="submitOrder()">
+   إرسال الطلب عبر واتساب
+  </button>
+
+  <p class="st" style="text-align:center;margin-top:6px">
+   سيفتح واتساب برسالة جاهزة، اضغط إرسال لإتمامه.
+  </p>
+ `);
+
+ if(f.pay)
+  $("fpay").value=f.pay;
+}
+
+function keepF(){
+
+ window._f={
+  n:$("fn").value,
+  p:$("fp").value,
+  a:$("fa")?$("fa").value:"",
+  t:$("fnote").value,
+  pay:$("fpay").value
+ };
+}
+
+function orderId(){
+ return "NEXO-"+Math.floor(10000000+Math.random()*90000000);
+}
+
+function submitOrder(){
+
+ const mode=document.querySelector('input[name=m]:checked').value;
+
+ const c=calc(mode);
+
+ const d={
+  name:$("fn").value.trim(),
+  phone:$("fp").value.trim(),
+  addr:$("fa")?$("fa").value.trim():"",
+  note:$("fnote").value.trim(),
+  pay:$("fpay").value
+ };
+
+ const e=$("err");
+
+ if(!c.items.length)
+  return e.textContent="السلة فارغة";
+
+ if(!d.name)
+  return e.textContent="أدخل الاسم";
+
+ if(!/^[0-9+\s-]{9,15}$/.test(d.phone))
+  return e.textContent="أدخل رقم جوال صحيح";
+
+ if(mode=="delivery"&&!d.addr)
+  return e.textContent="العنوان مطلوب عند اختيار التوصيل";
+
+ for(const i of c.items){
+
+  if(i.qty>stock(i.p,i.opt))
+   return e.textContent=
+    `الكمية المطلوبة من "${i.name}" غير متوفرة`;
+ }
+
+ const id=orderId();
+
+ const date=new Date().toLocaleString("ar-SA");
+
+ const modeTxt=
+  mode=="delivery"
+  ?"التوصيل"
+  :"الاستلام";
+
+ const lines=c.items.map(i=>
+  `• ${i.name}${i.o?" (الخيار: "+i.o+")":""} × ${i.qty} = ${i.total} ريال`
+ ).join("\n");
+
+ const msg=`طلب جديد من NEXO STORE
+رقم الطلب: ${id}
+التاريخ: ${date}
+
+الاسم: ${d.name}
+الجوال: ${d.phone}
+${mode=="delivery"?"المدينة: "+CITY+"\nالعنوان: "+d.addr:"الاستلام من المتجر"}
+طريقة الاستلام: ${modeTxt}
+طريقة الدفع: ${d.pay}
+
+المنتجات:
+${lines}
+
+الإجمالي الفرعي: ${c.sub} ريال
+الخصم${c.pc?" ("+c.pc+"%)":""}: ${c.disc} ريال
+رسوم التوصيل: ${c.fee} ريال
+الإجمالي النهائي: ${c.total} ريال
+ملاحظات: ${d.note||"—"}`;
+
+ const url=
+  `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+
+ c.items.forEach(i=>{
+  sold[i.k]=(sold[i.k]||0)+i.qty;
+ });
+
+ sv("nexo_sold",sold);
+
+ cart=[];
+
+ saveCart();
+
+ window._f=null;
+
+ render();
+
+ show(`
+  <div class="ok">
+
+   <div class="tick">✓</div>
+
+   <h2>جهّزنا طلبك</h2>
+
+   <p>رقم طلبك:</p>
+
+   <div class="oid">
+    ${id}
+   </div>
+
+   <p>
+    لم يصل الطلب لنا بعد.
+    اضغط الزر وأرسل الرسالة في واتساب لإتمامه.
+   </p>
+
+  </div>
+
+  <a class="btn wa"
+     href="${url}"
+     target="_blank"
+     rel="noopener">
+     فتح واتساب وإرسال الطلب
+  </a>
+
+  <button class="btn alt"
+          style="margin-top:8px"
+          onclick="hide()">
+   متابعة التسوق
+  </button>
+ `);
+
+ window.open(url,"_blank");
+}
+
+function saveCart(b){
+ sv("nexo_cart",cart);
+ badge(b);
+}
+
+render();
+
+setTimeout(
+ ()=>$("splash").classList.add("off"),
+ 900
+);
+</script>
+
+</body>
+</html>
