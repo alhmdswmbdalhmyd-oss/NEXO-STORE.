@@ -2,2526 +2,1627 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>NEXO STORE</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --b:#1550e8;
-  --bd:#0e3bb5;
-  --k:#111;
-  --g:#6b7280;
-  --l:#eef1f6;
-  --r:12px
-}
-
-*{box-sizing:border-box;margin:0}
-
+*{box-sizing:border-box}
 body{
-  font-family:Cairo,sans-serif;
-  background:#fff;
-  color:var(--k);
-  line-height:1.6;
-  min-height:100vh
+margin:0;
+font-family:Cairo,sans-serif;
+background:#fff;
+color:#111;
 }
+button,input{font-family:inherit}
+button{cursor:pointer}
 
-button,input,select,textarea{font:inherit}
-button{cursor:pointer;border:0}
-
-/* شاشة البداية */
 #splash{
-  position:fixed;
-  inset:0;
-  background:#fff;
-  z-index:99;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:14px;
-  transition:opacity .4s
+position:fixed;
+inset:0;
+background:#fff;
+z-index:9999;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px;
+font-weight:800;
+}
+#splash.hide{
+opacity:0;
+visibility:hidden;
+transition:.5s;
 }
 
-#splash.off{
-  opacity:0;
-  pointer-events:none
+header{
+position:sticky;
+top:0;
+z-index:100;
+background:#fff;
+border-bottom:1px solid #eee;
+padding:12px 15px;
 }
 
-.spin{
-  width:34px;
-  height:34px;
-  border:4px solid var(--l);
-  border-top-color:var(--b);
-  border-radius:50%;
-  animation:s 1s linear infinite
-}
-
-@keyframes s{
-  to{transform:rotate(360deg)}
+.headerTop{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+max-width:1200px;
+margin:auto;
 }
 
 .logo{
-  font-weight:800;
-  font-size:26px;
-  letter-spacing:1px;
-  direction:ltr
+font-size:25px;
+font-weight:800;
+letter-spacing:.5px;
 }
 
-.logo b{color:var(--b)}
-
-/* الإعلان */
-.ann{
-  position:relative;
-  overflow:hidden;
-  direction:ltr;
-  background:linear-gradient(
-    90deg,
-    #0a2a8f,
-    #1550e8,
-    #3b82f6,
-    #1550e8,
-    #0a2a8f
-  );
-  background-size:300% 100%;
-  animation:bg 8s linear infinite;
-  color:#fff;
-  font-weight:800;
-  padding:8px 0;
-  box-shadow:0 2px 12px rgba(21,80,232,.45)
+.cartBtn{
+border:0;
+background:#111;
+color:#fff;
+border-radius:13px;
+padding:10px 14px;
+font-weight:700;
+position:relative;
 }
 
-.ann::after{
-  content:"";
-  position:absolute;
-  top:0;
-  bottom:0;
-  width:80px;
-  left:-120px;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.55),
-    transparent
-  );
-  transform:skewX(-20deg);
-  animation:shine 3.5s ease-in-out infinite
+#cartCount{
+position:absolute;
+top:-7px;
+left:-7px;
+background:#e53935;
+color:#fff;
+width:21px;
+height:21px;
+border-radius:50%;
+font-size:12px;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-.track{
-  display:flex;
-  width:max-content;
-  animation:mq 16s linear infinite
+.searchBox{
+max-width:700px;
+margin:13px auto 0;
 }
 
-.track span{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  padding:0 34px;
-  white-space:nowrap;
-  direction:rtl;
-  text-shadow:0 0 10px rgba(255,255,255,.7)
+.searchBox input{
+width:100%;
+border:1px solid #ddd;
+border-radius:14px;
+padding:13px 16px;
+outline:none;
+font-size:14px;
 }
 
-.track i{
-  display:inline-block;
-  font-style:normal;
-  animation:spin 2.4s linear infinite;
-  filter:drop-shadow(0 0 4px #fff)
-}
-
-@keyframes mq{
-  to{transform:translateX(-50%)}
-}
-
-@keyframes bg{
-  to{background-position:300% 0}
-}
-
-@keyframes shine{
-  0%{left:-120px}
-  60%,100%{left:110%}
-}
-
-@keyframes spin{
-  to{transform:rotateY(360deg)}
-}
-
-/* الهيدر */
-header{
-  position:sticky;
-  top:0;
-  background:#fff;
-  border-bottom:1px solid var(--l);
-  z-index:20
-}
-
-.bar{
-  max-width:1100px;
-  margin:auto;
-  padding:14px 14px 11px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap
-}
-
-.bar .logo{flex:none}
-
-.search{
-  flex:1;
-  min-width:180px;
-  padding:11px 14px;
-  border:1.5px solid var(--l);
-  border-radius:var(--r);
-  background:var(--l)
-}
-
-.search:focus{
-  outline:2px solid var(--b);
-  background:#fff
-}
-
-/* المحتوى */
-main{
-  max-width:1100px;
-  margin:auto;
-  padding:18px 14px 14px
-}
-
-.cats{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding-bottom:12px
+.categories{
+display:flex;
+gap:8px;
+overflow:auto;
+max-width:1200px;
+margin:12px auto 0;
+padding-bottom:2px;
 }
 
 .cat{
-  padding:9px 18px;
-  border-radius:99px;
-  background:var(--l);
-  font-weight:600;
-  white-space:nowrap;
-  min-height:44px
+white-space:nowrap;
+border:1px solid #ddd;
+background:#fff;
+border-radius:20px;
+padding:8px 14px;
+font-size:13px;
+font-weight:700;
 }
 
-.cat.on{
-  background:var(--k);
-  color:#fff
+.cat.active{
+background:#111;
+color:#fff;
+border-color:#111;
 }
 
-/* المنتجات */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-  margin-top:8px
+.deliveryBanner{
+margin:15px auto;
+max-width:1200px;
+padding:12px;
+border-radius:14px;
+background:#f5f5f5;
+text-align:center;
+font-weight:700;
+font-size:14px;
 }
 
-.card{
-  border:1px solid var(--l);
-  border-radius:var(--r);
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  min-width:0;
-  background:#fff
+.container{
+max-width:1200px;
+margin:auto;
+padding:0 15px 100px;
 }
 
-.img{
-  aspect-ratio:1;
-  background:var(--l);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--g);
-  font-size:13px;
-  text-align:center;
-  padding:8px;
-  overflow:hidden
+.products{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:12px;
 }
 
-.img img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  background:#fff;
-  cursor:pointer
+.product{
+border:1px solid #e7e7e7;
+border-radius:15px;
+overflow:hidden;
+background:#fff;
+min-width:0;
+transition:.2s;
 }
 
-.ci{
-  padding:10px;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  flex:1;
-  min-width:0
+.product:hover{
+box-shadow:0 7px 25px rgba(0,0,0,.07);
 }
 
-.ci h3{
-  font-size:14px;
-  line-height:1.55;
-  cursor:pointer;
-  overflow:visible;
-  display:block;
-  word-break:normal;
-  overflow-wrap:anywhere
+.productImg{
+width:100%;
+aspect-ratio:1/1;
+object-fit:contain;
+background:#fafafa;
+display:block;
 }
 
-.ci p{
-  font-size:12px;
-  color:var(--g);
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden
+.productBody{
+padding:10px;
 }
 
-/* السعر القديم والجديد */
-.price-box{
-  display:flex;
-  flex-direction:column;
-  gap:1px
+.productName{
+font-size:14px;
+font-weight:800;
+line-height:1.6;
+min-height:45px;
 }
 
-.old-price{
-  color:#9ca3af;
-  text-decoration:line-through;
-  font-size:12px;
-  font-weight:600
+.oldPrice{
+font-size:13px;
+color:#999;
+text-decoration:line-through;
+margin-top:5px;
 }
 
-.pr{
-  font-weight:800;
-  color:var(--b);
-  font-size:17px
+.salePrice{
+font-size:20px;
+font-weight:900;
+color:#111;
 }
 
-.st{
-  font-size:11px;
-  color:var(--g)
+.priceRow{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:5px;
+margin-top:4px;
 }
 
-.st.low{color:#c2410c}
-
-.btn{
-  width:100%;
-  padding:10px;
-  border-radius:var(--r);
-  background:var(--b);
-  color:#fff;
-  font-weight:700;
-  min-height:42px;
-  margin-top:auto;
-  display:block;
-  text-align:center;
-  text-decoration:none;
-  font-size:13px
+.discountBadge{
+font-size:10px;
+font-weight:800;
+background:#111;
+color:#fff;
+padding:4px 7px;
+border-radius:7px;
 }
 
-.btn:hover{background:var(--bd)}
-.btn:disabled{
-  background:#c5cad3;
-  cursor:not-allowed
+.addBtn{
+width:100%;
+border:0;
+background:#111;
+color:#fff;
+border-radius:10px;
+padding:10px 7px;
+margin-top:9px;
+font-weight:800;
+font-size:13px;
 }
 
-.btn.alt{
-  background:var(--l);
-  color:var(--k)
+.stock{
+font-size:11px;
+color:#777;
+margin-top:5px;
 }
-
-.btn.wa{background:#16a34a}
 
 .empty{
-  text-align:center;
-  color:var(--g);
-  padding:50px 10px
+text-align:center;
+padding:50px 10px;
+color:#777;
+display:none;
 }
 
-/* السلة */
-#fab{
-  position:fixed;
-  left:16px;
-  bottom:calc(16px + env(safe-area-inset-bottom,0px));
-  width:64px;
-  height:64px;
-  border-radius:50%;
-  background:linear-gradient(145deg,#3b82f6,var(--b));
-  color:#fff;
-  z-index:30;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 8px 22px rgba(21,80,232,.5);
-  transition:transform .2s
+#cartModal,
+#productModal,
+#orderModal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+z-index:500;
+display:none;
+align-items:flex-end;
+justify-content:center;
 }
 
-#fab:active{transform:scale(.92)}
-
-#fab svg{
-  width:30px;
-  height:30px
+.modalBox{
+background:#fff;
+width:100%;
+max-width:650px;
+max-height:90vh;
+overflow:auto;
+border-radius:22px 22px 0 0;
+padding:18px;
 }
 
-#fab.bump{animation:bump .4s}
-
-@keyframes bump{
-  50%{transform:scale(1.2)}
+.modalHead{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
 }
 
-#cc{
-  position:absolute;
-  top:-4px;
-  right:-4px;
-  min-width:24px;
-  height:24px;
-  padding:0 6px;
-  border-radius:99px;
-  background:#ef4444;
-  border:2px solid #fff;
-  font-size:13px;
-  font-weight:800;
-  line-height:20px;
-  text-align:center
+.close{
+border:0;
+background:#f1f1f1;
+width:35px;
+height:35px;
+border-radius:50%;
+font-size:20px;
 }
 
-#cc.z{display:none}
-
-/* النوافذ */
-.ov{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  z-index:50;
-  display:none;
-  align-items:flex-end;
-  justify-content:center
+.detailImage{
+width:100%;
+max-height:320px;
+object-fit:contain;
+background:#fafafa;
+border-radius:15px;
 }
 
-.ov.on{display:flex}
-
-.sheet{
-  background:#fff;
-  width:100%;
-  max-width:640px;
-  max-height:92vh;
-  overflow-y:auto;
-  border-radius:18px 18px 0 0;
-  padding:16px
+.detailName{
+font-size:21px;
+font-weight:900;
+margin:15px 0 5px;
 }
 
-@media(min-width:700px){
-  .ov{align-items:center}
-  .sheet{border-radius:18px}
+.detailDescription{
+font-size:14px;
+color:#666;
+line-height:1.8;
 }
 
-/* تفاصيل المنتج */
-.sh{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px
+.optionGroup{
+margin-top:15px;
 }
 
-.sh h2{font-size:19px}
-
-.x{
-  background:var(--l);
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  font-size:18px
+.optionTitle{
+font-weight:800;
+margin-bottom:7px;
 }
 
-.opts{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin:8px 0
+.options{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
 }
 
-.opt{
-  padding:9px 14px;
-  border:1.5px solid var(--l);
-  border-radius:var(--r);
-  background:#fff;
-  font-weight:600;
-  min-height:44px
+.option{
+border:1px solid #ddd;
+background:#fff;
+padding:8px 12px;
+border-radius:9px;
+font-weight:700;
 }
 
-.opt.on{
-  border-color:var(--b);
-  background:#eef3ff;
-  color:var(--b)
+.option.active{
+background:#111;
+color:#fff;
+border-color:#111;
 }
 
 .qty{
-  display:inline-flex;
-  align-items:center;
-  gap:4px;
-  direction:ltr
+display:flex;
+align-items:center;
+gap:10px;
+margin:15px 0;
 }
 
 .qty button{
-  width:40px;
-  height:40px;
-  border-radius:10px;
-  background:var(--l);
-  font-size:18px;
-  font-weight:700
+width:36px;
+height:36px;
+border:0;
+border-radius:9px;
+background:#eee;
+font-size:20px;
 }
 
 .qty span{
-  min-width:30px;
-  text-align:center;
-  font-weight:700
+font-size:18px;
+font-weight:800;
+min-width:25px;
+text-align:center;
 }
 
-.row{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  padding:10px 0;
-  border-bottom:1px solid var(--l)
+.primary{
+width:100%;
+border:0;
+background:#111;
+color:#fff;
+padding:13px;
+border-radius:12px;
+font-weight:800;
+font-size:15px;
 }
 
-.row img,
-.row .ph{
-  width:64px;
-  height:64px;
-  object-fit:contain;
-  border-radius:10px;
-  background:var(--l);
-  flex:none
+.cartItem{
+display:flex;
+align-items:center;
+gap:10px;
+padding:12px 0;
+border-bottom:1px solid #eee;
 }
 
-.row .in{
-  flex:1;
-  min-width:0;
-  font-size:14px
+.cartItem img{
+width:65px;
+height:65px;
+object-fit:contain;
+background:#fafafa;
+border-radius:10px;
 }
 
-.row .in b{display:block}
-
-.del{
-  background:none;
-  color:#dc2626;
-  font-size:13px;
-  font-weight:600;
-  padding:6px
+.cartItemInfo{
+flex:1;
 }
 
-.sum div{
-  display:flex;
-  justify-content:space-between;
-  padding:3px 0
+.cartItemName{
+font-weight:800;
+font-size:13px;
+line-height:1.5;
 }
 
-.sum .t{
-  font-weight:800;
-  font-size:18px;
-  border-top:2px solid var(--k);
-  margin-top:6px;
-  padding-top:8px
+.cartItemPrice{
+font-size:13px;
+margin-top:4px;
 }
 
-.f{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  margin-bottom:10px
+.cartQty{
+display:flex;
+align-items:center;
+gap:6px;
+margin-top:5px;
 }
 
-.f label{
-  font-size:14px;
-  font-weight:600
+.cartQty button{
+border:0;
+background:#eee;
+width:27px;
+height:27px;
+border-radius:7px;
 }
 
-.f input,
-.f select,
-.f textarea{
-  padding:11px;
-  border:1.5px solid var(--l);
-  border-radius:10px;
-  width:100%
+.removeBtn{
+border:0;
+background:#ffe9e9;
+color:#c00;
+padding:7px;
+border-radius:8px;
+font-size:11px;
 }
 
-.f input:focus,
-.f select:focus,
-.f textarea:focus{
-  outline:2px solid var(--b)
+.totalBox{
+margin-top:15px;
+padding:15px;
+border-radius:13px;
+background:#f7f7f7;
 }
 
-.seg{
-  display:flex;
-  gap:8px
+.totalLine{
+display:flex;
+justify-content:space-between;
+margin:7px 0;
+font-size:14px;
 }
 
-.seg label{
-  flex:1;
-  border:1.5px solid var(--l);
-  border-radius:10px;
-  padding:10px;
-  text-align:center;
-  font-weight:600;
-  cursor:pointer;
-  min-height:44px
+.totalLine.final{
+font-size:19px;
+font-weight:900;
+border-top:1px solid #ddd;
+padding-top:10px;
+margin-top:12px;
 }
 
-.seg input{display:none}
-
-.seg label:has(input:checked){
-  border-color:var(--b);
-  background:#eef3ff;
-  color:var(--b)
+.field{
+margin-bottom:12px;
 }
 
-.err{
-  color:#dc2626;
-  font-size:13px;
-  margin:6px 0
+.field label{
+display:block;
+font-size:13px;
+font-weight:800;
+margin-bottom:5px;
 }
 
-.note{
-  background:#fff7ed;
-  border:1px solid #fed7aa;
-  padding:10px;
-  border-radius:10px;
-  font-size:13px;
-  margin:8px 0
+.field input,
+.field textarea,
+.field select{
+width:100%;
+border:1px solid #ddd;
+border-radius:11px;
+padding:11px;
+outline:none;
+font-size:14px;
+background:#fff;
 }
 
-.discount-box{
-  background:#eef3ff;
-  border:1px solid #c7d7ff;
-  padding:12px;
-  border-radius:12px;
-  margin:10px 0
+.field textarea{
+min-height:80px;
+resize:vertical;
 }
 
-.discount-title{
-  font-weight:800;
-  margin-bottom:7px
+.paymentMethods{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:7px;
 }
 
-.discount-row{
-  display:flex;
-  gap:8px
+.payment{
+border:1px solid #ddd;
+background:#fff;
+padding:10px 5px;
+border-radius:10px;
+font-size:12px;
+font-weight:800;
 }
 
-.discount-row input{
-  flex:1;
-  padding:11px;
-  border:1.5px solid #dbe4ff;
-  border-radius:10px;
-  min-width:0
+.payment.active{
+background:#111;
+color:#fff;
 }
 
-.discount-row button{
-  padding:10px 14px;
-  border-radius:10px;
-  background:var(--b);
-  color:#fff;
-  font-weight:800;
-  white-space:nowrap
+.couponBox{
+display:flex;
+gap:7px;
+margin-top:12px;
 }
 
-.discount-status{
-  font-size:12px;
-  margin-top:6px
+.couponBox input{
+flex:1;
+border:1px solid #ddd;
+border-radius:10px;
+padding:11px;
+outline:none;
 }
 
-.discount-status.ok{
-  color:#16a34a;
-  text-align:right;
-  padding:0
+.couponBox button{
+border:0;
+background:#111;
+color:#fff;
+border-radius:10px;
+padding:0 15px;
+font-weight:800;
 }
 
-.discount-status.bad{
-  color:#dc2626
+.couponMessage{
+font-size:12px;
+font-weight:700;
+margin-top:6px;
 }
 
-.price-before{
-  color:#9ca3af;
-  text-decoration:line-through;
-  font-size:12px
+.floatCart{
+position:fixed;
+bottom:18px;
+left:18px;
+right:18px;
+max-width:500px;
+margin:auto;
+z-index:150;
 }
 
-.ok{
-  text-align:center;
-  padding:14px 0
+.floatCart button{
+width:100%;
+border:0;
+background:#111;
+color:#fff;
+padding:14px;
+border-radius:15px;
+font-weight:900;
+font-size:15px;
+box-shadow:0 8px 25px rgba(0,0,0,.18);
 }
 
-.ok .tick{
-  width:64px;
-  height:64px;
-  border-radius:50%;
-  background:#16a34a;
-  color:#fff;
-  font-size:34px;
-  line-height:64px;
-  margin:0 auto 10px
+@media(max-width:900px){
+.products{
+grid-template-columns:repeat(3,minmax(0,1fr));
+}
 }
 
-.oid{
-  font-size:26px;
-  font-weight:800;
-  color:var(--b);
-  direction:ltr;
-  margin:6px 0
+@media(max-width:650px){
+.products{
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:9px;
 }
 
-footer{
-  text-align:center;
-  color:var(--g);
-  font-size:13px;
-  padding:24px 10px 90px;
-  border-top:1px solid var(--l);
-  margin-top:24px
+.productBody{
+padding:8px;
 }
 
-/* الأجهزة الأكبر */
-@media(min-width:520px){
-  .grid{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:14px
-  }
-
-  .ci{padding:11px}
-
-  .ci h3{font-size:14px}
+.productName{
+font-size:12px;
+min-height:42px;
 }
 
-@media(min-width:850px){
-  .grid{
-    grid-template-columns:repeat(4,minmax(0,1fr));
-    gap:14px
-  }
-
-  .ci h3{font-size:15px}
-  .ci p{font-size:13px}
-  .btn{font-size:14px}
+.salePrice{
+font-size:17px;
 }
 
-/* الشاشات الصغيرة جدًا */
-@media(max-width:360px){
-  .grid{gap:8px}
-  .ci{padding:8px}
-  .ci h3{font-size:13px}
-  .ci p{font-size:11px}
-  .pr{font-size:15px}
-  .btn{
-    font-size:12px;
-    padding:9px 5px
-  }
+.oldPrice{
+font-size:11px;
 }
 
-@media(prefers-reduced-motion:reduce){
-  .track,
-  .ann,
-  .ann::after,
-  .track i{
-    animation:none
-  }
+.addBtn{
+font-size:12px;
+padding:9px 5px;
+}
+
+.discountBadge{
+font-size:9px;
+}
+
+.paymentMethods{
+grid-template-columns:1fr;
+}
+}
+
+@media(max-width:370px){
+.products{
+grid-template-columns:1fr 1fr;
+gap:7px;
+}
 }
 </style>
 </head>
 
 <body>
 
-<div id="splash">
-  <div class="logo"><b>NEXO</b> STORE</div>
-  <div class="spin"></div>
-  <div>جاري تجهيز المتجر...</div>
-</div>
-
-<div class="ann" role="note" aria-label="التوصيل داخل مكة فقط">
-  <div class="track" id="track"></div>
-</div>
+<div id="splash">جاري تجهيز المتجر...</div>
 
 <header>
-  <div class="bar">
-    <div class="logo"><b>NEXO</b> STORE</div>
+<div class="headerTop">
+<div class="logo">NEXO STORE</div>
 
-    <input
-      id="q"
-      class="search"
-      type="search"
-      placeholder="ابحث عن منتج..."
-      aria-label="بحث"
-    >
-  </div>
+<button class="cartBtn" onclick="openCart()">
+السلة
+<span id="cartCount">0</span>
+</button>
+</div>
+
+<div class="searchBox">
+<input id="searchInput" type="search" placeholder="ابحث عن منتج..." oninput="renderProducts()">
+</div>
+
+<div class="categories" id="categories"></div>
 </header>
 
-<main>
-  <div class="cats" id="cats"></div>
+<div class="container">
 
-  <div class="grid" id="grid"></div>
+<div class="deliveryBanner">
+🚚 التوصيل داخل مكة المكرمة فقط
+</div>
 
-  <div class="empty" id="none" hidden>
-    لا توجد منتجات مطابقة للبحث
-  </div>
-</main>
+<div class="products" id="products"></div>
 
-<footer>
-  NEXO STORE — للتواصل:
-  <a href="tel:0501203710">0501203710</a>
-</footer>
+<div class="empty" id="empty">
+لا توجد منتجات مطابقة للبحث
+</div>
 
-<button id="fab" onclick="openCart()" aria-label="السلة">
+</div>
 
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <circle cx="9" cy="20" r="1.5"/>
-    <circle cx="18" cy="20" r="1.5"/>
-    <path d="M2 3h3l2.6 12.4a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L21 8H6"/>
-  </svg>
+<div class="floatCart">
+<button onclick="openCart()">🛒 عرض السلة</button>
+</div>
 
-  <span id="cc" class="z">0</span>
-</button>
+<div id="productModal">
+<div class="modalBox">
+<div class="modalHead">
+<strong>تفاصيل المنتج</strong>
+<button class="close" onclick="closeModal('productModal')">×</button>
+</div>
+<div id="productDetails"></div>
+</div>
+</div>
 
-<div class="ov" id="ov">
-  <div class="sheet" id="sheet"></div>
+<div id="cartModal">
+<div class="modalBox">
+<div class="modalHead">
+<strong>سلة المشتريات</strong>
+<button class="close" onclick="closeModal('cartModal')">×</button>
+</div>
+<div id="cartContent"></div>
+</div>
+</div>
+
+<div id="orderModal">
+<div class="modalBox">
+<div class="modalHead">
+<strong>إتمام الطلب</strong>
+<button class="close" onclick="closeModal('orderModal')">×</button>
+</div>
+<div id="orderContent"></div>
+</div>
 </div>
 
 <script>
 
-const PHONE="0501203710";
-const WA="966501203710";
-const FEE=15;
-const CAT2="المنتجات المتنوعة";
-const CITY="مكة";
-
-/* =========================================================
-   كود الخصم
-   ========================================================= */
+const WA_NUMBER="966501203710";
+const DELIVERY_FEE=15;
 
 const DISCOUNT_CODE="NEXO50";
-
-/*
-  الأسعار الحالية التي كانت موجودة في المتجر.
-  هذه هي الأسعار التي يرجع لها المنتج بعد إدخال الكود.
-*/
-
-/* الصور من نفس مكان index.html */
-const I="";
-
-/* =========================================================
-   المنتجات
-   old = السعر الحالي القديم
-   p   = السعر الظاهر الجديد قبل الكود
-   ========================================================= */
-
-const P=[
-
-  {
-    id:1,
-    n:"FASTER FT-71 - شاحن جداري بمنفذين USB مع الكيبل",
-    p:20,
-    old:10,
-    q:36,
-    i:I+"faster-ft71.jpg",
-    d:"شاحن جداري أصلي بمنفذين USB شحن سريع 2.4A مع الكيبل، يشحن جوالين بنفس الوقت، حماية من الحرارة والتيار الزائد."
-  },
-
-  {
-    id:2,
-    n:"LDNIO LS63 - كيبل Toughness",
-    p:20,
-    old:10,
-    q:20,
-    i:I+"ldnio-ls63-typec.jpg",
-    d:"كيبل LDNIO Toughness متين بثلاثة أنواع، اختر النوع المناسب لجوالك.",
-    o:[
-      {
-        k:"Micro",
-        n:"كيبل LDNIO LS63 Micro Toughness - للجوالات القديمة",
-        d:"كيبل مايكرو أصلي للجوالات القديمة - يركب على سامسونج جالكسي القديم وهواوي وكل جوال مدخله Micro - شحن سريع 2.4A - يتحمل 6 مرات أكثر من العادي - ضمان سنة.",
-        p:20,
-        old:10,
-        q:20,
-        i:I+"ldnio-ls63-micro.jpg"
-      },
-      {
-        k:"Type-C",
-        n:"كيبل LDNIO Toughness Type-C - للجوالات الجديدة",
-        d:"كيبل LDNIO Toughness من نوع Type-C - يركب على الجوالات الجديدة مثل سامسونج وشاومي وهواوي الجديد - شحن سريع ونقل بيانات - خامة متينة.",
-        p:20,
-        old:10,
-        q:20,
-        i:I+"ldnio-ls63-typec.jpg"
-      },
-      {
-        k:"iPhone Lightning",
-        n:"كيبل LDNIO Toughness Lightning - للآيفون",
-        d:"كيبل LDNIO Toughness بمدخل Lightning - يركب على أجهزة الآيفون التي تستخدم منفذ Lightning مثل آيفون 6 و7 و8 وX و11 و12 و13 و14 - شحن سريع ونقل بيانات.",
-        p:20,
-        old:10,
-        q:20,
-        i:I+"ldnio-ls63-lightning.jpg"
-      }
-    ]
-  },
-
-  {
-    id:3,
-    n:"LDNIO للآيفون Lightning Toughness - للآيفون القديم",
-    p:20,
-    old:10,
-    q:23,
-    i:I+"ldnio-ls543.jpg",
-    d:"كيبل آيفون Lightning أصلي - يركب على آيفون 6 / 7 / 8 / X / 11 / 12 / 13 / 14 - شحن سريع ونقل بيانات."
-  },
-
-  {
-    id:4,
-    n:"GLOW GM-03 - ستاند سيارة مغناطيسي شكل L",
-    p:20,
-    old:10,
-    q:30,
-    i:I+"glow-gm03.jpg",
-    d:"ستاند سيارة مغناطيسي GLOW GM-03 - شكل L يركب على فتحة المكيف، مغناطيس سوبر قوي يمسك الجوال حتى مع المطبات القوية - تصميم L Shape أنيق وصغير ما يأخذ مساحة - تركيب سهل بدون أدوات - يجي معه لزقة حديد تركب ورا الجوال أو الكفر - يدور معاك ويثبت بثبات - يركب على كل أنواع السيارات والجوالات."
-  },
-
-  {
-    id:5,
-    n:"NITO N-100 - سماعة سلكية مع مايكروفون",
-    p:10,
-    old:5,
-    q:35,
-    i:I+"nito-n100.jpg",
-    d:"سماعة سلكية بصوت نقي وبيز قوي مع مايكروفون للمكالمات، مريحة للأذن، تركب على الجوالات المتوافقة."
-  },
-
-  {
-    id:6,
-    n:"iPlus I-18 - سماعة آيفون Lightning مع نافذة منبثقة",
-    p:10,
-    old:5,
-    q:4,
-    i:I+"iplus-i18.jpg",
-    d:"سماعة آيفون مدخل Lightning مع نافذة منبثقة Pop-up، صوت ستيريو نقي ومايك واضح للمكالمات."
-  },
-
-  {
-    id:7,
-    n:"GLOW GLH-32 - ستاند سيارة مغناطيسي دوران 360 درجة",
-    p:20,
-    old:10,
-    q:10,
-    i:I+"glow-glh32.jpg",
-    d:"ستاند سيارة مغناطيسي قوي دوران 360 درجة، يثبت على الطبلون، مغناطيس قوي يمسك الجوال حتى مع المطبات."
-  },
-
-  {
-    id:8,
-    n:"NITO N-H673 - سماعة سلكية Type-C",
-    p:20,
-    old:10,
-    q:19,
-    i:I+"nito-nh673.jpg",
-    d:"سماعة سلكية Type-C ستيريو STEREO، صوت نقي، مايك للمكالمات والألعاب."
-  },
-
-  {
-    id:9,
-    n:"KUMS - كيبل Type-C قماش 1200mm طول 1.2 متر 3.4A",
-    p:10,
-    old:5,
-    q:24,
-    i:I+"kums-typec-1200mm.jpg",
-    d:"كيبل تايب سي قماش مجدول 1200mm طول 1.2 متر، 3.4A شحن سريع جدًا، خامة متينة."
-  },
-
-  {
-    id:10,
-    n:"WINMFIX LED - لمبة LED ثلاثي + حامل جوال 2 في 1",
-    p:10,
-    old:5,
-    q:4,
-    i:I+"winmfix-led.jpg",
-    d:"لمبة LED ثلاثية الإضاءة مع حامل جوال 2 في 1، إضاءة قوية للسيارة والبيت، تتحول لستاند جوال."
-  },
-
-  {
-    id:11,
-    n:"X.LOOD X-73 - كيبل Type-C تايب سي 3.1A",
-    p:10,
-    old:5,
-    q:18,
-    i:I+"xlood-x73.jpg",
-    d:"كيبل تايب سي 3.1A شحن سريع، خامة مرنة وشحن ثابت وآمن للجوالات."
-  },
-
-  {
-    id:12,
-    n:"UNIVERSAL CLIP - حامل جوال السيارة يركب على المراية",
-    p:20,
-    old:10,
-    q:8,
-    i:I+"universal-clip.jpg",
-    d:"حامل جوال للسيارة يركب على مراية السيارة، UNIVERSAL يركب على كثير من السيارات والجوالات."
-  },
-
-  {
-    id:13,
-    n:"GLOW GLH-29 - ستاند سيارة مغناطيسي مسطرة",
-    p:20,
-    old:10,
-    q:30,
-    i:I+"glow-glh29.jpg",
-    d:"ستاند سيارة مغناطيسي مسطرة يركب على مسطرة المكيف، شكل أنيق ومغناطيس قوي يمسك الجوال بثبات."
-  },
-
-  {
-    id:14,
-    n:"NITO CH-512 - راس شاحن مخرجين",
-    p:20,
-    old:10,
-    q:42,
-    i:I+"nito-ch512.jpg",
-    d:"راس شاحن مخرجين USB شحن سريع، يشحن جوالين بنفس الوقت، حماية من الحرارة والشحن الزائد."
-  },
-
-  {
-    id:15,
-    n:"PROMASS PM-8509 - راس شاحن سريع PD+QC مجموع 38W",
-    p:20,
-    old:10,
-    q:12,
-    i:I+"promass-pm8509.jpg",
-    d:"راس شاحن سريع 38W مجموع، منفذ PD 20W + منفذ QC 18W."
-  },
-
-  {
-    id:16,
-    n:"GLOW GLH-26 - ستاند سيارة مغناطيسي صغير ميني",
-    p:20,
-    old:10,
-    q:9,
-    i:I+"glow-glh26.jpg",
-    d:"ستاند سيارة مغناطيسي صغير ميني MINI، حجم صغير وأنيق، دوران حر 360، مغناطيس قوي."
-  }
-
-];
-
-P.forEach(x=>x.c=CAT2);
+const DISCOUNT_PERCENT=50;
 
 const CATS=[
-  "الكل",
-  "المنتجات الرقمية",
-  CAT2
+"الكل",
+"المنتجات الرقمية",
+"المنتجات المتنوعة"
 ];
 
-const $=id=>document.getElementById(id);
+const products=[
 
-const ld=(k,d)=>{
-  try{
-    return JSON.parse(localStorage.getItem(k))??d
-  }catch(e){
-    return d
-  }
-};
+{
+id:"P001",
+name:"FASTER FT-71 - شاحن جداري بمنفذين USB مع الكيبل",
+marketPrice:20,
+price:10,
+quantity:36,
+image:"faster-ft71.jpg",
+category:"المنتجات المتنوعة",
+description:"شاحن جداري عملي بمنفذين USB مع كيبل."
+},
 
-const sv=(k,v)=>{
-  try{
-    localStorage.setItem(k,JSON.stringify(v))
-  }catch(e){}
-};
+{
+id:"P002",
+name:"LDNIO LS63 - كيبل Toughness",
+marketPrice:20,
+price:10,
+quantity:20,
+image:"ldnio-ls63-typec.jpg",
+category:"المنتجات المتنوعة",
+description:"كيبل Toughness متوفر بعدة أنواع.",
+options:[
+{
+name:"Micro",
+price:10,
+marketPrice:20,
+quantity:20,
+image:"ldnio-ls63-micro.jpg"
+},
+{
+name:"Type-C",
+price:10,
+marketPrice:20,
+quantity:20,
+image:"ldnio-ls63-typec.jpg"
+},
+{
+name:"iPhone Lightning",
+price:10,
+marketPrice:20,
+quantity:20,
+image:"ldnio-ls63-lightning.jpg"
+}
+]
+},
 
-const esc=s=>String(s??"").replace(
-  /[&<>"']/g,
-  c=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  }[c])
+{
+id:"P003",
+name:"LDNIO للآيفون Lightning Toughness - للآيفون القديم",
+marketPrice:20,
+price:10,
+quantity:23,
+image:"ldnio-ls543.jpg",
+category:"المنتجات المتنوعة",
+description:"كيبل Lightning مناسب لأجهزة الآيفون القديمة."
+},
+
+{
+id:"P004",
+name:"GLOW GM-03 - ستاند سيارة مغناطيسي شكل L",
+marketPrice:30,
+price:15,
+quantity:30,
+image:"glow-gm03.jpg",
+category:"المنتجات المتنوعة",
+description:"حامل جوال مغناطيسي للسيارة بتصميم عملي."
+},
+
+{
+id:"P005",
+name:"NITO N-100 - سماعة سلكية مع مايكروفون",
+marketPrice:10,
+price:5,
+quantity:35,
+image:"nito-n100.jpg",
+category:"المنتجات المتنوعة",
+description:"سماعة سلكية مع ميكروفون للاستخدام اليومي."
+},
+
+{
+id:"P006",
+name:"iPlus I-18 - سماعة آيفون Lightning مع نافذة منبثقة",
+marketPrice:20,
+price:10,
+quantity:4,
+image:"iplus-i18.jpg",
+category:"المنتجات المتنوعة",
+description:"سماعة Lightning للآيفون مع نافذة منبثقة."
+},
+
+{
+id:"P007",
+name:"GLOW GLH-32 - ستاند سيارة مغناطيسي دوران 360 درجة",
+marketPrice:30,
+price:15,
+quantity:10,
+image:"glow-glh32.jpg",
+category:"المنتجات المتنوعة",
+description:"ستاند سيارة مغناطيسي يدور 360 درجة."
+},
+
+{
+id:"P008",
+name:"NITO N-H673 - سماعة سلكية Type-C",
+marketPrice:20,
+price:10,
+quantity:19,
+image:"nito-nh673.jpg",
+category:"المنتجات المتنوعة",
+description:"سماعة سلكية بمنفذ Type-C."
+},
+
+{
+id:"P009",
+name:"KUMS - كيبل Type-C قماش 1200mm طول 1.2 متر 3.4A",
+marketPrice:10,
+price:5,
+quantity:24,
+image:"kums-typec-1200mm.jpg",
+category:"المنتجات المتنوعة",
+description:"كيبل Type-C قماش بطول 1.2 متر."
+},
+
+{
+id:"P010",
+name:"WINMFIX LED - لمبة LED ثلاثي + حامل جوال 2 في 1",
+marketPrice:30,
+price:15,
+quantity:4,
+image:"winmfix-led.jpg",
+category:"المنتجات المتنوعة",
+description:"لمبة LED مع حامل جوال بتصميم 2 في 1."
+},
+
+{
+id:"P011",
+name:"X.LOOD X-73 - كيبل Type-C تايب سي 3.1A",
+marketPrice:10,
+price:5,
+quantity:18,
+image:"xlood-x73.jpg",
+category:"المنتجات المتنوعة",
+description:"كيبل Type-C بقدرة 3.1A."
+},
+
+{
+id:"P012",
+name:"UNIVERSAL CLIP - حامل جوال السيارة يركب على المراية",
+marketPrice:20,
+price:10,
+quantity:8,
+image:"universal-clip.jpg",
+category:"المنتجات المتنوعة",
+description:"حامل جوال للسيارة يركب على المرآة."
+},
+
+{
+id:"P013",
+name:"GLOW GLH-29 - ستاند سيارة مغناطيسي مسطرة",
+marketPrice:20,
+price:10,
+quantity:30,
+image:"glow-glh29.jpg",
+category:"المنتجات المتنوعة",
+description:"حامل جوال مغناطيسي للسيارة بتصميم مسطرة."
+},
+
+{
+id:"P014",
+name:"NITO CH-512 - راس شاحن مخرجين",
+marketPrice:20,
+price:10,
+quantity:42,
+image:"nito-ch512.jpg",
+category:"المنتجات المتنوعة",
+description:"رأس شاحن بمنفذين."
+},
+
+{
+id:"P015",
+name:"PROMASS PM-8509 - راس شاحن سريع PD+QC مجموع 38W",
+marketPrice:20,
+price:10,
+quantity:12,
+image:"promass-pm8509.jpg",
+category:"المنتجات المتنوعة",
+description:"رأس شاحن سريع PD + QC بقوة إجمالية 38W."
+},
+
+{
+id:"P016",
+name:"GLOW GLH-26 - ستاند سيارة مغناطيسي صغير ميني",
+marketPrice:20,
+price:10,
+quantity:9,
+image:"glow-glh26.jpg",
+category:"المنتجات المتنوعة",
+description:"ستاند سيارة مغناطيسي صغير وميني."
+}
+
+];
+
+let cart=JSON.parse(localStorage.getItem("nexo_cart")||"[]");
+let selectedCategory="الكل";
+let selectedProduct=null;
+let selectedOption=null;
+let productQty=1;
+let appliedCoupon=false;
+
+function saveCart(){
+localStorage.setItem("nexo_cart",JSON.stringify(cart));
+updateCartCount();
+}
+
+function updateCartCount(){
+const count=cart.reduce((sum,item)=>sum+item.qty,0);
+document.getElementById("cartCount").textContent=count;
+}
+
+function renderCategories(){
+
+const box=document.getElementById("categories");
+
+box.innerHTML=CATS.map(cat=>`
+<button class="cat ${cat===selectedCategory?"active":""}"
+onclick="selectCategory('${cat}')">
+${cat}
+</button>
+`).join("");
+
+}
+
+function selectCategory(cat){
+selectedCategory=cat;
+renderCategories();
+renderProducts();
+}
+
+function renderProducts(){
+
+const search=document.getElementById("searchInput").value.trim().toLowerCase();
+
+const list=products.filter(p=>{
+
+const matchCategory=
+selectedCategory==="الكل" ||
+p.category===selectedCategory;
+
+const matchSearch=
+p.name.toLowerCase().includes(search);
+
+return matchCategory&&matchSearch;
+
+});
+
+const box=document.getElementById("products");
+const empty=document.getElementById("empty");
+
+if(!list.length){
+box.innerHTML="";
+empty.style.display="block";
+return;
+}
+
+empty.style.display="none";
+
+box.innerHTML=list.map(p=>{
+
+const finalPrice=getDisplayedPrice(p);
+
+return `
+<div class="product">
+
+<img
+class="productImg"
+src="${p.image}"
+alt="${escapeHtml(p.name)}"
+onclick="openProduct('${p.id}')"
+onerror="this.style.opacity='.2'"
+>
+
+<div class="productBody">
+
+<div class="productName">
+${escapeHtml(p.name)}
+</div>
+
+<div class="oldPrice">
+${p.marketPrice} ر.س
+</div>
+
+<div class="priceRow">
+
+<div class="salePrice">
+${finalPrice} ر.س
+</div>
+
+<div class="discountBadge">
+${DISCOUNT_PERCENT}% خصم
+</div>
+
+</div>
+
+<div class="stock">
+المتوفر: ${p.quantity}
+</div>
+
+<button class="addBtn" onclick="openProduct('${p.id}')">
+اختيار المنتج
+</button>
+
+</div>
+</div>
+`;
+
+}).join("");
+
+}
+
+function getDisplayedPrice(product){
+
+if(appliedCoupon){
+return Math.round(product.marketPrice*(1-DISCOUNT_PERCENT/100));
+}
+
+return product.marketPrice;
+
+}
+
+function openProduct(id){
+
+selectedProduct=products.find(p=>p.id===id);
+selectedOption=null;
+productQty=1;
+
+if(selectedProduct.options){
+selectedOption=selectedProduct.options[0];
+}
+
+renderProductDetails();
+
+document.getElementById("productModal").style.display="flex";
+
+}
+
+function renderProductDetails(){
+
+const p=selectedProduct;
+
+let currentPrice=selectedOption
+?selectedOption.price
+:p.price;
+
+if(appliedCoupon){
+currentPrice=Math.round(
+(selectedOption?selectedOption.marketPrice:p.marketPrice)
+*(1-DISCOUNT_PERCENT/100)
 );
-
-let cart=ld("nexo_cart",[]);
-let sold=ld("nexo_sold",{});
-let cat="الكل";
-let cur=null;
-let selOpt=null;
-let selQty=1;
-
-let appliedCode="";
-
-const key=(p,o)=>p.id+(o?"-"+o.k:"");
-
-const src=(p,o)=>o||p;
-
-const stock=(p,o)=>
-  Math.max(
-    0,
-    src(p,o).q-(sold[key(p,o)]||0)
-  );
-
-const pid=id=>P.find(x=>x.id==id);
-
-const imgTag=(u,n)=>
-  u
-  ?
-  `<img src="${esc(u)}"
-        alt="${esc(n)}"
-        loading="lazy"
-        onerror="this.parentNode.textContent='لا توجد صورة'">`
-  :
-  "لا توجد صورة";
-
-function badge(bump){
-
-  const n=cart.reduce((a,c)=>a+c.qty,0);
-
-  const e=$("cc");
-
-  e.textContent=n;
-  e.className=n?"":"z";
-
-  if(bump){
-
-    const f=$("fab");
-
-    f.classList.remove("bump");
-
-    void f.offsetWidth;
-
-    f.classList.add("bump");
-  }
 }
 
-/* الإعلان */
+const image=selectedOption
+?selectedOption.image
+:p.image;
 
-(function(){
+let optionsHTML="";
 
-  const one=
-    `<span>
-      <i>🚚</i>
-      التوصيل داخل مكة المكرمة فقط
-      <i>🚚</i>
-    </span>`;
+if(p.options){
 
-  $("track").innerHTML=one.repeat(8);
+optionsHTML=`
+<div class="optionGroup">
+<div class="optionTitle">اختر النوع:</div>
 
-})();
+<div class="options">
 
-/* =========================================================
-   حساب السعر
-   إذا لم يدخل العميل الكود:
-   يظهر السعر الجديد المرتفع.
+${p.options.map((o,i)=>`
 
-   إذا أدخل NEXO50:
-   يرجع السعر إلى السعر القديم الموجود في old.
-   ========================================================= */
+<button
+class="option ${selectedOption===o?"active":""}"
+onclick="chooseOption(${i})">
+${o.name}
+</button>
 
-function priceOf(p,o){
+`).join("")}
 
-  const v=src(p,o);
+</div>
+</div>
+`;
 
-  if(appliedCode===DISCOUNT_CODE){
-
-    return v.old;
-  }
-
-  return v.p;
 }
 
-/* =========================================================
-   عرض المنتجات
-   ========================================================= */
+document.getElementById("productDetails").innerHTML=`
 
-function render(){
+<img class="detailImage" src="${image}">
 
-  $("cats").innerHTML=CATS.map(c=>
-    `
-    <button
-      class="cat ${c==cat?"on":""}"
-      onclick="cat='${c}';render()"
-    >
-      ${c}
-    </button>
-    `
-  ).join("");
+<div class="detailName">
+${escapeHtml(p.name)}
+</div>
 
-  const t=$("q").value.trim().toLowerCase();
+<div class="detailDescription">
+${escapeHtml(p.description)}
+</div>
 
-  const list=P.filter(p=>
-    (cat=="الكل"||p.c==cat)
-    &&
-    (
-      !t
-      ||
-      [
-        p.n,
-        p.d,
-        p.c,
-        ...(p.o||[]).flatMap(o=>[
-          o.k,
-          o.n,
-          o.d
-        ])
-      ]
-      .join(" ")
-      .toLowerCase()
-      .includes(t)
-    )
-  );
+${optionsHTML}
 
-  $("none").hidden=list.length>0;
+<div class="priceRow" style="margin-top:15px">
 
-  $("grid").innerHTML=list.map(p=>{
+<div>
+<div class="oldPrice">
+${selectedOption?selectedOption.marketPrice:p.marketPrice} ر.س
+</div>
 
-    const s=p.o
-      ?
-      p.o.reduce((a,o)=>a+stock(p,o),0)
-      :
-      stock(p);
+<div class="salePrice">
+${currentPrice} ر.س
+</div>
+</div>
 
-    const pr=p.o
-      ?
-      "من "+Math.min(...p.o.map(o=>o.p))
-      :
-      p.p;
+<div class="discountBadge">
+${DISCOUNT_PERCENT}% خصم
+</div>
 
-    const oldPr=p.o
-      ?
-      "من "+Math.min(...p.o.map(o=>o.old))
-      :
-      p.old;
+</div>
 
-    return `
-      <div class="card">
+<div class="qty">
 
-        <div
-          class="img"
-          onclick="openProd(${p.id})"
-        >
-          ${imgTag(p.i,p.n)}
-        </div>
+<button onclick="changeProductQty(-1)">−</button>
 
-        <div class="ci">
+<span>${productQty}</span>
 
-          <h3 onclick="openProd(${p.id})">
-            ${esc(p.n)}
-          </h3>
+<button onclick="changeProductQty(1)">+</button>
 
-          <p>
-            ${esc(p.d)}
-          </p>
+</div>
 
-          <div class="price-box">
+<button class="primary" onclick="addSelectedToCart()">
+أضف للسلة
+</button>
 
-            <div class="old-price">
-              ${oldPr} ريال بعد الكود
-            </div>
+`;
 
-            <div class="pr">
-              ${pr} ريال
-            </div>
-
-          </div>
-
-          <div class="st ${s<=5?"low":""}">
-            ${
-              s
-              ?
-              (
-                s<=10
-                ?
-                "متبقي "+s+" فقط"
-                :
-                "متوفر: "+s
-              )
-              :
-              "نفد المخزون"
-            }
-          </div>
-
-          ${
-            p.o
-            ?
-            `
-            <button
-              class="btn"
-              onclick="openProd(${p.id})"
-            >
-              عرض المنتج
-            </button>
-            `
-            :
-            `
-            <button
-              class="btn"
-              ${s?"":"disabled"}
-              onclick="quickAdd(${p.id})"
-            >
-              أضف للسلة
-            </button>
-            `
-          }
-
-        </div>
-
-      </div>
-    `;
-
-  }).join("");
-
-  badge();
 }
 
-/* النوافذ */
+function chooseOption(index){
 
-function show(html){
+selectedOption=selectedProduct.options[index];
 
-  $("sheet").innerHTML=html;
+productQty=1;
 
-  $("ov").classList.add("on");
+renderProductDetails();
+
 }
 
-function hide(){
+function changeProductQty(change){
 
-  $("ov").classList.remove("on");
+const max=selectedOption
+?selectedOption.quantity
+:selectedProduct.quantity;
+
+productQty+=change;
+
+if(productQty<1)productQty=1;
+if(productQty>max)productQty=max;
+
+renderProductDetails();
+
 }
 
-$("ov").addEventListener("click",e=>{
+function addSelectedToCart(){
 
-  if(e.target.id=="ov")hide();
+const p=selectedProduct;
+const option=selectedOption;
 
+const key=p.id+(option?":"+option.name:"");
+
+const found=cart.find(x=>x.key===key);
+
+const stock=option?option.quantity:p.quantity;
+
+if(found){
+
+if(found.qty+productQty>stock){
+alert("الكمية المطلوبة غير متوفرة");
+return;
+}
+
+found.qty+=productQty;
+
+}else{
+
+cart.push({
+key,
+id:p.id,
+name:p.name,
+option:option?option.name:"",
+image:option?option.image:p.image,
+price:option?option.price:p.price,
+marketPrice:option?option.marketPrice:p.marketPrice,
+qty:productQty
 });
 
-document.addEventListener("keydown",e=>{
-
-  if(e.key=="Escape")hide();
-
-});
-
-$("q").addEventListener("input",render);
-
-/* Toast */
-
-let toastT;
-
-function toast(m){
-
-  let t=$("toast");
-
-  if(!t){
-
-    t=document.createElement("div");
-
-    t.id="toast";
-
-    t.style.cssText=
-      "position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 18px;border-radius:10px;z-index:99;font-size:14px;white-space:nowrap";
-
-    document.body.appendChild(t);
-  }
-
-  t.textContent=m;
-
-  t.style.display="block";
-
-  clearTimeout(toastT);
-
-  toastT=setTimeout(
-    ()=>t.style.display="none",
-    2200
-  );
 }
 
-/* إضافة للسلة */
+saveCart();
+closeModal("productModal");
+openCart();
 
-function addLine(p,o,n){
-
-  const k=key(p,o);
-
-  const ex=cart.find(c=>c.k==k);
-
-  const have=ex?ex.qty:0;
-
-  const st=stock(p,o);
-
-  if(have+n>st){
-
-    toast(`المتاح في المخزون ${st} فقط`);
-
-    return false;
-  }
-
-  if(ex)
-    ex.qty+=n;
-  else
-    cart.push({
-      k,
-      id:p.id,
-      o:o?o.k:null,
-      qty:n
-    });
-
-  saveCart(true);
-
-  return true;
 }
-
-/* إضافة المنتج وفتح التفاصيل */
-
-function quickAdd(id){
-
-  const p=pid(id);
-
-  if(addLine(p,null,1)){
-
-    toast("تمت الإضافة إلى السلة");
-
-    cur=p;
-
-    selOpt=null;
-
-    selQty=1;
-
-    drawProd();
-  }
-}
-
-function openProd(id){
-
-  cur=pid(id);
-
-  selOpt=null;
-
-  selQty=1;
-
-  drawProd();
-}
-
-/* تفاصيل المنتج */
-
-function drawProd(){
-
-  const p=cur;
-
-  const o=selOpt;
-
-  const v=src(p,o);
-
-  const s=stock(p,o);
-
-  show(`
-
-    <div class="sh">
-
-      <h2>
-        ${esc(v.n)}
-      </h2>
-
-      <button
-        class="x"
-        onclick="hide()"
-        aria-label="إغلاق"
-      >
-        ✕
-      </button>
-
-    </div>
-
-    <div
-      class="img"
-      style="aspect-ratio:auto;min-height:200px"
-    >
-      ${imgTag(v.i,v.n)}
-    </div>
-
-    <p style="margin:10px 0">
-      ${esc(v.d)}
-    </p>
-
-    ${
-      p.o
-      ?
-      `
-      <b>اختر النوع:</b>
-
-      <div class="opts">
-
-        ${
-          p.o.map(x=>
-            `
-            <button
-              class="opt ${o&&o.k==x.k?"on":""}"
-              onclick="pickOpt('${x.k}')"
-            >
-              ${esc(x.k)}
-            </button>
-            `
-          ).join("")
-        }
-
-      </div>
-      `
-      :
-      ""
-    }
-
-    ${
-      o||!p.o
-      ?
-      `
-      <div class="price-before">
-        السعر قبل الكود:
-        ${v.p} ريال
-      </div>
-
-      <div class="pr">
-        ${
-          appliedCode===DISCOUNT_CODE
-          ?
-          v.old
-          :
-          v.p
-        }
-        ريال
-      </div>
-      `
-      :
-      `
-      <div class="pr">
-        اختر النوع لعرض السعر
-      </div>
-      `
-    }
-
-    <div class="st">
-
-      ${
-        o||!p.o
-        ?
-        (
-          s
-          ?
-          "المخزون: "+s
-          :
-          "نفد المخزون"
-        )
-        :
-        ""
-      }
-
-    </div>
-
-    <div
-      style="margin:12px 0;display:flex;align-items:center;gap:12px"
-    >
-
-      <b>الكمية:</b>
-
-      <div class="qty">
-
-        <button
-          onclick="selQty=Math.max(1,selQty-1);drawProd()"
-        >
-          −
-        </button>
-
-        <span>
-          ${selQty}
-        </span>
-
-        <button
-          onclick="selQty=Math.min(${s||1},selQty+1);drawProd()"
-        >
-          +
-        </button>
-
-      </div>
-
-    </div>
-
-    <button
-      class="btn"
-      ${(p.o&&!o)||!s?"disabled":""}
-      onclick="addFromProd()"
-    >
-      ${
-        p.o&&!o
-        ?
-        "اختر النوع أولاً"
-        :
-        s
-        ?
-        "أضف للسلة"
-        :
-        "نفد المخزون"
-      }
-    </button>
-
-  `);
-}
-
-function pickOpt(k){
-
-  selOpt=cur.o.find(x=>x.k==k);
-
-  selQty=1;
-
-  drawProd();
-}
-
-function addFromProd(){
-
-  if(addLine(cur,selOpt,selQty)){
-
-    hide();
-
-    toast("تمت الإضافة إلى السلة");
-  }
-}
-
-/* =========================================================
-   حساب السلة
-   ========================================================= */
-
-function calc(mode){
-
-  const items=cart.map(c=>{
-
-    const p=pid(c.id);
-
-    const o=c.o
-      ?
-      p.o.find(x=>x.k==c.o)
-      :
-      null;
-
-    const v=src(p,o);
-
-    return {
-      ...c,
-      p,
-      opt:o,
-      name:v.n,
-      price:priceOf(p,o),
-      normalPrice:v.p,
-      oldPrice:v.old,
-      img:v.i,
-      total:priceOf(p,o)*c.qty
-    };
-
-  });
-
-  const n=items.reduce(
-    (a,c)=>a+c.qty,
-    0
-  );
-
-  const sub=items.reduce(
-    (a,c)=>a+c.total,
-    0
-  );
-
-  /*
-    خصم الجملة يبقى كما هو.
-  */
-
-  const pc=
-    n>=20
-    ?
-    15
-    :
-    n>=10
-    ?
-    10
-    :
-    n>=5
-    ?
-    5
-    :
-    0;
-
-  const disc=Math.round(sub*pc)/100;
-
-  const fee=
-    (!items.length||mode=="pickup")
-    ?
-    0
-    :
-    FEE;
-
-  return {
-    items,
-    n,
-    sub,
-    pc,
-    disc,
-    fee,
-    total:sub-disc+fee
-  };
-}
-
-/* ملخص */
-
-function summary(c){
-
-  return `
-
-    <div class="sum">
-
-      <div>
-        <span>الإجمالي الفرعي</span>
-        <span>${c.sub} ريال</span>
-      </div>
-
-      <div>
-        <span>
-          الخصم${c.pc?" ("+c.pc+"%)":""}
-        </span>
-
-        <span>
-          −${c.disc} ريال
-        </span>
-      </div>
-
-      <div>
-        <span>رسوم التوصيل</span>
-        <span>${c.fee} ريال</span>
-      </div>
-
-      <div class="t">
-        <span>الإجمالي النهائي</span>
-        <span>${c.total} ريال</span>
-      </div>
-
-    </div>
-
-  `;
-}
-
-/* =========================================================
-   السلة
-   ========================================================= */
 
 function openCart(){
 
-  cart=
-    cart
-    .filter(c=>pid(c.id))
-    .map(c=>{
+renderCart();
 
-      const p=pid(c.id);
+document.getElementById("cartModal").style.display="flex";
 
-      const o=c.o
-        ?
-        p.o.find(x=>x.k==c.o)
-        :
-        null;
-
-      c.qty=Math.min(
-        c.qty,
-        stock(p,o)
-      );
-
-      return c;
-
-    })
-    .filter(c=>c.qty>0);
-
-  saveCart();
-
-  const c=calc("delivery");
-
-  show(`
-
-    <div class="sh">
-
-      <h2>السلة</h2>
-
-      <button
-        class="x"
-        onclick="hide()"
-        aria-label="إغلاق"
-      >
-        ✕
-      </button>
-
-    </div>
-
-    ${
-      c.items.length
-
-      ?
-
-      c.items.map((i,x)=>
-
-        `
-
-        <div class="row">
-
-          ${
-            i.img
-            ?
-            `
-            <img
-              src="${esc(i.img)}"
-              alt=""
-              onerror="this.style.visibility='hidden'"
-            >
-            `
-            :
-            `<div class="ph"></div>`
-          }
-
-          <div class="in">
-
-            <b>
-              ${esc(i.name)}
-            </b>
-
-            ${
-              i.o
-              ?
-              `
-              <span class="st">
-                النوع: ${esc(i.o)}
-              </span>
-              <br>
-              `
-              :
-              ""
-            }
-
-            <div class="price-before">
-              ${i.normalPrice} ريال قبل الكود
-            </div>
-
-            <span
-              class="pr"
-              style="font-size:15px"
-            >
-              ${i.price} ريال
-            </span>
-
-          </div>
-
-          <div>
-
-            <div class="qty">
-
-              <button
-                onclick="chg(${x},-1)"
-              >
-                −
-              </button>
-
-              <span>
-                ${i.qty}
-              </span>
-
-              <button
-                onclick="chg(${x},1)"
-              >
-                +
-              </button>
-
-            </div>
-
-            <button
-              class="del"
-              onclick="rm(${x})"
-            >
-              حذف
-            </button>
-
-          </div>
-
-        </div>
-
-        `
-
-      ).join("")
-
-      +
-
-      `
-
-      <div class="discount-box">
-
-        <div class="discount-title">
-          عندك كود خصم؟
-        </div>
-
-        <div class="discount-row">
-
-          <input
-            id="cartCode"
-            type="text"
-            placeholder="اكتب كود الخصم"
-            value="${esc(appliedCode)}"
-          >
-
-          <button
-            onclick="applyCartCode()"
-          >
-            تطبيق
-          </button>
-
-        </div>
-
-        ${
-          appliedCode===DISCOUNT_CODE
-          ?
-          `
-          <div class="discount-status ok">
-            ✓ تم تفعيل كود الخصم NEXO50
-          </div>
-          `
-          :
-          `
-          <div class="discount-status">
-            أدخل الكود للحصول على السعر المخفض.
-          </div>
-          `
-        }
-
-      </div>
-
-      <div class="note">
-        خصم الجملة:
-        5 قطع = 5%
-        ·
-        10 قطع = 10%
-        ·
-        20 قطعة = 15%
-      </div>
-
-      ${summary(c)}
-
-      <p class="st">
-        رسوم التوصيل تُحتسب حسب طريقة الاستلام في الخطوة التالية.
-      </p>
-
-      <button
-        class="btn"
-        style="margin-top:10px"
-        onclick="openCheckout()"
-      >
-        إتمام الطلب
-      </button>
-
-      `
-
-      :
-
-      `
-
-      <div class="empty">
-        السلة فارغة. أضف منتجات من المتجر.
-      </div>
-
-      <button
-        class="btn alt"
-        onclick="hide()"
-      >
-        تصفح المنتجات
-      </button>
-
-      `
-    }
-
-  `);
 }
 
-/* تطبيق الكود من السلة */
+function renderCart(){
 
-function applyCartCode(){
+const box=document.getElementById("cartContent");
 
-  const input=$("cartCode");
+if(!cart.length){
 
-  if(!input)return;
+box.innerHTML=`
+<div style="text-align:center;padding:35px 10px;color:#777">
+السلة فارغة
+</div>
+`;
 
-  const code=input.value.trim().toUpperCase();
+return;
 
-  if(code===DISCOUNT_CODE){
-
-    appliedCode=DISCOUNT_CODE;
-
-    render();
-
-    toast("تم تفعيل كود الخصم NEXO50");
-
-    openCart();
-
-  }else{
-
-    appliedCode="";
-
-    toast("كود الخصم غير صحيح");
-
-    openCart();
-  }
 }
 
-/* تغيير الكمية */
+let subtotal=0;
 
-function chg(x,d){
+const itemsHTML=cart.map(item=>{
 
-  const c=cart[x];
+const price=appliedCoupon
+?Math.round(item.marketPrice*(1-DISCOUNT_PERCENT/100))
+:item.marketPrice;
 
-  const p=pid(c.id);
+subtotal+=price*item.qty;
 
-  const o=c.o
-    ?
-    p.o.find(y=>y.k==c.o)
-    :
-    null;
+return `
 
-  const n=c.qty+d;
+<div class="cartItem">
 
-  if(n<1)
-    return rm(x);
+<img src="${item.image}">
 
-  if(n>stock(p,o)){
+<div class="cartItemInfo">
 
-    toast(
-      `المتاح ${stock(p,o)} فقط`
-    );
+<div class="cartItemName">
+${escapeHtml(item.name)}
+${item.option?`<br><small>${escapeHtml(item.option)}</small>`:""}
+</div>
 
-    return;
-  }
+<div class="cartItemPrice">
+${price} ر.س × ${item.qty}
+</div>
 
-  c.qty=n;
+<div class="cartQty">
 
-  saveCart();
+<button onclick="changeCartQty('${item.key}',-1)">−</button>
 
-  openCart();
+<span>${item.qty}</span>
+
+<button onclick="changeCartQty('${item.key}',1)">+</button>
+
+</div>
+
+</div>
+
+<button class="removeBtn" onclick="removeCartItem('${item.key}')">
+حذف
+</button>
+
+</div>
+
+`;
+
+}).join("");
+
+const discount=appliedCoupon
+?Math.round(subtotal/(1-DISCOUNT_PERCENT/100)*DISCOUNT_PERCENT/100)
+:0;
+
+const delivery=15;
+
+const total=subtotal+delivery;
+
+box.innerHTML=`
+
+${itemsHTML}
+
+<div class="couponBox">
+
+<input
+id="couponInput"
+placeholder="كود الخصم"
+value="${appliedCoupon?DISCOUNT_CODE:""}"
+>
+
+<button onclick="applyCoupon()">
+تطبيق
+</button>
+
+</div>
+
+${appliedCoupon?`
+<div class="couponMessage">
+تم تطبيق كود الخصم
+</div>
+`:""}
+
+<div class="totalBox">
+
+<div class="totalLine">
+<span>الإجمالي</span>
+<strong>${subtotal} ر.س</strong>
+</div>
+
+<div class="totalLine">
+<span>التوصيل</span>
+<strong>${delivery} ر.س</strong>
+</div>
+
+<div class="totalLine final">
+<span>المجموع</span>
+<strong>${total} ر.س</strong>
+</div>
+
+</div>
+
+<button class="primary" style="margin-top:12px"
+onclick="openOrder()">
+إتمام الطلب
+</button>
+
+`;
+
 }
 
-function rm(x){
+function applyCoupon(){
 
-  cart.splice(x,1);
+const input=document.getElementById("couponInput");
 
-  saveCart();
+if(!input)return;
 
-  openCart();
+if(input.value.trim().toUpperCase()===DISCOUNT_CODE){
+
+appliedCoupon=true;
+
+renderProducts();
+renderCart();
+
+}else{
+
+alert("كود الخصم غير صحيح");
+
 }
 
-/* =========================================================
-   إتمام الطلب
-   ========================================================= */
-
-function openCheckout(mode){
-
-  mode=mode||"delivery";
-
-  const c=calc(mode);
-
-  const f=window._f||{};
-
-  show(`
-
-    <div class="sh">
-
-      <h2>إتمام الطلب</h2>
-
-      <button
-        class="x"
-        onclick="hide()"
-        aria-label="إغلاق"
-      >
-        ✕
-      </button>
-
-    </div>
-
-    <div class="f">
-
-      <label>الاسم</label>
-
-      <input
-        id="fn"
-        value="${esc(f.n)}"
-        autocomplete="name"
-      >
-
-    </div>
-
-    <div class="f">
-
-      <label>رقم الجوال</label>
-
-      <input
-        id="fp"
-        type="tel"
-        inputmode="tel"
-        value="${esc(f.p)}"
-        autocomplete="tel"
-      >
-
-    </div>
-
-    <div class="f">
-
-      <label>طريقة الاستلام</label>
-
-      <div class="seg">
-
-        <label>
-
-          <input
-            type="radio"
-            name="m"
-            value="delivery"
-            ${mode=="delivery"?"checked":""}
-            onchange="keepF();openCheckout('delivery')"
-          >
-
-          التوصيل (داخل مكة)
-
-        </label>
-
-        <label>
-
-          <input
-            type="radio"
-            name="m"
-            value="pickup"
-            ${mode=="pickup"?"checked":""}
-            onchange="keepF();openCheckout('pickup')"
-          >
-
-          الاستلام
-
-        </label>
-
-      </div>
-
-    </div>
-
-    ${
-      mode=="delivery"
-
-      ?
-
-      `
-      <div class="f">
-
-        <label>
-          العنوان في مكة (الحي والشارع)
-        </label>
-
-        <textarea
-          id="fa"
-          rows="2"
-        >${esc(f.a)}</textarea>
-
-      </div>
-      `
-
-      :
-
-      `
-      <div class="note">
-
-        للاستلام تواصل معنا على:
-
-        <b>
-          <a href="tel:${PHONE}">
-            ${PHONE}
-          </a>
-        </b>
-
-      </div>
-      `
-    }
-
-    <div class="f">
-
-      <label>طريقة الدفع</label>
-
-      <select id="fpay">
-
-        <option>كاش</option>
-
-        <option>بطاقة / شبكة</option>
-
-        <option>PayPal</option>
-
-      </select>
-
-    </div>
-
-    <div class="discount-box">
-
-      <div class="discount-title">
-        كود الخصم
-      </div>
-
-      <div class="discount-row">
-
-        <input
-          id="checkoutCode"
-          type="text"
-          placeholder="اكتب كود الخصم"
-          value="${esc(appliedCode)}"
-        >
-
-        <button
-          onclick="applyCheckoutCode('${mode}')"
-        >
-          تطبيق
-        </button>
-
-      </div>
-
-      ${
-        appliedCode===DISCOUNT_CODE
-
-        ?
-
-        `
-        <div class="discount-status ok">
-          ✓ الكود مفعل — تم إرجاع الأسعار للسعر المخفض
-        </div>
-        `
-
-        :
-
-        `
-        <div class="discount-status">
-          أدخل كود الخصم للحصول على السعر المخفض.
-        </div>
-        `
-      }
-
-    </div>
-
-    <div class="f">
-
-      <label>ملاحظات</label>
-
-      <textarea
-        id="fnote"
-        rows="2"
-      >${esc(f.t)}</textarea>
-
-    </div>
-
-    ${summary(c)}
-
-    <div
-      class="err"
-      id="err"
-    ></div>
-
-    <button
-      class="btn wa"
-      onclick="submitOrder()"
-    >
-      إرسال الطلب عبر واتساب
-    </button>
-
-    <p
-      class="st"
-      style="text-align:center;margin-top:6px"
-    >
-      سيفتح واتساب برسالة جاهزة، اضغط إرسال لإتمامه.
-    </p>
-
-  `);
-
-  if(f.pay)
-    $("fpay").value=f.pay;
 }
 
-/* تطبيق الكود من صفحة إتمام الطلب */
+function changeCartQty(key,change){
 
-function applyCheckoutCode(mode){
+const item=cart.find(x=>x.key===key);
 
-  const input=$("checkoutCode");
+if(!item)return;
 
-  if(!input)return;
+item.qty+=change;
 
-  const code=input.value.trim().toUpperCase();
+if(item.qty<=0){
 
-  if(code===DISCOUNT_CODE){
+cart=cart.filter(x=>x.key!==key);
 
-    appliedCode=DISCOUNT_CODE;
-
-    toast("تم تفعيل كود الخصم NEXO50");
-
-    keepF();
-
-    openCheckout(mode);
-
-  }else{
-
-    appliedCode="";
-
-    toast("كود الخصم غير صحيح");
-
-    keepF();
-
-    openCheckout(mode);
-  }
 }
 
-function keepF(){
+saveCart();
+renderCart();
 
-  window._f={
-
-    n:$("fn")?$(
-      "fn"
-    ).value:"",
-
-    p:$("fp")?$(
-      "fp"
-    ).value:"",
-
-    a:$("fa")?$(
-      "fa"
-    ).value:"",
-
-    t:$("fnote")?$(
-      "fnote"
-    ).value:"",
-
-    pay:$("fpay")?$(
-      "fpay"
-    ).value:""
-
-  };
 }
 
-/* رقم الطلب */
+function removeCartItem(key){
 
-function orderId(){
+cart=cart.filter(x=>x.key!==key);
 
-  return "NEXO-"+
-    Math.floor(
-      10000000+
-      Math.random()*90000000
-    );
+saveCart();
+renderCart();
+
 }
 
-/* =========================================================
-   إرسال الطلب
-   ========================================================= */
+function openOrder(){
 
-function submitOrder(){
-
-  const mode=
-    document.querySelector(
-      'input[name=m]:checked'
-    ).value;
-
-  const c=calc(mode);
-
-  const d={
-
-    name:$("fn").value.trim(),
-
-    phone:$("fp").value.trim(),
-
-    addr:$("fa")
-      ?
-      $("fa").value.trim()
-      :
-      "",
-
-    note:$("fnote").value.trim(),
-
-    pay:$("fpay").value,
-
-    code:appliedCode
-
-  };
-
-  const e=$("err");
-
-  if(!c.items.length)
-    return e.textContent="السلة فارغة";
-
-  if(!d.name)
-    return e.textContent="أدخل الاسم";
-
-  if(!/^[0-9+\s-]{9,15}$/.test(d.phone))
-    return e.textContent="أدخل رقم جوال صحيح";
-
-  if(mode=="delivery"&&!d.addr)
-    return e.textContent=
-      "العنوان مطلوب عند اختيار التوصيل";
-
-  for(const i of c.items){
-
-    if(i.qty>stock(i.p,i.opt))
-      return e.textContent=
-        `الكمية المطلوبة من "${i.name}" غير متوفرة`;
-  }
-
-  const id=orderId();
-
-  const date=
-    new Date().toLocaleString("ar-SA");
-
-  const modeTxt=
-    mode=="delivery"
-    ?
-    "التوصيل"
-    :
-    "الاستلام";
-
-  const lines=
-    c.items
-    .map(i=>
-      `• ${i.name}${i.o?" (الخيار: "+i.o+")":""} × ${i.qty} = ${i.total} ريال`
-    )
-    .join("\n");
-
-  const msg=
-
-`طلب جديد من NEXO STORE
-رقم الطلب: ${id}
-التاريخ: ${date}
-
-الاسم: ${d.name}
-الجوال: ${d.phone}
-
-${
-  mode=="delivery"
-  ?
-  "المدينة: "+CITY+
-  "\nالعنوان: "+d.addr
-  :
-  "الاستلام من المتجر"
+if(!cart.length){
+alert("السلة فارغة");
+return;
 }
 
-طريقة الاستلام: ${modeTxt}
+document.getElementById("cartModal").style.display="none";
 
-طريقة الدفع: ${d.pay}
+renderOrder();
 
-كود الخصم: ${d.code||"لا يوجد"}
+document.getElementById("orderModal").style.display="flex";
 
-المنتجات:
-${lines}
-
-الإجمالي الفرعي: ${c.sub} ريال
-
-الخصم${
-  c.pc
-  ?
-  " ("+c.pc+"%)"
-  :
-  ""
-}: ${c.disc} ريال
-
-رسوم التوصيل: ${c.fee} ريال
-
-الإجمالي النهائي: ${c.total} ريال
-
-ملاحظات: ${d.note||"—"}`;
-
-  const url=
-    `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
-
-  c.items.forEach(i=>{
-
-    sold[i.k]=
-      (sold[i.k]||0)+i.qty;
-
-  });
-
-  sv("nexo_sold",sold);
-
-  cart=[];
-
-  saveCart();
-
-  window._f=null;
-
-  appliedCode="";
-
-  render();
-
-  show(`
-
-    <div class="ok">
-
-      <div class="tick">
-        ✓
-      </div>
-
-      <h2>
-        جهّزنا طلبك
-      </h2>
-
-      <p>
-        رقم طلبك:
-      </p>
-
-      <div class="oid">
-        ${id}
-      </div>
-
-      <p>
-        لم يصل الطلب لنا بعد.
-        اضغط الزر وأرسل الرسالة في واتساب لإتمامه.
-      </p>
-
-    </div>
-
-    <a
-      class="btn wa"
-      href="${url}"
-      target="_blank"
-      rel="noopener"
-    >
-      فتح واتساب وإرسال الطلب
-    </a>
-
-    <button
-      class="btn alt"
-      style="margin-top:8px"
-      onclick="hide()"
-    >
-      متابعة التسوق
-    </button>
-
-  `);
-
-  window.open(url,"_blank");
 }
 
-/* حفظ السلة */
+function renderOrder(){
 
-function saveCart(b){
+const subtotal=cart.reduce((sum,item)=>{
 
-  sv("nexo_cart",cart);
+const price=appliedCoupon
+?Math.round(item.marketPrice*(1-DISCOUNT_PERCENT/100))
+:item.marketPrice;
 
-  badge(b);
+return sum+(price*item.qty);
+
+},0);
+
+document.getElementById("orderContent").innerHTML=`
+
+<div class="field">
+<label>الاسم</label>
+<input id="customerName" placeholder="اكتب اسمك">
+</div>
+
+<div class="field">
+<label>رقم الجوال</label>
+<input id="customerPhone" placeholder="05xxxxxxxx">
+</div>
+
+<div class="field">
+<label>طريقة الاستلام</label>
+
+<select id="deliveryMethod" onchange="updateOrderTotal()">
+<option value="delivery">توصيل داخل مكة - 15 ر.س</option>
+<option value="pickup">استلام</option>
+</select>
+
+</div>
+
+<div class="field" id="addressField">
+<label>العنوان</label>
+<textarea id="customerAddress" placeholder="اكتب عنوان التوصيل"></textarea>
+</div>
+
+<div class="field">
+<label>طريقة الدفع</label>
+
+<div class="paymentMethods">
+
+<button class="payment active" onclick="selectPayment(this,'الدفع عند الاستلام')">
+الدفع عند الاستلام
+</button>
+
+<button class="payment" onclick="selectPayment(this,'بطاقة / شبكة')">
+بطاقة / شبكة
+</button>
+
+<button class="payment" onclick="selectPayment(this,'PayPal')">
+PayPal
+</button>
+
+</div>
+
+</div>
+
+<div id="orderTotal" class="totalBox"></div>
+
+<button class="primary" onclick="sendOrder()">
+إرسال الطلب عبر واتساب
+</button>
+
+`;
+
+window.selectedPayment="الدفع عند الاستلام";
+
+updateOrderTotal();
+
 }
 
-/* تشغيل المتجر */
+function selectPayment(btn,payment){
 
-render();
+document.querySelectorAll(".payment")
+.forEach(x=>x.classList.remove("active"));
 
-setTimeout(
-  ()=>$("splash").classList.add("off"),
-  900
-);
+btn.classList.add("active");
+
+window.selectedPayment=payment;
+
+}
+
+function updateOrderTotal(){
+
+const method=document.getElementById("deliveryMethod");
+
+if(!method)return;
+
+const delivery=method.value==="pickup"?0:DELIVERY_FEE;
+
+const address=document.getElementById("addressField");
+
+if(address){
+address.style.display=
+method.value==="pickup"?"none":"block";
+}
+
+const subtotal=cart.reduce((sum,item)=>{
+
+const price=appliedCoupon
+?Math.round(item.marketPrice*(1-DISCOUNT_PERCENT/100))
+:item.marketPrice;
+
+return sum+(price*item.qty);
+
+},0);
+
+const total=subtotal+delivery;
+
+document.getElementById("orderTotal").innerHTML=`
+
+<div class="totalLine">
+<span>الإجمالي</span>
+<strong>${subtotal} ر.س</strong>
+</div>
+
+<div class="totalLine">
+<span>التوصيل</span>
+<strong>${delivery} ر.س</strong>
+</div>
+
+<div class="totalLine final">
+<span>المجموع</span>
+<strong>${total} ر.س</strong>
+</div>
+
+`;
+
+}
+
+function sendOrder(){
+
+const name=document.getElementById("customerName").value.trim();
+const phone=document.getElementById("customerPhone").value.trim();
+const method=document.getElementById("deliveryMethod").value;
+const address=document.getElementById("customerAddress").value.trim();
+
+if(!name||!phone){
+
+alert("اكتب الاسم ورقم الجوال");
+
+return;
+
+}
+
+if(method==="delivery"&&!address){
+
+alert("اكتب العنوان");
+
+return;
+
+}
+
+const orderId=
+"NEXO-"+Math.floor(10000000+Math.random()*90000000);
+
+let subtotal=0;
+
+let message=
+`طلب جديد من NEXO STORE\n\n`;
+
+message+=`رقم الطلب: ${orderId}\n`;
+message+=`الاسم: ${name}\n`;
+message+=`الجوال: ${phone}\n`;
+message+=`طريقة الاستلام: ${
+method==="pickup"?"استلام":"توصيل"
+}\n`;
+
+if(method==="delivery"){
+message+=`العنوان: ${address}\n`;
+}
+
+message+=`الدفع: ${window.selectedPayment}\n\n`;
+message+=`المنتجات:\n`;
+
+cart.forEach((item,index)=>{
+
+const price=appliedCoupon
+?Math.round(item.marketPrice*(1-DISCOUNT_PERCENT/100))
+:item.marketPrice;
+
+const lineTotal=price*item.qty;
+
+subtotal+=lineTotal;
+
+message+=
+`${index+1}. ${item.name}`+
+`${item.option?" - "+item.option:""}`+
+` | ${item.qty} × ${price} = ${lineTotal} ر.س\n`;
+
+});
+
+const delivery=method==="pickup"?0:DELIVERY_FEE;
+const total=subtotal+delivery;
+
+message+=`\nالإجمالي: ${subtotal} ر.س\n`;
+message+=`التوصيل: ${delivery} ر.س\n`;
+message+=`المجموع: ${total} ر.س\n`;
+
+if(appliedCoupon){
+message+=`كود الخصم: ${DISCOUNT_CODE}\n`;
+}
+
+const url=
+"https://wa.me/"+WA_NUMBER+
+"?text="+encodeURIComponent(message);
+
+window.open(url,"_blank");
+
+}
+
+function closeModal(id){
+
+document.getElementById(id).style.display="none";
+
+}
+
+function escapeHtml(text){
+
+return String(text)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+renderCategories();
+renderProducts();
+updateCartCount();
+
+setTimeout(()=>{
+
+document.getElementById("splash").classList.add("hide");
+
+},700);
+
+});
 
 </script>
 
 </body>
 </html>
+
+
+
 
 
 
