@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NEXO STORE</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
@@ -16,10 +17,7 @@
   --r:12px
 }
 
-*{
-  box-sizing:border-box;
-  margin:0
-}
+*{box-sizing:border-box;margin:0}
 
 body{
   font-family:Cairo,sans-serif;
@@ -29,14 +27,8 @@ body{
   min-height:100vh
 }
 
-button,input,select,textarea{
-  font:inherit
-}
-
-button{
-  cursor:pointer;
-  border:0
-}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0}
 
 /* شاشة البداية */
 #splash{
@@ -77,9 +69,7 @@ button{
   direction:ltr
 }
 
-.logo b{
-  color:var(--b)
-}
+.logo b{color:var(--b)}
 
 /* الإعلان */
 .ann{
@@ -178,9 +168,7 @@ header{
   flex-wrap:wrap
 }
 
-.bar .logo{
-  flex:none
-}
+.bar .logo{flex:none}
 
 .search{
   flex:1;
@@ -224,11 +212,7 @@ main{
   color:#fff
 }
 
-/*
-  تنظيم المنتجات:
-  الجوال = منتجان بجانب بعض
-  الشاشات الأكبر = 3 ثم 4 حسب المساحة
-*/
+/* المنتجات */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -276,9 +260,6 @@ main{
   min-width:0
 }
 
-/*
-  الاسم يظهر كامل بدون قص
-*/
 .ci h3{
   font-size:14px;
   line-height:1.55;
@@ -298,6 +279,20 @@ main{
   overflow:hidden
 }
 
+/* السعر القديم والجديد */
+.price-box{
+  display:flex;
+  flex-direction:column;
+  gap:1px
+}
+
+.old-price{
+  color:#9ca3af;
+  text-decoration:line-through;
+  font-size:12px;
+  font-weight:600
+}
+
 .pr{
   font-weight:800;
   color:var(--b);
@@ -309,9 +304,7 @@ main{
   color:var(--g)
 }
 
-.st.low{
-  color:#c2410c
-}
+.st.low{color:#c2410c}
 
 .btn{
   width:100%;
@@ -328,10 +321,7 @@ main{
   font-size:13px
 }
 
-.btn:hover{
-  background:var(--bd)
-}
-
+.btn:hover{background:var(--bd)}
 .btn:disabled{
   background:#c5cad3;
   cursor:not-allowed
@@ -342,9 +332,7 @@ main{
   color:var(--k)
 }
 
-.btn.wa{
-  background:#16a34a
-}
+.btn.wa{background:#16a34a}
 
 .empty{
   text-align:center;
@@ -370,18 +358,14 @@ main{
   transition:transform .2s
 }
 
-#fab:active{
-  transform:scale(.92)
-}
+#fab:active{transform:scale(.92)}
 
 #fab svg{
   width:30px;
   height:30px
 }
 
-#fab.bump{
-  animation:bump .4s
-}
+#fab.bump{animation:bump .4s}
 
 @keyframes bump{
   50%{transform:scale(1.2)}
@@ -403,9 +387,7 @@ main{
   text-align:center
 }
 
-#cc.z{
-  display:none
-}
+#cc.z{display:none}
 
 /* النوافذ */
 .ov{
@@ -418,9 +400,7 @@ main{
   justify-content:center
 }
 
-.ov.on{
-  display:flex
-}
+.ov.on{display:flex}
 
 .sheet{
   background:#fff;
@@ -433,13 +413,8 @@ main{
 }
 
 @media(min-width:700px){
-  .ov{
-    align-items:center
-  }
-
-  .sheet{
-    border-radius:18px
-  }
+  .ov{align-items:center}
+  .sheet{border-radius:18px}
 }
 
 /* تفاصيل المنتج */
@@ -450,9 +425,7 @@ main{
   margin-bottom:10px
 }
 
-.sh h2{
-  font-size:19px
-}
+.sh h2{font-size:19px}
 
 .x{
   background:var(--l);
@@ -530,9 +503,7 @@ main{
   font-size:14px
 }
 
-.row .in b{
-  display:block
-}
+.row .in b{display:block}
 
 .del{
   background:none;
@@ -599,9 +570,7 @@ main{
   min-height:44px
 }
 
-.seg input{
-  display:none
-}
+.seg input{display:none}
 
 .seg label:has(input:checked){
   border-color:var(--b);
@@ -622,6 +591,62 @@ main{
   border-radius:10px;
   font-size:13px;
   margin:8px 0
+}
+
+.discount-box{
+  background:#eef3ff;
+  border:1px solid #c7d7ff;
+  padding:12px;
+  border-radius:12px;
+  margin:10px 0
+}
+
+.discount-title{
+  font-weight:800;
+  margin-bottom:7px
+}
+
+.discount-row{
+  display:flex;
+  gap:8px
+}
+
+.discount-row input{
+  flex:1;
+  padding:11px;
+  border:1.5px solid #dbe4ff;
+  border-radius:10px;
+  min-width:0
+}
+
+.discount-row button{
+  padding:10px 14px;
+  border-radius:10px;
+  background:var(--b);
+  color:#fff;
+  font-weight:800;
+  white-space:nowrap
+}
+
+.discount-status{
+  font-size:12px;
+  margin-top:6px
+}
+
+.discount-status.ok{
+  color:#16a34a;
+  text-align:right;
+  padding:0
+}
+
+.discount-status.bad{
+  color:#dc2626
+}
+
+.price-before{
+  color:#9ca3af;
+  text-decoration:line-through;
+  font-size:12px
 }
 
 .ok{
@@ -664,13 +689,9 @@ footer{
     gap:14px
   }
 
-  .ci{
-    padding:11px
-  }
+  .ci{padding:11px}
 
-  .ci h3{
-    font-size:14px
-  }
+  .ci h3{font-size:14px}
 }
 
 @media(min-width:850px){
@@ -679,41 +700,18 @@ footer{
     gap:14px
   }
 
-  .ci h3{
-    font-size:15px
-  }
-
-  .ci p{
-    font-size:13px
-  }
-
-  .btn{
-    font-size:14px
-  }
+  .ci h3{font-size:15px}
+  .ci p{font-size:13px}
+  .btn{font-size:14px}
 }
 
 /* الشاشات الصغيرة جدًا */
 @media(max-width:360px){
-  .grid{
-    gap:8px
-  }
-
-  .ci{
-    padding:8px
-  }
-
-  .ci h3{
-    font-size:13px
-  }
-
-  .ci p{
-    font-size:11px
-  }
-
-  .pr{
-    font-size:15px
-  }
-
+  .grid{gap:8px}
+  .ci{padding:8px}
+  .ci h3{font-size:13px}
+  .ci p{font-size:11px}
+  .pr{font-size:15px}
   .btn{
     font-size:12px;
     padding:9px 5px
@@ -746,6 +744,7 @@ footer{
 <header>
   <div class="bar">
     <div class="logo"><b>NEXO</b> STORE</div>
+
     <input
       id="q"
       class="search"
@@ -758,7 +757,9 @@ footer{
 
 <main>
   <div class="cats" id="cats"></div>
+
   <div class="grid" id="grid"></div>
+
   <div class="empty" id="none" hidden>
     لا توجد منتجات مطابقة للبحث
   </div>
@@ -770,6 +771,7 @@ footer{
 </footer>
 
 <button id="fab" onclick="openCart()" aria-label="السلة">
+
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -792,186 +794,222 @@ footer{
 
 <script>
 
-const PHONE="0501203710",
-WA="966501203710",
-FEE=15,
-CAT2="المنتجات المتنوعة",
-CITY="مكة";
+const PHONE="0501203710";
+const WA="966501203710";
+const FEE=15;
+const CAT2="المنتجات المتنوعة";
+const CITY="مكة";
+
+/* =========================================================
+   كود الخصم
+   ========================================================= */
+
+const DISCOUNT_CODE="NEXO50";
+
+/*
+  الأسعار الحالية التي كانت موجودة في المتجر.
+  هذه هي الأسعار التي يرجع لها المنتج بعد إدخال الكود.
+*/
 
 /* الصور من نفس مكان index.html */
 const I="";
 
+/* =========================================================
+   المنتجات
+   old = السعر الحالي القديم
+   p   = السعر الظاهر الجديد قبل الكود
+   ========================================================= */
+
 const P=[
 
-{
- id:1,
- n:"FASTER FT-71 - شاحن جداري بمنفذين USB مع الكيبل",
- p:10,
- q:36,
- i:I+"faster-ft71.jpg",
- d:"شاحن جداري أصلي بمنفذين USB شحن سريع 2.4A مع الكيبل، يشحن جوالين بنفس الوقت، حماية من الحرارة والتيار الزائد."
-},
+  {
+    id:1,
+    n:"FASTER FT-71 - شاحن جداري بمنفذين USB مع الكيبل",
+    p:20,
+    old:10,
+    q:36,
+    i:I+"faster-ft71.jpg",
+    d:"شاحن جداري أصلي بمنفذين USB شحن سريع 2.4A مع الكيبل، يشحن جوالين بنفس الوقت، حماية من الحرارة والتيار الزائد."
+  },
 
-{
- id:2,
- n:"LDNIO LS63 - كيبل Toughness",
- p:10,
- q:20,
- i:I+"ldnio-ls63-typec.jpg",
- d:"كيبل LDNIO Toughness متين بثلاثة أنواع، اختر النوع المناسب لجوالك.",
- o:[
   {
-   k:"Micro",
-   n:"كيبل LDNIO LS63 Micro Toughness - للجوالات القديمة",
-   d:"كيبل مايكرو أصلي للجوالات القديمة - يركب على سامسونج جالكسي القديم وهواوي وكل جوال مدخله Micro - شحن سريع 2.4A - يتحمل 6 مرات أكثر من العادي - ضمان سنة.",
-   p:10,
-   q:20,
-   i:I+"ldnio-ls63-micro.jpg"
+    id:2,
+    n:"LDNIO LS63 - كيبل Toughness",
+    p:20,
+    old:10,
+    q:20,
+    i:I+"ldnio-ls63-typec.jpg",
+    d:"كيبل LDNIO Toughness متين بثلاثة أنواع، اختر النوع المناسب لجوالك.",
+    o:[
+      {
+        k:"Micro",
+        n:"كيبل LDNIO LS63 Micro Toughness - للجوالات القديمة",
+        d:"كيبل مايكرو أصلي للجوالات القديمة - يركب على سامسونج جالكسي القديم وهواوي وكل جوال مدخله Micro - شحن سريع 2.4A - يتحمل 6 مرات أكثر من العادي - ضمان سنة.",
+        p:20,
+        old:10,
+        q:20,
+        i:I+"ldnio-ls63-micro.jpg"
+      },
+      {
+        k:"Type-C",
+        n:"كيبل LDNIO Toughness Type-C - للجوالات الجديدة",
+        d:"كيبل LDNIO Toughness من نوع Type-C - يركب على الجوالات الجديدة مثل سامسونج وشاومي وهواوي الجديد - شحن سريع ونقل بيانات - خامة متينة.",
+        p:20,
+        old:10,
+        q:20,
+        i:I+"ldnio-ls63-typec.jpg"
+      },
+      {
+        k:"iPhone Lightning",
+        n:"كيبل LDNIO Toughness Lightning - للآيفون",
+        d:"كيبل LDNIO Toughness بمدخل Lightning - يركب على أجهزة الآيفون التي تستخدم منفذ Lightning مثل آيفون 6 و7 و8 وX و11 و12 و13 و14 - شحن سريع ونقل بيانات.",
+        p:20,
+        old:10,
+        q:20,
+        i:I+"ldnio-ls63-lightning.jpg"
+      }
+    ]
   },
+
   {
-   k:"Type-C",
-   n:"كيبل LDNIO Toughness Type-C - للجوالات الجديدة",
-   d:"كيبل LDNIO Toughness من نوع Type-C - يركب على الجوالات الجديدة مثل سامسونج وشاومي وهواوي الجديد - شحن سريع ونقل بيانات - خامة متينة.",
-   p:10,
-   q:20,
-   i:I+"ldnio-ls63-typec.jpg"
+    id:3,
+    n:"LDNIO للآيفون Lightning Toughness - للآيفون القديم",
+    p:20,
+    old:10,
+    q:23,
+    i:I+"ldnio-ls543.jpg",
+    d:"كيبل آيفون Lightning أصلي - يركب على آيفون 6 / 7 / 8 / X / 11 / 12 / 13 / 14 - شحن سريع ونقل بيانات."
   },
+
   {
-   k:"iPhone Lightning",
-   n:"كيبل LDNIO Toughness Lightning - للآيفون",
-   d:"كيبل LDNIO Toughness بمدخل Lightning - يركب على أجهزة الآيفون التي تستخدم منفذ Lightning مثل آيفون 6 و7 و8 وX و11 و12 و13 و14 - شحن سريع ونقل بيانات.",
-   p:10,
-   q:20,
-   i:I+"ldnio-ls63-lightning.jpg"
+    id:4,
+    n:"GLOW GM-03 - ستاند سيارة مغناطيسي شكل L",
+    p:20,
+    old:10,
+    q:30,
+    i:I+"glow-gm03.jpg",
+    d:"ستاند سيارة مغناطيسي GLOW GM-03 - شكل L يركب على فتحة المكيف، مغناطيس سوبر قوي يمسك الجوال حتى مع المطبات القوية - تصميم L Shape أنيق وصغير ما يأخذ مساحة - تركيب سهل بدون أدوات - يجي معه لزقة حديد تركب ورا الجوال أو الكفر - يدور معاك ويثبت بثبات - يركب على كل أنواع السيارات والجوالات."
+  },
+
+  {
+    id:5,
+    n:"NITO N-100 - سماعة سلكية مع مايكروفون",
+    p:10,
+    old:5,
+    q:35,
+    i:I+"nito-n100.jpg",
+    d:"سماعة سلكية بصوت نقي وبيز قوي مع مايكروفون للمكالمات، مريحة للأذن، تركب على الجوالات المتوافقة."
+  },
+
+  {
+    id:6,
+    n:"iPlus I-18 - سماعة آيفون Lightning مع نافذة منبثقة",
+    p:10,
+    old:5,
+    q:4,
+    i:I+"iplus-i18.jpg",
+    d:"سماعة آيفون مدخل Lightning مع نافذة منبثقة Pop-up، صوت ستيريو نقي ومايك واضح للمكالمات."
+  },
+
+  {
+    id:7,
+    n:"GLOW GLH-32 - ستاند سيارة مغناطيسي دوران 360 درجة",
+    p:20,
+    old:10,
+    q:10,
+    i:I+"glow-glh32.jpg",
+    d:"ستاند سيارة مغناطيسي قوي دوران 360 درجة، يثبت على الطبلون، مغناطيس قوي يمسك الجوال حتى مع المطبات."
+  },
+
+  {
+    id:8,
+    n:"NITO N-H673 - سماعة سلكية Type-C",
+    p:20,
+    old:10,
+    q:19,
+    i:I+"nito-nh673.jpg",
+    d:"سماعة سلكية Type-C ستيريو STEREO، صوت نقي، مايك للمكالمات والألعاب."
+  },
+
+  {
+    id:9,
+    n:"KUMS - كيبل Type-C قماش 1200mm طول 1.2 متر 3.4A",
+    p:10,
+    old:5,
+    q:24,
+    i:I+"kums-typec-1200mm.jpg",
+    d:"كيبل تايب سي قماش مجدول 1200mm طول 1.2 متر، 3.4A شحن سريع جدًا، خامة متينة."
+  },
+
+  {
+    id:10,
+    n:"WINMFIX LED - لمبة LED ثلاثي + حامل جوال 2 في 1",
+    p:10,
+    old:5,
+    q:4,
+    i:I+"winmfix-led.jpg",
+    d:"لمبة LED ثلاثية الإضاءة مع حامل جوال 2 في 1، إضاءة قوية للسيارة والبيت، تتحول لستاند جوال."
+  },
+
+  {
+    id:11,
+    n:"X.LOOD X-73 - كيبل Type-C تايب سي 3.1A",
+    p:10,
+    old:5,
+    q:18,
+    i:I+"xlood-x73.jpg",
+    d:"كيبل تايب سي 3.1A شحن سريع، خامة مرنة وشحن ثابت وآمن للجوالات."
+  },
+
+  {
+    id:12,
+    n:"UNIVERSAL CLIP - حامل جوال السيارة يركب على المراية",
+    p:20,
+    old:10,
+    q:8,
+    i:I+"universal-clip.jpg",
+    d:"حامل جوال للسيارة يركب على مراية السيارة، UNIVERSAL يركب على كثير من السيارات والجوالات."
+  },
+
+  {
+    id:13,
+    n:"GLOW GLH-29 - ستاند سيارة مغناطيسي مسطرة",
+    p:20,
+    old:10,
+    q:30,
+    i:I+"glow-glh29.jpg",
+    d:"ستاند سيارة مغناطيسي مسطرة يركب على مسطرة المكيف، شكل أنيق ومغناطيس قوي يمسك الجوال بثبات."
+  },
+
+  {
+    id:14,
+    n:"NITO CH-512 - راس شاحن مخرجين",
+    p:20,
+    old:10,
+    q:42,
+    i:I+"nito-ch512.jpg",
+    d:"راس شاحن مخرجين USB شحن سريع، يشحن جوالين بنفس الوقت، حماية من الحرارة والشحن الزائد."
+  },
+
+  {
+    id:15,
+    n:"PROMASS PM-8509 - راس شاحن سريع PD+QC مجموع 38W",
+    p:20,
+    old:10,
+    q:12,
+    i:I+"promass-pm8509.jpg",
+    d:"راس شاحن سريع 38W مجموع، منفذ PD 20W + منفذ QC 18W."
+  },
+
+  {
+    id:16,
+    n:"GLOW GLH-26 - ستاند سيارة مغناطيسي صغير ميني",
+    p:20,
+    old:10,
+    q:9,
+    i:I+"glow-glh26.jpg",
+    d:"ستاند سيارة مغناطيسي صغير ميني MINI، حجم صغير وأنيق، دوران حر 360، مغناطيس قوي."
   }
- ]
-},
-
-{
- id:3,
- n:"LDNIO للآيفون Lightning Toughness - للآيفون القديم",
- p:10,
- q:23,
- i:I+"ldnio-ls543.jpg",
- d:"كيبل آيفون Lightning أصلي - يركب على آيفون 6 / 7 / 8 / X / 11 / 12 / 13 / 14 - شحن سريع ونقل بيانات."
-},
-
-{
- id:4,
- n:"GLOW GM-03 - ستاند سيارة مغناطيسي شكل L",
- p:10,
- q:30,
- i:I+"glow-gm03.jpg",
- d:"ستاند سيارة مغناطيسي GLOW GM-03 - شكل L يركب على فتحة المكيف، مغناطيس سوبر قوي يمسك الجوال حتى مع المطبات القوية - تصميم L Shape أنيق وصغير ما يأخذ مساحة - تركيب سهل بدون أدوات - يجي معه لزقة حديد تركب ورا الجوال أو الكفر - يدور معاك ويثبت بثبات - يركب على كل أنواع السيارات والجوالات."
-},
-
-{
- id:5,
- n:"NITO N-100 - سماعة سلكية مع مايكروفون",
- p:5,
- q:35,
- i:I+"nito-n100.jpg",
- d:"سماعة سلكية بصوت نقي وبيز قوي مع مايكروفون للمكالمات، مريحة للأذن، تركب على الجوالات المتوافقة."
-},
-
-{
- id:6,
- n:"iPlus I-18 - سماعة آيفون Lightning مع نافذة منبثقة",
- p:5,
- q:4,
- i:I+"iplus-i18.jpg",
- d:"سماعة آيفون مدخل Lightning مع نافذة منبثقة Pop-up، صوت ستيريو نقي ومايك واضح للمكالمات."
-},
-
-{
- id:7,
- n:"GLOW GLH-32 - ستاند سيارة مغناطيسي دوران 360 درجة",
- p:10,
- q:10,
- i:I+"glow-glh32.jpg",
- d:"ستاند سيارة مغناطيسي قوي دوران 360 درجة، يثبت على الطبلون، مغناطيس قوي يمسك الجوال حتى مع المطبات."
-},
-
-{
- id:8,
- n:"NITO N-H673 - سماعة سلكية Type-C",
- p:10,
- q:19,
- i:I+"nito-nh673.jpg",
- d:"سماعة سلكية Type-C ستيريو STEREO، صوت نقي، مايك للمكالمات والألعاب."
-},
-
-{
- id:9,
- n:"KUMS - كيبل Type-C قماش 1200mm طول 1.2 متر 3.4A",
- p:5,
- q:24,
- i:I+"kums-typec-1200mm.jpg",
- d:"كيبل تايب سي قماش مجدول 1200mm طول 1.2 متر، 3.4A شحن سريع جدًا، خامة متينة."
-},
-
-{
- id:10,
- n:"WINMFIX LED - لمبة LED ثلاثي + حامل جوال 2 في 1",
- p:5,
- q:4,
- i:I+"winmfix-led.jpg",
- d:"لمبة LED ثلاثية الإضاءة مع حامل جوال 2 في 1، إضاءة قوية للسيارة والبيت، تتحول لستاند جوال."
-},
-
-{
- id:11,
- n:"X.LOOD X-73 - كيبل Type-C تايب سي 3.1A",
- p:5,
- q:18,
- i:I+"xlood-x73.jpg",
- d:"كيبل تايب سي 3.1A شحن سريع، خامة مرنة وشحن ثابت وآمن للجوالات."
-},
-
-{
- id:12,
- n:"UNIVERSAL CLIP - حامل جوال السيارة يركب على المراية",
- p:10,
- q:8,
- i:I+"universal-clip.jpg",
- d:"حامل جوال للسيارة يركب على مراية السيارة، UNIVERSAL يركب على كثير من السيارات والجوالات."
-},
-
-{
- id:13,
- n:"GLOW GLH-29 - ستاند سيارة مغناطيسي مسطرة",
- p:10,
- q:30,
- i:I+"glow-glh29.jpg",
- d:"ستاند سيارة مغناطيسي مسطرة يركب على مسطرة المكيف، شكل أنيق ومغناطيس قوي يمسك الجوال بثبات."
-},
-
-{
- id:14,
- n:"NITO CH-512 - راس شاحن مخرجين",
- p:10,
- q:42,
- i:I+"nito-ch512.jpg",
- d:"راس شاحن مخرجين USB شحن سريع، يشحن جوالين بنفس الوقت، حماية من الحرارة والشحن الزائد."
-},
-
-{
- id:15,
- n:"PROMASS PM-8509 - راس شاحن سريع PD+QC مجموع 38W",
- p:10,
- q:12,
- i:I+"promass-pm8509.jpg",
- d:"راس شاحن سريع 38W مجموع، منفذ PD 20W + منفذ QC 18W."
-},
-
-{
- id:16,
- n:"GLOW GLH-26 - ستاند سيارة مغناطيسي صغير ميني",
- p:10,
- q:9,
- i:I+"glow-glh26.jpg",
- d:"ستاند سيارة مغناطيسي صغير ميني MINI، حجم صغير وأنيق، دوران حر 360، مغناطيس قوي."
-}
 
 ];
 
@@ -1017,23 +1055,34 @@ let cur=null;
 let selOpt=null;
 let selQty=1;
 
+let appliedCode="";
+
 const key=(p,o)=>p.id+(o?"-"+o.k:"");
 
 const src=(p,o)=>o||p;
 
 const stock=(p,o)=>
-  Math.max(0,src(p,o).q-(sold[key(p,o)]||0));
+  Math.max(
+    0,
+    src(p,o).q-(sold[key(p,o)]||0)
+  );
 
 const pid=id=>P.find(x=>x.id==id);
 
 const imgTag=(u,n)=>
   u
-  ?`<img src="${esc(u)}" alt="${esc(n)}" loading="lazy" onerror="this.parentNode.textContent='لا توجد صورة'">`
-  :"لا توجد صورة";
+  ?
+  `<img src="${esc(u)}"
+        alt="${esc(n)}"
+        loading="lazy"
+        onerror="this.parentNode.textContent='لا توجد صورة'">`
+  :
+  "لا توجد صورة";
 
 function badge(bump){
 
   const n=cart.reduce((a,c)=>a+c.qty,0);
+
   const e=$("cc");
 
   e.textContent=n;
@@ -1051,33 +1100,80 @@ function badge(bump){
   }
 }
 
+/* الإعلان */
+
 (function(){
 
   const one=
-    `<span><i>🚚</i>التوصيل داخل مكة المكرمة فقط<i>🚚</i></span>`;
+    `<span>
+      <i>🚚</i>
+      التوصيل داخل مكة المكرمة فقط
+      <i>🚚</i>
+    </span>`;
 
   $("track").innerHTML=one.repeat(8);
 
 })();
 
+/* =========================================================
+   حساب السعر
+   إذا لم يدخل العميل الكود:
+   يظهر السعر الجديد المرتفع.
+
+   إذا أدخل NEXO50:
+   يرجع السعر إلى السعر القديم الموجود في old.
+   ========================================================= */
+
+function priceOf(p,o){
+
+  const v=src(p,o);
+
+  if(appliedCode===DISCOUNT_CODE){
+
+    return v.old;
+  }
+
+  return v.p;
+}
+
+/* =========================================================
+   عرض المنتجات
+   ========================================================= */
+
 function render(){
 
   $("cats").innerHTML=CATS.map(c=>
-    `<button class="cat ${c==cat?"on":""}" onclick="cat='${c}';render()">${c}</button>`
+    `
+    <button
+      class="cat ${c==cat?"on":""}"
+      onclick="cat='${c}';render()"
+    >
+      ${c}
+    </button>
+    `
   ).join("");
 
   const t=$("q").value.trim().toLowerCase();
 
   const list=P.filter(p=>
-    (cat=="الكل"||p.c==cat)&&
+    (cat=="الكل"||p.c==cat)
+    &&
     (
-      !t||
+      !t
+      ||
       [
         p.n,
         p.d,
         p.c,
-        ...(p.o||[]).flatMap(o=>[o.k,o.n,o.d])
-      ].join(" ").toLowerCase().includes(t)
+        ...(p.o||[]).flatMap(o=>[
+          o.k,
+          o.n,
+          o.d
+        ])
+      ]
+      .join(" ")
+      .toLowerCase()
+      .includes(t)
     )
   );
 
@@ -1086,17 +1182,30 @@ function render(){
   $("grid").innerHTML=list.map(p=>{
 
     const s=p.o
-      ?p.o.reduce((a,o)=>a+stock(p,o),0)
-      :stock(p);
+      ?
+      p.o.reduce((a,o)=>a+stock(p,o),0)
+      :
+      stock(p);
 
     const pr=p.o
-      ?"من "+Math.min(...p.o.map(o=>o.p))
-      :p.p;
+      ?
+      "من "+Math.min(...p.o.map(o=>o.p))
+      :
+      p.p;
+
+    const oldPr=p.o
+      ?
+      "من "+Math.min(...p.o.map(o=>o.old))
+      :
+      p.old;
 
     return `
       <div class="card">
 
-        <div class="img" onclick="openProd(${p.id})">
+        <div
+          class="img"
+          onclick="openProd(${p.id})"
+        >
           ${imgTag(p.i,p.n)}
         </div>
 
@@ -1106,27 +1215,63 @@ function render(){
             ${esc(p.n)}
           </h3>
 
-          <p>${esc(p.d)}</p>
+          <p>
+            ${esc(p.d)}
+          </p>
 
-          <div class="pr">
-            ${pr} ريال
+          <div class="price-box">
+
+            <div class="old-price">
+              ${oldPr} ريال بعد الكود
+            </div>
+
+            <div class="pr">
+              ${pr} ريال
+            </div>
+
           </div>
 
           <div class="st ${s<=5?"low":""}">
             ${
               s
-              ?(s<=10?"متبقي "+s+" فقط":"متوفر: "+s)
-              :"نفد المخزون"
+              ?
+              (
+                s<=10
+                ?
+                "متبقي "+s+" فقط"
+                :
+                "متوفر: "+s
+              )
+              :
+              "نفد المخزون"
             }
           </div>
 
           ${
             p.o
-            ?`<button class="btn" onclick="openProd(${p.id})">عرض المنتج</button>`
-            :`<button class="btn" ${s?"":"disabled"} onclick="quickAdd(${p.id})">أضف للسلة</button>`
+            ?
+            `
+            <button
+              class="btn"
+              onclick="openProd(${p.id})"
+            >
+              عرض المنتج
+            </button>
+            `
+            :
+            `
+            <button
+              class="btn"
+              ${s?"":"disabled"}
+              onclick="quickAdd(${p.id})"
+            >
+              أضف للسلة
+            </button>
+            `
           }
 
         </div>
+
       </div>
     `;
 
@@ -1135,9 +1280,12 @@ function render(){
   badge();
 }
 
+/* النوافذ */
+
 function show(html){
 
   $("sheet").innerHTML=html;
+
   $("ov").classList.add("on");
 }
 
@@ -1147,14 +1295,20 @@ function hide(){
 }
 
 $("ov").addEventListener("click",e=>{
+
   if(e.target.id=="ov")hide();
+
 });
 
 document.addEventListener("keydown",e=>{
+
   if(e.key=="Escape")hide();
+
 });
 
 $("q").addEventListener("input",render);
+
+/* Toast */
 
 let toastT;
 
@@ -1175,6 +1329,7 @@ function toast(m){
   }
 
   t.textContent=m;
+
   t.style.display="block";
 
   clearTimeout(toastT);
@@ -1184,6 +1339,8 @@ function toast(m){
     2200
   );
 }
+
+/* إضافة للسلة */
 
 function addLine(p,o,n){
 
@@ -1217,11 +1374,8 @@ function addLine(p,o,n){
   return true;
 }
 
-/*
-  عند الضغط على "أضف للسلة":
-  1- يضاف المنتج للسلة.
-  2- تظهر تفاصيل المنتج مباشرة.
-*/
+/* إضافة المنتج وفتح التفاصيل */
+
 function quickAdd(id){
 
   const p=pid(id);
@@ -1231,7 +1385,9 @@ function quickAdd(id){
     toast("تمت الإضافة إلى السلة");
 
     cur=p;
+
     selOpt=null;
+
     selQty=1;
 
     drawProd();
@@ -1243,10 +1399,13 @@ function openProd(id){
   cur=pid(id);
 
   selOpt=null;
+
   selQty=1;
 
   drawProd();
 }
+
+/* تفاصيل المنتج */
 
 function drawProd(){
 
@@ -1261,7 +1420,10 @@ function drawProd(){
   show(`
 
     <div class="sh">
-      <h2>${esc(v.n)}</h2>
+
+      <h2>
+        ${esc(v.n)}
+      </h2>
 
       <button
         class="x"
@@ -1270,6 +1432,7 @@ function drawProd(){
       >
         ✕
       </button>
+
     </div>
 
     <div
@@ -1285,12 +1448,14 @@ function drawProd(){
 
     ${
       p.o
-      ?`
-        <b>اختر النوع:</b>
+      ?
+      `
+      <b>اختر النوع:</b>
 
-        <div class="opts">
+      <div class="opts">
 
-          ${p.o.map(x=>
+        ${
+          p.o.map(x=>
             `
             <button
               class="opt ${o&&o.k==x.k?"on":""}"
@@ -1299,19 +1464,59 @@ function drawProd(){
               ${esc(x.k)}
             </button>
             `
-          ).join("")}
+          ).join("")
+        }
 
-        </div>
+      </div>
       `
-      :""
+      :
+      ""
     }
 
-    <div class="pr">
-      ${o||!p.o?v.p+" ريال":"اختر النوع لعرض السعر"}
-    </div>
+    ${
+      o||!p.o
+      ?
+      `
+      <div class="price-before">
+        السعر قبل الكود:
+        ${v.p} ريال
+      </div>
+
+      <div class="pr">
+        ${
+          appliedCode===DISCOUNT_CODE
+          ?
+          v.old
+          :
+          v.p
+        }
+        ريال
+      </div>
+      `
+      :
+      `
+      <div class="pr">
+        اختر النوع لعرض السعر
+      </div>
+      `
+    }
 
     <div class="st">
-      ${o||!p.o?(s?"المخزون: "+s:"نفد المخزون"):""}
+
+      ${
+        o||!p.o
+        ?
+        (
+          s
+          ?
+          "المخزون: "+s
+          :
+          "نفد المخزون"
+        )
+        :
+        ""
+      }
+
     </div>
 
     <div
@@ -1328,7 +1533,9 @@ function drawProd(){
           −
         </button>
 
-        <span>${selQty}</span>
+        <span>
+          ${selQty}
+        </span>
 
         <button
           onclick="selQty=Math.min(${s||1},selQty+1);drawProd()"
@@ -1347,10 +1554,14 @@ function drawProd(){
     >
       ${
         p.o&&!o
-        ?"اختر النوع أولاً"
-        :s
-        ?"أضف للسلة"
-        :"نفد المخزون"
+        ?
+        "اختر النوع أولاً"
+        :
+        s
+        ?
+        "أضف للسلة"
+        :
+        "نفد المخزون"
       }
     </button>
 
@@ -1376,13 +1587,21 @@ function addFromProd(){
   }
 }
 
+/* =========================================================
+   حساب السلة
+   ========================================================= */
+
 function calc(mode){
 
   const items=cart.map(c=>{
 
     const p=pid(c.id);
 
-    const o=c.o?p.o.find(x=>x.k==c.o):null;
+    const o=c.o
+      ?
+      p.o.find(x=>x.k==c.o)
+      :
+      null;
 
     const v=src(p,o);
 
@@ -1391,29 +1610,52 @@ function calc(mode){
       p,
       opt:o,
       name:v.n,
-      price:v.p,
+      price:priceOf(p,o),
+      normalPrice:v.p,
+      oldPrice:v.old,
       img:v.i,
-      total:v.p*c.qty
+      total:priceOf(p,o)*c.qty
     };
 
   });
 
-  const n=items.reduce((a,c)=>a+c.qty,0);
+  const n=items.reduce(
+    (a,c)=>a+c.qty,
+    0
+  );
 
-  const sub=items.reduce((a,c)=>a+c.total,0);
+  const sub=items.reduce(
+    (a,c)=>a+c.total,
+    0
+  );
+
+  /*
+    خصم الجملة يبقى كما هو.
+  */
 
   const pc=
-    n>=20?15:
-    n>=10?10:
-    n>=5?5:
+    n>=20
+    ?
+    15
+    :
+    n>=10
+    ?
+    10
+    :
+    n>=5
+    ?
+    5
+    :
     0;
 
   const disc=Math.round(sub*pc)/100;
 
   const fee=
     (!items.length||mode=="pickup")
-    ?0
-    :FEE;
+    ?
+    0
+    :
+    FEE;
 
   return {
     items,
@@ -1426,9 +1668,12 @@ function calc(mode){
   };
 }
 
+/* ملخص */
+
 function summary(c){
 
   return `
+
     <div class="sum">
 
       <div>
@@ -1437,8 +1682,13 @@ function summary(c){
       </div>
 
       <div>
-        <span>الخصم${c.pc?" ("+c.pc+"%)":""}</span>
-        <span>−${c.disc} ريال</span>
+        <span>
+          الخصم${c.pc?" ("+c.pc+"%)":""}
+        </span>
+
+        <span>
+          −${c.disc} ريال
+        </span>
       </div>
 
       <div>
@@ -1452,20 +1702,33 @@ function summary(c){
       </div>
 
     </div>
+
   `;
 }
 
+/* =========================================================
+   السلة
+   ========================================================= */
+
 function openCart(){
 
-  cart=cart
+  cart=
+    cart
     .filter(c=>pid(c.id))
     .map(c=>{
 
       const p=pid(c.id);
 
-      const o=c.o?p.o.find(x=>x.k==c.o):null;
+      const o=c.o
+        ?
+        p.o.find(x=>x.k==c.o)
+        :
+        null;
 
-      c.qty=Math.min(c.qty,stock(p,o));
+      c.qty=Math.min(
+        c.qty,
+        stock(p,o)
+      );
 
       return c;
 
@@ -1479,6 +1742,7 @@ function openCart(){
   show(`
 
     <div class="sh">
+
       <h2>السلة</h2>
 
       <button
@@ -1488,41 +1752,56 @@ function openCart(){
       >
         ✕
       </button>
+
     </div>
 
     ${
       c.items.length
 
-      ?c.items.map((i,x)=>
+      ?
+
+      c.items.map((i,x)=>
+
         `
+
         <div class="row">
 
           ${
             i.img
-            ?`
-              <img
-                src="${esc(i.img)}"
-                alt=""
-                onerror="this.style.visibility='hidden'"
-              >
+            ?
             `
-            :`<div class="ph"></div>`
+            <img
+              src="${esc(i.img)}"
+              alt=""
+              onerror="this.style.visibility='hidden'"
+            >
+            `
+            :
+            `<div class="ph"></div>`
           }
 
           <div class="in">
 
-            <b>${esc(i.name)}</b>
+            <b>
+              ${esc(i.name)}
+            </b>
 
             ${
               i.o
-              ?`
-                <span class="st">
-                  النوع: ${esc(i.o)}
-                </span>
-                <br>
+              ?
               `
-              :""
+              <span class="st">
+                النوع: ${esc(i.o)}
+              </span>
+              <br>
+              `
+              :
+              ""
             }
+
+            <div class="price-before">
+              ${i.normalPrice} ريال قبل الكود
+            </div>
 
             <span
               class="pr"
@@ -1537,13 +1816,19 @@ function openCart(){
 
             <div class="qty">
 
-              <button onclick="chg(${x},-1)">
+              <button
+                onclick="chg(${x},-1)"
+              >
                 −
               </button>
 
-              <span>${i.qty}</span>
+              <span>
+                ${i.qty}
+              </span>
 
-              <button onclick="chg(${x},1)">
+              <button
+                onclick="chg(${x},1)"
+              >
                 +
               </button>
 
@@ -1559,46 +1844,95 @@ function openCart(){
           </div>
 
         </div>
+
         `
+
       ).join("")
 
       +
 
       `
-        <div class="note">
-          خصم الجملة:
-          5 قطع = 5% ·
-          10 قطع = 10% ·
-          20 قطعة = 15%
+
+      <div class="discount-box">
+
+        <div class="discount-title">
+          عندك كود خصم؟
         </div>
 
-        ${summary(c)}
+        <div class="discount-row">
 
-        <p class="st">
-          رسوم التوصيل تُحتسب حسب طريقة الاستلام في الخطوة التالية.
-        </p>
+          <input
+            id="cartCode"
+            type="text"
+            placeholder="اكتب كود الخصم"
+            value="${esc(appliedCode)}"
+          >
 
-        <button
-          class="btn"
-          style="margin-top:10px"
-          onclick="openCheckout()"
-        >
-          إتمام الطلب
-        </button>
+          <button
+            onclick="applyCartCode()"
+          >
+            تطبيق
+          </button>
+
+        </div>
+
+        ${
+          appliedCode===DISCOUNT_CODE
+          ?
+          `
+          <div class="discount-status ok">
+            ✓ تم تفعيل كود الخصم NEXO50
+          </div>
+          `
+          :
+          `
+          <div class="discount-status">
+            أدخل الكود للحصول على السعر المخفض.
+          </div>
+          `
+        }
+
+      </div>
+
+      <div class="note">
+        خصم الجملة:
+        5 قطع = 5%
+        ·
+        10 قطع = 10%
+        ·
+        20 قطعة = 15%
+      </div>
+
+      ${summary(c)}
+
+      <p class="st">
+        رسوم التوصيل تُحتسب حسب طريقة الاستلام في الخطوة التالية.
+      </p>
+
+      <button
+        class="btn"
+        style="margin-top:10px"
+        onclick="openCheckout()"
+      >
+        إتمام الطلب
+      </button>
+
       `
 
-      :`
+      :
 
-        <div class="empty">
-          السلة فارغة. أضف منتجات من المتجر.
-        </div>
+      `
 
-        <button
-          class="btn alt"
-          onclick="hide()"
-        >
-          تصفح المنتجات
-        </button>
+      <div class="empty">
+        السلة فارغة. أضف منتجات من المتجر.
+      </div>
+
+      <button
+        class="btn alt"
+        onclick="hide()"
+      >
+        تصفح المنتجات
+      </button>
 
       `
     }
@@ -1606,13 +1940,49 @@ function openCart(){
   `);
 }
 
+/* تطبيق الكود من السلة */
+
+function applyCartCode(){
+
+  const input=$("cartCode");
+
+  if(!input)return;
+
+  const code=input.value.trim().toUpperCase();
+
+  if(code===DISCOUNT_CODE){
+
+    appliedCode=DISCOUNT_CODE;
+
+    render();
+
+    toast("تم تفعيل كود الخصم NEXO50");
+
+    openCart();
+
+  }else{
+
+    appliedCode="";
+
+    toast("كود الخصم غير صحيح");
+
+    openCart();
+  }
+}
+
+/* تغيير الكمية */
+
 function chg(x,d){
 
   const c=cart[x];
 
   const p=pid(c.id);
 
-  const o=c.o?p.o.find(y=>y.k==c.o):null;
+  const o=c.o
+    ?
+    p.o.find(y=>y.k==c.o)
+    :
+    null;
 
   const n=c.qty+d;
 
@@ -1621,7 +1991,9 @@ function chg(x,d){
 
   if(n>stock(p,o)){
 
-    toast(`المتاح ${stock(p,o)} فقط`);
+    toast(
+      `المتاح ${stock(p,o)} فقط`
+    );
 
     return;
   }
@@ -1641,6 +2013,10 @@ function rm(x){
 
   openCart();
 }
+
+/* =========================================================
+   إتمام الطلب
+   ========================================================= */
 
 function openCheckout(mode){
 
@@ -1733,37 +2109,37 @@ function openCheckout(mode){
     ${
       mode=="delivery"
 
-      ?`
-
-        <div class="f">
-
-          <label>
-            العنوان في مكة (الحي والشارع)
-          </label>
-
-          <textarea
-            id="fa"
-            rows="2"
-          >${esc(f.a)}</textarea>
-
-        </div>
+      ?
 
       `
+      <div class="f">
 
-      :`
+        <label>
+          العنوان في مكة (الحي والشارع)
+        </label>
 
-        <div class="note">
+        <textarea
+          id="fa"
+          rows="2"
+        >${esc(f.a)}</textarea>
 
-          للاستلام تواصل معنا على:
+      </div>
+      `
 
-          <b>
-            <a href="tel:${PHONE}">
-              ${PHONE}
-            </a>
-          </b>
+      :
 
-        </div>
+      `
+      <div class="note">
 
+        للاستلام تواصل معنا على:
+
+        <b>
+          <a href="tel:${PHONE}">
+            ${PHONE}
+          </a>
+        </b>
+
+      </div>
       `
     }
 
@@ -1774,10 +2150,57 @@ function openCheckout(mode){
       <select id="fpay">
 
         <option>كاش</option>
+
         <option>بطاقة / شبكة</option>
+
         <option>PayPal</option>
 
       </select>
+
+    </div>
+
+    <div class="discount-box">
+
+      <div class="discount-title">
+        كود الخصم
+      </div>
+
+      <div class="discount-row">
+
+        <input
+          id="checkoutCode"
+          type="text"
+          placeholder="اكتب كود الخصم"
+          value="${esc(appliedCode)}"
+        >
+
+        <button
+          onclick="applyCheckoutCode('${mode}')"
+        >
+          تطبيق
+        </button>
+
+      </div>
+
+      ${
+        appliedCode===DISCOUNT_CODE
+
+        ?
+
+        `
+        <div class="discount-status ok">
+          ✓ الكود مفعل — تم إرجاع الأسعار للسعر المخفض
+        </div>
+        `
+
+        :
+
+        `
+        <div class="discount-status">
+          أدخل كود الخصم للحصول على السعر المخفض.
+        </div>
+        `
+      }
 
     </div>
 
@@ -1794,7 +2217,10 @@ function openCheckout(mode){
 
     ${summary(c)}
 
-    <div class="err" id="err"></div>
+    <div
+      class="err"
+      id="err"
+    ></div>
 
     <button
       class="btn wa"
@@ -1816,16 +2242,66 @@ function openCheckout(mode){
     $("fpay").value=f.pay;
 }
 
+/* تطبيق الكود من صفحة إتمام الطلب */
+
+function applyCheckoutCode(mode){
+
+  const input=$("checkoutCode");
+
+  if(!input)return;
+
+  const code=input.value.trim().toUpperCase();
+
+  if(code===DISCOUNT_CODE){
+
+    appliedCode=DISCOUNT_CODE;
+
+    toast("تم تفعيل كود الخصم NEXO50");
+
+    keepF();
+
+    openCheckout(mode);
+
+  }else{
+
+    appliedCode="";
+
+    toast("كود الخصم غير صحيح");
+
+    keepF();
+
+    openCheckout(mode);
+  }
+}
+
 function keepF(){
 
   window._f={
-    n:$("fn").value,
-    p:$("fp").value,
-    a:$("fa")?$("fa").value:"",
-    t:$("fnote").value,
-    pay:$("fpay").value
+
+    n:$("fn")?$(
+      "fn"
+    ).value:"",
+
+    p:$("fp")?$(
+      "fp"
+    ).value:"",
+
+    a:$("fa")?$(
+      "fa"
+    ).value:"",
+
+    t:$("fnote")?$(
+      "fnote"
+    ).value:"",
+
+    pay:$("fpay")?$(
+      "fpay"
+    ).value:""
+
   };
 }
+
+/* رقم الطلب */
 
 function orderId(){
 
@@ -1835,6 +2311,10 @@ function orderId(){
       Math.random()*90000000
     );
 }
+
+/* =========================================================
+   إرسال الطلب
+   ========================================================= */
 
 function submitOrder(){
 
@@ -1852,12 +2332,17 @@ function submitOrder(){
     phone:$("fp").value.trim(),
 
     addr:$("fa")
-      ?$("fa").value.trim()
-      :"",
+      ?
+      $("fa").value.trim()
+      :
+      "",
 
     note:$("fnote").value.trim(),
 
-    pay:$("fpay").value
+    pay:$("fpay").value,
+
+    code:appliedCode
+
   };
 
   const e=$("err");
@@ -1878,7 +2363,6 @@ function submitOrder(){
   for(const i of c.items){
 
     if(i.qty>stock(i.p,i.opt))
-
       return e.textContent=
         `الكمية المطلوبة من "${i.name}" غير متوفرة`;
   }
@@ -1890,30 +2374,59 @@ function submitOrder(){
 
   const modeTxt=
     mode=="delivery"
-    ?"التوصيل"
-    :"الاستلام";
+    ?
+    "التوصيل"
+    :
+    "الاستلام";
 
-  const lines=c.items.map(i=>
-    `• ${i.name}${i.o?" (الخيار: "+i.o+")":""} × ${i.qty} = ${i.total} ريال`
-  ).join("\n");
+  const lines=
+    c.items
+    .map(i=>
+      `• ${i.name}${i.o?" (الخيار: "+i.o+")":""} × ${i.qty} = ${i.total} ريال`
+    )
+    .join("\n");
 
-  const msg=`طلب جديد من NEXO STORE
+  const msg=
+
+`طلب جديد من NEXO STORE
 رقم الطلب: ${id}
 التاريخ: ${date}
 
 الاسم: ${d.name}
 الجوال: ${d.phone}
-${mode=="delivery"?"المدينة: "+CITY+"\nالعنوان: "+d.addr:"الاستلام من المتجر"}
+
+${
+  mode=="delivery"
+  ?
+  "المدينة: "+CITY+
+  "\nالعنوان: "+d.addr
+  :
+  "الاستلام من المتجر"
+}
+
 طريقة الاستلام: ${modeTxt}
+
 طريقة الدفع: ${d.pay}
+
+كود الخصم: ${d.code||"لا يوجد"}
 
 المنتجات:
 ${lines}
 
 الإجمالي الفرعي: ${c.sub} ريال
-الخصم${c.pc?" ("+c.pc+"%)":""}: ${c.disc} ريال
+
+الخصم${
+  c.pc
+  ?
+  " ("+c.pc+"%)"
+  :
+  ""
+}: ${c.disc} ريال
+
 رسوم التوصيل: ${c.fee} ريال
+
 الإجمالي النهائي: ${c.total} ريال
+
 ملاحظات: ${d.note||"—"}`;
 
   const url=
@@ -1921,7 +2434,8 @@ ${lines}
 
   c.items.forEach(i=>{
 
-    sold[i.k]=(sold[i.k]||0)+i.qty;
+    sold[i.k]=
+      (sold[i.k]||0)+i.qty;
 
   });
 
@@ -1932,6 +2446,8 @@ ${lines}
   saveCart();
 
   window._f=null;
+
+  appliedCode="";
 
   render();
 
@@ -1984,12 +2500,16 @@ ${lines}
   window.open(url,"_blank");
 }
 
+/* حفظ السلة */
+
 function saveCart(b){
 
   sv("nexo_cart",cart);
 
   badge(b);
 }
+
+/* تشغيل المتجر */
 
 render();
 
@@ -2002,6 +2522,7 @@ setTimeout(
 
 </body>
 </html>
+
 
 
 
