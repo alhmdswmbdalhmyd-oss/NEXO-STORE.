@@ -458,7 +458,7 @@ header{
     <div id="products" class="products"></div>
   </div>
 
-  <!-- صفحة تفاصيل المنتج الكاملة -->
+  <!-- صفحة تفاصيل المنتج -->
   <div id="productView" class="view">
     <button class="backBtn" onclick="history.back()">➡️ العودة للرئيسية</button>
     <div class="productDetailPage">
@@ -480,14 +480,13 @@ header{
     <button class="close" onclick="closeModal('cartModal')">×</button>
     <h2>🛒 سلة المشتريات</h2>
     
-    <!-- شريط تحفيز الشحن المجاني -->
     <div id="freeShippingNotice" style="background:#f0f7ff; color:#087cff; padding:8px 12px; border-radius:10px; font-size:13px; text-align:center; margin:10px 0; font-weight:700;"></div>
 
     <div id="cartItems"></div>
 
     <div class="totalBox">
       <div class="totalRow">
-        <span>المجموع الفرعي</span>
+        <span>المجموع الفرعي (للمنتجات)</span>
         <strong id="subtotal">0 ريال</strong>
       </div>
 
@@ -503,7 +502,7 @@ header{
       </div>
 
       <div class="totalRow">
-        <span>التوصيل (مكة)</span>
+        <span>رسوم التوصيل (مكة)</span>
         <strong id="shippingFee">15 ريال</strong>
       </div>
 
@@ -528,9 +527,9 @@ header{
       <input id="phone" placeholder="رقم الجوال">
       <textarea id="address" placeholder="العنوان داخل مكة"></textarea>
 
-      <select id="deliveryMethod">
-        <option value="توصيل">توصيل</option>
-        <option value="استلام">استلام من الفرع</option>
+      <select id="deliveryMethod" onchange="renderCart()">
+        <option value="توصيل">توصيل (15 ريال)</option>
+        <option value="استلام">استلام من الفرع (مجاناً)</option>
       </select>
 
       <select id="paymentMethod">
@@ -544,17 +543,18 @@ header{
 </div>
 
 <script>
+// السعر الأساسي للمنتج 30 ريال، وبعد التخفيض 15 ريال
 const products = [
   { id:"p1", name:"FASTER FT-21 - شاحن جداري بمنفذين USB", oldPrice:30, price:15, category:"شواحن", image:"faster-ft71.jpg", desc:"شاحن جداري عملي بمنفذين USB للاستخدام اليومي." },
-  { id:"p2", name:"LDNIO LS543 - كيبل Type-C إلى Lightning", oldPrice:20, price:10, category:"كيابل", image:"ldnio-ls543.jpg", desc:"كيبل Type-C إلى Lightning للشحن ونقل البيانات." },
-  { id:"p3", name:"OVAST OT-15 - كيبل Type-C 3.1A", oldPrice:10, price:5, category:"كيابل", image:"ovast-ot15.jpg", desc:"كيبل Type-C للشحن بقوة 3.1A." },
-  { id:"p4", name:"NITO N-100 - سماعة سلكية بميكروفون", oldPrice:10, price:5, category:"سماعات", image:"nito-n100.jpg", desc:"سماعة سلكية بميكروفون للاستخدام اليومي." },
-  { id:"p5", name:"iPlus I-18 - سماعة Lightning", oldPrice:10, price:5, category:"سماعات", image:"iplus-i18.jpg", desc:"سماعة Lightning سلكية بتصميم عملي." },
+  { id:"p2", name:"LDNIO LS543 - كيبل Type-C إلى Lightning", oldPrice:30, price:15, category:"كيابل", image:"ldnio-ls543.jpg", desc:"كيبل Type-C إلى Lightning للشحن ونقل البيانات." },
+  { id:"p3", name:"OVAST OT-15 - كيبل Type-C 3.1A", oldPrice:30, price:15, category:"كيابل", image:"ovast-ot15.jpg", desc:"كيبل Type-C للشحن بقوة 3.1A." },
+  { id:"p4", name:"NITO N-100 - سماعة سلكية بميكروفون", oldPrice:30, price:15, category:"سماعات", image:"nito-n100.jpg", desc:"سماعة سلكية بميكروفون للاستخدام اليومي." },
+  { id:"p5", name:"iPlus I-18 - سماعة Lightning", oldPrice:30, price:15, category:"سماعات", image:"iplus-i18.jpg", desc:"سماعة Lightning سلكية بتصميم عملي." },
   { id:"p6", name:"GLOW GLH-32 - حامل مغناطيسي 360°", oldPrice:30, price:15, category:"سيارات", image:"glow-glh32.jpg", desc:"حامل جوال مغناطيسي للسيارة مع دوران 360 درجة." },
-  { id:"p7", name:"NITO N-H673 - سماعة رأس Type-C", oldPrice:20, price:10, category:"سماعات", image:"nito-nh673.jpg", desc:"سماعة سلكية بمنفذ Type-C." },
-  { id:"p8", name:"KUMS - كيبل Type-C مضفر 1.2m 3.4A", oldPrice:10, price:5, category:"كيابل", image:"kums-typec-1200mm.jpg", desc:"كيبل Type-C مضفر بطول 1.2 متر وقوة 3.4A." },
-  { id:"p9", name:"WINMFIX LED - لمبة 3 في 1 وحامل جوال", oldPrice:10, price:5, category:"متنوع", image:"winmfix-led.jpg", desc:"لمبة LED متعددة الاستخدامات مع حامل للجوال." },
-  { id:"p10", name:"X.LOOD X-73 - كيبل Type-C 3.1A", oldPrice:10, price:5, category:"كيابل", image:"xlood-x73.jpg", desc:"كيبل Type-C للشحن بقوة 3.1A." },
+  { id:"p7", name:"NITO N-H673 - سماعة رأس Type-C", oldPrice:30, price:15, category:"سماعات", image:"nito-nh673.jpg", desc:"سماعة سلكية بمنفذ Type-C." },
+  { id:"p8", name:"KUMS - كيبل Type-C مضفر 1.2m 3.4A", oldPrice:30, price:15, category:"كيابل", image:"kums-typec-1200mm.jpg", desc:"كيبل Type-C مضفر بطول 1.2 متر وقوة 3.4A." },
+  { id:"p9", name:"WINMFIX LED - لمبة 3 في 1 وحامل جوال", oldPrice:30, price:15, category:"متنوع", image:"winmfix-led.jpg", desc:"لمبة LED متعددة الاستخدامات مع حامل للجوال." },
+  { id:"p10", name:"X.LOOD X-73 - كيبل Type-C 3.1A", oldPrice:30, price:15, category:"كيابل", image:"xlood-x73.jpg", desc:"كيبل Type-C للشحن بقوة 3.1A." },
   { id:"p11", name:"UNIVERSAL CLIP - حامل مرآة للسيارة", oldPrice:30, price:15, category:"سيارات", image:"universal-clip.jpg", desc:"حامل جوال يثبت على مرآة السيارة." },
   { id:"p12", name:"GLOW GLH-29 - حامل مغناطيسي للسيارة", oldPrice:30, price:15, category:"سيارات", image:"glow-glh29.jpg", desc:"حامل مغناطيسي عملي للسيارة." },
   { id:"p13", name:"NITO CH-512 - شاحن بمنفذين", oldPrice:30, price:15, category:"شواحن", image:"nito-ch512.jpg", desc:"شاحن سيارة بمنفذين للشحن." },
@@ -565,7 +565,7 @@ const products = [
 let category="الكل";
 let cart=JSON.parse(localStorage.getItem("nexo_cart")||"[]");
 let selectedProduct=null;
-let discount=0; // نسبة الخصم (0.5 تعني 50%)
+let discountRate=0; // نسبة الخصم الإضافي من كود الخصم (0 تعني بدون كود)
 
 function saveCart(){
   localStorage.setItem("nexo_cart",JSON.stringify(cart));
@@ -707,7 +707,7 @@ function removeItem(id){
   renderCart();
 }
 
-/* المعالجة الحسابية العالية الدقة للسلة */
+/* حسابات دقيقة للمجموع والخصم والتوصيل */
 function renderCart(){
   const box=document.getElementById("cartItems");
   const shippingNotice=document.getElementById("freeShippingNotice");
@@ -728,7 +728,7 @@ function renderCart(){
     const p = products.find(x => x.id === item.id);
     if(!p) return "";
 
-    const itemTotal = Number(p.price) * Number(item.qty);
+    const itemTotal = p.price * item.qty;
     subtotal += itemTotal;
 
     return `
@@ -748,8 +748,16 @@ function renderCart(){
     `;
   }).join("");
 
-  // منطق الشحن المجاني عند 100 ريال
+  // التوصيل مجاني إذا كان المجموع الفرعي 100 ريال أو أكثر
   const freeThreshold = 100;
+  const deliveryMethodSelect = document.getElementById("deliveryMethod");
+  const isPickup = deliveryMethodSelect && deliveryMethodSelect.value === "استلام";
+
+  let deliveryFee = 15;
+  if(isPickup || subtotal >= freeThreshold){
+    deliveryFee = 0;
+  }
+
   if(shippingNotice){
     shippingNotice.style.display="block";
     if(subtotal >= freeThreshold){
@@ -760,13 +768,14 @@ function renderCart(){
     }
   }
 
-  // حساب الخصم الدقيق
-  const discountValue = Math.round(subtotal * discount);
-  const deliveryFee = (subtotal >= freeThreshold) ? 0 : 15;
-  const total = Math.max(0, subtotal - discountValue + deliveryFee);
+  // حساب مبلغ الخصم المطبق بكود الخصم على سعر المنتجات فقط
+  const discountAmount = Math.round(subtotal * discountRate);
+
+  // الإجمالي = (المجموع الفرعي - الخصم) + رسوم التوصيل الثابتة كاملاً بدون مساس
+  const total = Math.max(0, (subtotal - discountAmount)) + deliveryFee;
 
   document.getElementById("subtotal").textContent = subtotal + " ريال";
-  document.getElementById("discount").textContent = discountValue + " ريال";
+  document.getElementById("discount").textContent = discountAmount + " ريال";
   document.getElementById("shippingFee").textContent = deliveryFee + " ريال";
   document.getElementById("total").textContent = total + " ريال";
 }
@@ -776,14 +785,14 @@ function applyCoupon(){
   const msg = document.getElementById("couponMsg");
   
   if(code === "NEXO50"){
-    discount = 0.5;
+    discountRate = 0.5; // خصم 50% من سعر المنتجات
     msg.style.color = "#2e7d32";
-    msg.textContent = "✓ تم تطبيق خصم 50%";
+    msg.textContent = "✓ تم تطبيق خصم 50% على المنتجات";
   } else if(code === ""){
-    discount = 0;
+    discountRate = 0;
     msg.textContent = "";
   } else {
-    discount = 0;
+    discountRate = 0;
     msg.style.color = "#d32f2f";
     msg.textContent = "✕ كود الخصم غير صحيح";
   }
@@ -835,10 +844,10 @@ function sendOrder(){
     itemsText += `• ${p.name} × ${item.qty} = ${itemTotal} ريال\n`;
   });
 
-  const discountValue = Math.round(subtotal * discount);
+  const discountAmount = Math.round(subtotal * discountRate);
   const freeThreshold = 100;
   const deliveryFee = (delivery === "استلام" || subtotal >= freeThreshold) ? 0 : 15;
-  const total = Math.max(0, subtotal - discountValue + deliveryFee);
+  const total = (subtotal - discountAmount) + deliveryFee;
 
   const orderId = "NEXO-" + Math.floor(10000000 + Math.random() * 90000000);
 
@@ -851,7 +860,7 @@ function sendOrder(){
     paymentMethod: payment,
     items: cart,
     subtotal,
-    discount: discountValue,
+    discount: discountAmount,
     deliveryFee,
     total,
     status: "جديد",
@@ -862,12 +871,12 @@ function sendOrder(){
   orders.push(order);
   localStorage.setItem("nexo_orders", JSON.stringify(orders));
 
-  let message = `طلب جديد من NEXO STORE\n\nرقم الطلب: ${orderId}\n\nالاسم: ${name}\nالجوال: ${phone}\nالعنوان: ${address}\n\nطريقة التوصيل: ${delivery}\nطريقة الدفع: ${payment}\n\nالمنتجات:\n${itemsText}\nالمجموع الفرعي: ${subtotal} ريال\nالخصم: ${discountValue} ريال\nالتوصيل: ${deliveryFee} ريال\n\nالإجمالي النهائي: ${total} ريال`;
+  let message = `طلب جديد من NEXO STORE\n\nرقم الطلب: ${orderId}\n\nالاسم: ${name}\nالجوال: ${phone}\nالعنوان: ${address}\n\nطريقة التوصيل: ${delivery}\nطريقة الدفع: ${payment}\n\nالمنتجات:\n${itemsText}\nالمجموع الفرعي: ${subtotal} ريال\nالخصم: ${discountAmount} ريال\nرسوم التوصيل: ${deliveryFee} ريال\n\nالإجمالي النهائي: ${total} ريال`;
 
   const url = "https://wa.me/966501203710?text=" + encodeURIComponent(message);
 
   cart = [];
-  discount = 0;
+  discountRate = 0;
   saveCart();
 
   window.open(url, "_blank");
@@ -899,6 +908,7 @@ window.addEventListener("load", ()=>{
 
 </body>
 </html>
+
 
 
 
