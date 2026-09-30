@@ -13,6 +13,7 @@ body{
   font-family:Cairo,Arial,sans-serif;
   background:#fff;
   color:#111;
+  overflow-x:hidden;
 }
 button,input,select{font-family:inherit}
 
@@ -72,6 +73,7 @@ header{
   font-size:24px;
   font-weight:800;
   color:#087cff;
+  cursor:pointer;
 }
 .cartBtn{
   position:relative;
@@ -97,6 +99,13 @@ header{
   display:flex;
   align-items:center;
   justify-content:center;
+}
+
+.view{
+  display:none;
+}
+.view.active{
+  display:block;
 }
 
 .container{
@@ -207,6 +216,46 @@ header{
   font-weight:700;
 }
 
+.backBtn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:0;
+  background:#f2f2f2;
+  color:#111;
+  padding:10px 18px;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+  margin-bottom:15px;
+}
+
+.productDetailPage{
+  background:#fff;
+  border-radius:20px;
+  padding:20px;
+  border:1px solid #eee;
+  box-shadow:0 4px 20px rgba(0,0,0,.04);
+}
+.detailImage{
+  width:100%;
+  max-height:400px;
+  object-fit:contain;
+  border-radius:15px;
+  background:#fafafa;
+}
+.detailTitle{
+  font-size:24px;
+  font-weight:800;
+  margin-top:15px;
+}
+.detailDesc{
+  color:#555;
+  margin:12px 0;
+  line-height:1.8;
+  font-size:16px;
+}
+
 .modal{
   position:fixed;
   inset:0;
@@ -260,24 +309,6 @@ header{
   border-radius:50%;
   cursor:pointer;
   font-size:18px;
-}
-
-.detailImage{
-  width:100%;
-  max-height:300px;
-  object-fit:contain;
-  border-radius:15px;
-  background:#fafafa;
-}
-.detailTitle{
-  font-size:21px;
-  font-weight:800;
-  margin-top:12px;
-}
-.detailDesc{
-  color:#666;
-  margin:8px 0;
-  line-height:1.8;
 }
 
 .cartItem{
@@ -392,7 +423,7 @@ header{
 
 <header>
   <div class="headerInner">
-    <div class="logo">NEXO STORE</div>
+    <div class="logo" onclick="navigateTo('home')">NEXO STORE</div>
     <button class="cartBtn" onclick="openCart()">
       🛒
       <span class="cartCount" id="cartCount">0</span>
@@ -402,43 +433,46 @@ header{
 
 <div class="container">
 
-  <div class="delivery">
-    <span>🚚 التوصيل فقط داخل مكة</span>
+  <!-- الصفحة الرئيسية -->
+  <div id="homeView" class="view active">
+    <div class="delivery">
+      <span>🚚 التوصيل فقط داخل مكة</span>
+    </div>
+
+    <input
+      id="search"
+      class="search"
+      placeholder="ابحث عن منتج..."
+      oninput="renderProducts()"
+    >
+
+    <div class="categories">
+      <button class="active" onclick="setCategory('الكل',this)">الكل</button>
+      <button onclick="setCategory('شواحن',this)">شواحن</button>
+      <button onclick="setCategory('كيابل',this)">كيابل</button>
+      <button onclick="setCategory('سماعات',this)">سماعات</button>
+      <button onclick="setCategory('سيارات',this)">سيارات</button>
+      <button onclick="setCategory('متنوع',this)">متنوع</button>
+    </div>
+
+    <div id="products" class="products"></div>
   </div>
 
-  <input
-    id="search"
-    class="search"
-    placeholder="ابحث عن منتج..."
-    oninput="renderProducts()"
-  >
-
-  <div class="categories">
-    <button class="active" onclick="setCategory('الكل',this)">الكل</button>
-    <button onclick="setCategory('شواحن',this)">شواحن</button>
-    <button onclick="setCategory('كيابل',this)">كيابل</button>
-    <button onclick="setCategory('سماعات',this)">سماعات</button>
-    <button onclick="setCategory('سيارات',this)">سيارات</button>
-    <button onclick="setCategory('متنوع',this)">متنوع</button>
+  <!-- صفحة تفاصيل المنتج الكاملة -->
+  <div id="productView" class="view">
+    <button class="backBtn" onclick="history.back()">➡️ العودة للرئيسية</button>
+    <div class="productDetailPage">
+      <img id="detailImage" class="detailImage" alt="صورة المنتج">
+      <div id="detailTitle" class="detailTitle"></div>
+      <div id="detailDesc" class="detailDesc"></div>
+      <div id="detailPrice"></div>
+      <button class="buy" style="padding:14px; font-size:16px; margin-top:15px;" onclick="addDetailToCart()">إضافة للسلة 🛒</button>
+    </div>
   </div>
-
-  <div id="products" class="products"></div>
 
 </div>
 
 <button class="floatCart" onclick="openCart()">🛒</button>
-
-<!-- تفاصيل المنتج -->
-<div class="modal" id="productModal">
-  <div class="modalBox">
-    <button class="close" onclick="closeModal('productModal')">×</button>
-    <img id="detailImage" class="detailImage" alt="صورة المنتج">
-    <div id="detailTitle" class="detailTitle"></div>
-    <div id="detailDesc" class="detailDesc"></div>
-    <div id="detailPrice"></div>
-    <button class="buy" onclick="addDetailToCart()">إضافة للسلة</button>
-  </div>
-</div>
 
 <!-- السلة -->
 <div class="modal" id="cartModal">
@@ -510,157 +544,21 @@ header{
 
 <script>
 const products = [
-
-  {
-    id:"p1",
-    name:"FASTER FT-21 - شاحن جداري بمنفذين USB",
-    oldPrice:30,
-    price:15,
-    category:"شواحن",
-    image:"faster-ft71.jpg",
-    desc:"شاحن جداري عملي بمنفذين USB للاستخدام اليومي."
-  },
-
-  {
-    id:"p2",
-    name:"LDNIO LS543 - كيبل Type-C إلى Lightning",
-    oldPrice:20,
-    price:10,
-    category:"كيابل",
-    image:"ldnio-ls543.jpg",
-    desc:"كيبل Type-C إلى Lightning للشحن ونقل البيانات."
-  },
-
-  {
-    id:"p3",
-    name:"OVAST OT-15 - كيبل Type-C 3.1A",
-    oldPrice:10,
-    price:5,
-    category:"كيابل",
-    image:"ovast-ot15.jpg",
-    desc:"كيبل Type-C للشحن بقوة 3.1A."
-  },
-
-  {
-    id:"p4",
-    name:"NITO N-100 - سماعة سلكية بميكروفون",
-    oldPrice:10,
-    price:5,
-    category:"سماعات",
-    image:"nito-n100.jpg",
-    desc:"سماعة سلكية بميكروفون للاستخدام اليومي."
-  },
-
-  {
-    id:"p5",
-    name:"iPlus I-18 - سماعة Lightning",
-    oldPrice:10,
-    price:5,
-    category:"سماعات",
-    image:"iplus-i18.jpg",
-    desc:"سماعة Lightning سلكية بتصميم عملي."
-  },
-
-  {
-    id:"p6",
-    name:"GLOW GLH-32 - حامل مغناطيسي 360°",
-    oldPrice:30,
-    price:15,
-    category:"سيارات",
-    image:"glow-glh32.jpg",
-    desc:"حامل جوال مغناطيسي للسيارة مع دوران 360 درجة."
-  },
-
-  {
-    id:"p7",
-    name:"NITO N-H673 - سماعة رأس Type-C",
-    oldPrice:20,
-    price:10,
-    category:"سماعات",
-    image:"nito-nh673.jpg",
-    desc:"سماعة سلكية بمنفذ Type-C."
-  },
-
-  {
-    id:"p8",
-    name:"KUMS - كيبل Type-C مضفر 1.2m 3.4A",
-    oldPrice:10,
-    price:5,
-    category:"كيابل",
-    image:"kums-typec-1200mm.jpg",
-    desc:"كيبل Type-C مضفر بطول 1.2 متر وقوة 3.4A."
-  },
-
-  {
-    id:"p9",
-    name:"WINMFIX LED - لمبة 3 في 1 وحامل جوال",
-    oldPrice:10,
-    price:5,
-    category:"متنوع",
-    image:"winmfix-led.jpg",
-    desc:"لمبة LED متعددة الاستخدامات مع حامل للجوال."
-  },
-
-  {
-    id:"p10",
-    name:"X.LOOD X-73 - كيبل Type-C 3.1A",
-    oldPrice:10,
-    price:5,
-    category:"كيابل",
-    image:"xlood-x73.jpg",
-    desc:"كيبل Type-C للشحن بقوة 3.1A."
-  },
-
-  {
-    id:"p11",
-    name:"UNIVERSAL CLIP - حامل مرآة للسيارة",
-    oldPrice:30,
-    price:15,
-    category:"سيارات",
-    image:"universal-clip.jpg",
-    desc:"حامل جوال يثبت على مرآة السيارة."
-  },
-
-  {
-    id:"p12",
-    name:"GLOW GLH-29 - حامل مغناطيسي للسيارة",
-    oldPrice:30,
-    price:15,
-    category:"سيارات",
-    image:"glow-glh29.jpg",
-    desc:"حامل مغناطيسي عملي للسيارة."
-  },
-
-  {
-    id:"p13",
-    name:"NITO CH-512 - شاحن بمنفذين",
-    oldPrice:30,
-    price:15,
-    category:"شواحن",
-    image:"nito-ch512.jpg",
-    desc:"شاحن سيارة بمنفذين للشحن."
-  },
-
-  {
-    id:"p14",
-    name:"PROMASS PM-8509 - شاحن PD+QC 38W",
-    oldPrice:30,
-    price:15,
-    category:"شواحن",
-    image:"promass-pm8509.jpg",
-    desc:"شاحن سريع يدعم PD وQC بقدرة 38W."
-  },
-
-  {
-    id:"p15",
-    name:"GLOW GLH-26 - حامل مغناطيسي صغير للسيارة",
-    oldPrice:30,
-    price:15,
-    category:"سيارات",
-    image:"glow-glh26.jpg",
-    desc:"حامل مغناطيسي صغير وعملي للسيارة."
-  }
-
+  { id:"p1", name:"FASTER FT-21 - شاحن جداري بمنفذين USB", oldPrice:30, price:15, category:"شواحن", image:"faster-ft71.jpg", desc:"شاحن جداري عملي بمنفذين USB للاستخدام اليومي." },
+  { id:"p2", name:"LDNIO LS543 - كيبل Type-C إلى Lightning", oldPrice:20, price:10, category:"كيابل", image:"ldnio-ls543.jpg", desc:"كيبل Type-C إلى Lightning للشحن ونقل البيانات." },
+  { id:"p3", name:"OVAST OT-15 - كيبل Type-C 3.1A", oldPrice:10, price:5, category:"كيابل", image:"ovast-ot15.jpg", desc:"كيبل Type-C للشحن بقوة 3.1A." },
+  { id:"p4", name:"NITO N-100 - سماعة سلكية بميكروفون", oldPrice:10, price:5, category:"سماعات", image:"nito-n100.jpg", desc:"سماعة سلكية بميكروفون للاستخدام اليومي." },
+  { id:"p5", name:"iPlus I-18 - سماعة Lightning", oldPrice:10, price:5, category:"سماعات", image:"iplus-i18.jpg", desc:"سماعة Lightning سلكية بتصميم عملي." },
+  { id:"p6", name:"GLOW GLH-32 - حامل مغناطيسي 360°", oldPrice:30, price:15, category:"سيارات", image:"glow-glh32.jpg", desc:"حامل جوال مغناطيسي للسيارة مع دوران 360 درجة." },
+  { id:"p7", name:"NITO N-H673 - سماعة رأس Type-C", oldPrice:20, price:10, category:"سماعات", image:"nito-nh673.jpg", desc:"سماعة سلكية بمنفذ Type-C." },
+  { id:"p8", name:"KUMS - كيبل Type-C مضفر 1.2m 3.4A", oldPrice:10, price:5, category:"كيابل", image:"kums-typec-1200mm.jpg", desc:"كيبل Type-C مضفر بطول 1.2 متر وقوة 3.4A." },
+  { id:"p9", name:"WINMFIX LED - لمبة 3 في 1 وحامل جوال", oldPrice:10, price:5, category:"متنوع", image:"winmfix-led.jpg", desc:"لمبة LED متعددة الاستخدامات مع حامل للجوال." },
+  { id:"p10", name:"X.LOOD X-73 - كيبل Type-C 3.1A", oldPrice:10, price:5, category:"كيابل", image:"xlood-x73.jpg", desc:"كيبل Type-C للشحن بقوة 3.1A." },
+  { id:"p11", name:"UNIVERSAL CLIP - حامل مرآة للسيارة", oldPrice:30, price:15, category:"سيارات", image:"universal-clip.jpg", desc:"حامل جوال يثبت على مرآة السيارة." },
+  { id:"p12", name:"GLOW GLH-29 - حامل مغناطيسي للسيارة", oldPrice:30, price:15, category:"سيارات", image:"glow-glh29.jpg", desc:"حامل مغناطيسي عملي للسيارة." },
+  { id:"p13", name:"NITO CH-512 - شاحن بمنفذين", oldPrice:30, price:15, category:"شواحن", image:"nito-ch512.jpg", desc:"شاحن سيارة بمنفذين للشحن." },
+  { id:"p14", name:"PROMASS PM-8509 - شاحن PD+QC 38W", oldPrice:30, price:15, category:"شواحن", image:"promass-pm8509.jpg", desc:"شاحن سريع يدعم PD وQC بقدرة 38W." },
+  { id:"p15", name:"GLOW GLH-26 - حامل مغناطيسي صغير للسيارة", oldPrice:30, price:15, category:"سيارات", image:"glow-glh26.jpg", desc:"حامل مغناطيسي صغير وعملي للسيارة." }
 ];
 
 let category="الكل";
@@ -687,7 +585,6 @@ function setCategory(cat,button){
 }
 
 function renderProducts(){
-
   const box=document.getElementById("products");
   const search=document.getElementById("search").value.trim().toLowerCase();
 
@@ -705,40 +602,73 @@ function renderProducts(){
         onerror="this.style.opacity='0.3';"
         onclick="openProduct('${p.id}')"
       >
-
       <div class="productInfo">
         <div class="productName">${p.name}</div>
-
         <div class="oldPrice">${p.oldPrice} ريال</div>
         <div class="price">${p.price} ريال</div>
-
-        <button class="buy" onclick="addToCart('${p.id}')">
-          إضافة للسلة
-        </button>
+        <button class="buy" onclick="addToCart('${p.id}')">إضافة للسلة</button>
       </div>
     </div>
   `).join("");
 }
 
-function openProduct(id){
-  selectedProduct=products.find(p=>p.id===id);
+function navigateTo(page, param = null) {
+  if (page === 'product' && param) {
+    history.pushState({ page: 'product', id: param }, '', `#product-${param}`);
+    showProductView(param);
+  } else {
+    history.pushState({ page: 'home' }, '', window.location.pathname);
+    showHomeView();
+  }
+}
 
-  document.getElementById("detailImage").src=selectedProduct.image;
-  document.getElementById("detailTitle").textContent=selectedProduct.name;
-  document.getElementById("detailDesc").textContent=selectedProduct.desc;
+function showHomeView() {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('homeView').classList.add('active');
+  window.scrollTo(0, 0);
+}
 
-  document.getElementById("detailPrice").innerHTML=`
+function showProductView(id) {
+  selectedProduct = products.find(p => p.id === id);
+  if (!selectedProduct) return;
+
+  document.getElementById("detailImage").src = selectedProduct.image;
+  document.getElementById("detailTitle").textContent = selectedProduct.name;
+  document.getElementById("detailDesc").textContent = selectedProduct.desc;
+  document.getElementById("detailPrice").innerHTML = `
     <div class="oldPrice">${selectedProduct.oldPrice} ريال</div>
     <div class="price">${selectedProduct.price} ريال</div>
   `;
 
-  document.getElementById("productModal").classList.add("show");
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('productView').classList.add('active');
+  window.scrollTo(0, 0);
 }
+
+function openProduct(id){
+  navigateTo('product', id);
+}
+
+window.addEventListener('popstate', (e) => {
+  if (document.getElementById('cartModal').classList.contains('show')) {
+    closeModal('cartModal', false);
+    return;
+  }
+  if (document.getElementById('orderModal').classList.contains('show')) {
+    closeModal('orderModal', false);
+    return;
+  }
+
+  if (e.state && e.state.page === 'product') {
+    showProductView(e.state.id);
+  } else {
+    showHomeView();
+  }
+});
 
 function addDetailToCart(){
   if(selectedProduct){
     addToCart(selectedProduct.id);
-    closeModal("productModal");
   }
 }
 
@@ -747,14 +677,10 @@ function addToCart(id){
   if(!product)return;
 
   const existing=cart.find(x=>x.id===id);
-
   if(existing){
     existing.qty++;
   }else{
-    cart.push({
-      id:id,
-      qty:1
-    });
+    cart.push({ id:id, qty:1 });
   }
 
   saveCart();
@@ -766,7 +692,6 @@ function changeQty(id,amount){
   if(!item)return;
 
   item.qty+=amount;
-
   if(item.qty<=0){
     cart=cart.filter(x=>x.id!==id);
   }
@@ -782,7 +707,6 @@ function removeItem(id){
 }
 
 function renderCart(){
-
   const box=document.getElementById("cartItems");
 
   if(cart.length===0){
@@ -794,32 +718,24 @@ function renderCart(){
   }
 
   let subtotal=0;
-
   box.innerHTML=cart.map(item=>{
-
     const p=products.find(x=>x.id===item.id);
     if(!p)return "";
 
     subtotal+=p.price*item.qty;
-
     return `
       <div class="cartItem">
         <img src="${p.image}" alt="${p.name}">
-
         <div class="cartItemInfo">
           <strong>${p.name}</strong>
           <div>${p.price} ريال</div>
-
           <div class="qty">
             <button onclick="changeQty('${p.id}',-1)">−</button>
             <span>${item.qty}</span>
             <button onclick="changeQty('${p.id}',1)">+</button>
           </div>
         </div>
-
-        <button class="remove" onclick="removeItem('${p.id}')">
-          حذف
-        </button>
+        <button class="remove" onclick="removeItem('${p.id}')">حذف</button>
       </div>
     `;
   }).join("");
@@ -834,9 +750,7 @@ function renderCart(){
 }
 
 function applyCoupon(){
-
   const code=document.getElementById("coupon").value.trim().toUpperCase();
-
   if(code==="NEXO50"){
     discount=.5;
     alert("تم تطبيق خصم 50%");
@@ -844,31 +758,30 @@ function applyCoupon(){
     discount=0;
     alert("كود الخصم غير صحيح");
   }
-
   renderCart();
 }
 
 function openCart(){
   renderCart();
   document.getElementById("cartModal").classList.add("show");
+  history.pushState({ modal: 'cart' }, '', '#cart');
 }
 
 function openOrder(){
-
-  if(cart.length===0){
-    return;
-  }
-
-  closeModal("cartModal");
+  if(cart.length===0) return;
+  closeModal("cartModal", false);
   document.getElementById("orderModal").classList.add("show");
+  history.pushState({ modal: 'order' }, '', '#order');
 }
 
-function closeModal(id){
+function closeModal(id, useHistory = true){
   document.getElementById(id).classList.remove("show");
+  if (useHistory && window.location.hash.includes(id.replace('Modal', ''))) {
+    history.back();
+  }
 }
 
 function sendOrder(){
-
   if(cart.length===0)return;
 
   const name=document.getElementById("customerName").value.trim();
@@ -888,19 +801,15 @@ function sendOrder(){
   cart.forEach(item=>{
     const p=products.find(x=>x.id===item.id);
     if(!p)return;
-
     subtotal+=p.price*item.qty;
-
-    itemsText+=
-      `• ${p.name} × ${item.qty} = ${p.price*item.qty} ريال\n`;
+    itemsText+=`• ${p.name} × ${item.qty} = ${p.price*item.qty} ريال\n`;
   });
 
   const discountValue=Math.round(subtotal*discount);
   const deliveryFee=delivery==="استلام"?0:15;
   const total=subtotal-discountValue+deliveryFee;
 
-  const orderId=
-    "NEXO-"+Math.floor(10000000+Math.random()*90000000);
+  const orderId="NEXO-"+Math.floor(10000000+Math.random()*90000000);
 
   const order={
     orderId,
@@ -918,58 +827,25 @@ function sendOrder(){
     createdAt:new Date().toISOString()
   };
 
-  const orders=
-    JSON.parse(localStorage.getItem("nexo_orders")||"[]");
-
+  const orders=JSON.parse(localStorage.getItem("nexo_orders")||"[]");
   orders.push(order);
+  localStorage.setItem("nexo_orders",JSON.stringify(orders));
 
-  localStorage.setItem(
-    "nexo_orders",
-    JSON.stringify(orders)
-  );
+  let message=`طلب جديد من NEXO STORE\n\nرقم الطلب: ${orderId}\n\nالاسم: ${name}\nالجوال: ${phone}\nالعنوان: ${address}\n\nطريقة التوصيل: ${delivery}\nطريقة الدفع: ${payment}\n\nالمنتجات:\n${itemsText}\nالمجموع: ${subtotal} ريال\nالخصم: ${discountValue} ريال\nالتوصيل: ${deliveryFee} ريال\n\nالإجمالي: ${total} ريال`;
 
-  let message=
-`طلب جديد من NEXO STORE
-
-رقم الطلب: ${orderId}
-
-الاسم: ${name}
-الجوال: ${phone}
-العنوان: ${address}
-
-طريقة التوصيل: ${delivery}
-طريقة الدفع: ${payment}
-
-المنتجات:
-${itemsText}
-المجموع: ${subtotal} ريال
-الخصم: ${discountValue} ريال
-التوصيل: ${deliveryFee} ريال
-
-الإجمالي: ${total} ريال`;
-
-  const url=
-    "https://wa.me/966501203710?text="+
-    encodeURIComponent(message);
+  const url="https://wa.me/966501203710?text="+encodeURIComponent(message);
 
   cart=[];
   discount=0;
   saveCart();
 
   window.open(url,"_blank");
-
   closeModal("orderModal");
 }
 
 document.getElementById("cartModal").addEventListener("click",function(e){
   if(e.target===this){
     closeModal("cartModal");
-  }
-});
-
-document.getElementById("productModal").addEventListener("click",function(e){
-  if(e.target===this){
-    closeModal("productModal");
   }
 });
 
@@ -980,6 +856,7 @@ document.getElementById("orderModal").addEventListener("click",function(e){
 });
 
 window.addEventListener("load",()=>{
+  history.replaceState({ page: 'home' }, '', window.location.pathname);
   renderProducts();
   updateCartCount();
 
@@ -991,6 +868,7 @@ window.addEventListener("load",()=>{
 
 </body>
 </html>
+
 
 
 
