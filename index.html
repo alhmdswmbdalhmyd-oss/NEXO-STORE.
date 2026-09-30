@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>NEXO STORE</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>NEXO STORE</title><link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
 *{box-sizing:border-box}
 body{
 margin:0;
@@ -581,49 +576,22 @@ grid-template-columns:1fr 1fr;
 gap:7px;
 }
 }
-</style>
-</head>
-
-<body>
-
-<div id="splash">جاري تجهيز المتجر...</div>
-
-<header>
+</style></head><body><div id="splash">جاري تجهيز المتجر...</div><header>
 <div class="headerTop">
-<div class="logo">NEXO STORE</div>
-
-<button class="cartBtn" onclick="openCart()">
+<div class="logo">NEXO STORE</div><button class="cartBtn" onclick="openCart()">
 السلة
 <span id="cartCount">0</span>
 </button>
-</div>
-
-<div class="searchBox">
+</div><div class="searchBox">
 <input id="searchInput" type="search" placeholder="ابحث عن منتج..." oninput="renderProducts()">
-</div>
-
-<div class="categories" id="categories"></div>
-</header>
-
-<div class="container">
-
-<div class="deliveryBanner">
+</div><div class="categories" id="categories"></div>
+</header><div class="container"><div class="deliveryBanner">
 🚚 التوصيل داخل مكة المكرمة فقط
-</div>
-
-<div class="products" id="products"></div>
-
-<div class="empty" id="empty">
+</div><div class="products" id="products"></div><div class="empty" id="empty">
 لا توجد منتجات مطابقة للبحث
-</div>
-
-</div>
-
-<div class="floatCart">
+</div></div><div class="floatCart">
 <button onclick="openCart()">🛒 عرض السلة</button>
-</div>
-
-<div id="productModal">
+</div><div id="productModal">
 <div class="modalBox">
 <div class="modalHead">
 <strong>تفاصيل المنتج</strong>
@@ -631,9 +599,7 @@ gap:7px;
 </div>
 <div id="productDetails"></div>
 </div>
-</div>
-
-<div id="cartModal">
+</div><div id="cartModal">
 <div class="modalBox">
 <div class="modalHead">
 <strong>سلة المشتريات</strong>
@@ -641,9 +607,7 @@ gap:7px;
 </div>
 <div id="cartContent"></div>
 </div>
-</div>
-
-<div id="orderModal">
+</div><div id="orderModal">
 <div class="modalBox">
 <div class="modalHead">
 <strong>إتمام الطلب</strong>
@@ -651,9 +615,7 @@ gap:7px;
 </div>
 <div id="orderContent"></div>
 </div>
-</div>
-
-<script>
+</div><script>
 
 const WA_NUMBER="966501203710";
 const DELIVERY_FEE=15;
@@ -671,9 +633,9 @@ const products=[
 
 {
 id:"P001",
-name:"FASTER FT-71 - شاحن جداري بمنفذين USB مع الكيبل",
-marketPrice:20,
-price:10,
+name:"FASTER FT-21 - شاحن جداري بمنفذين USB مع الكيبل",
+marketPrice:30,
+price:15,
 quantity:36,
 image:"faster-ft71.jpg",
 category:"المنتجات المتنوعة",
@@ -771,13 +733,29 @@ description:"ستاند سيارة مغناطيسي يدور 360 درجة."
 
 {
 id:"P008",
-name:"NITO N-H673 - سماعة سلكية Type-C",
+name:"NITO N-H673 - سماعة سلكية",
 marketPrice:20,
 price:10,
 quantity:19,
-image:"nito-nh673.jpg",
+image:"nito-nh673-typec.jpg",
 category:"المنتجات المتنوعة",
-description:"سماعة سلكية بمنفذ Type-C."
+description:"سماعة سلكية متوفرة بنوعين: رأس Type-C ورأس iPhone.",
+options:[
+{
+name:"رأس Type-C",
+price:10,
+marketPrice:20,
+quantity:19,
+image:"nito-nh673-typec.jpg"
+},
+{
+name:"رأس iPhone",
+price:10,
+marketPrice:20,
+quantity:19,
+image:"nito-nh673-lightning.jpg"
+}
+]
 },
 
 {
@@ -816,8 +794,8 @@ description:"كيبل Type-C بقدرة 3.1A."
 {
 id:"P012",
 name:"UNIVERSAL CLIP - حامل جوال السيارة يركب على المراية",
-marketPrice:20,
-price:10,
+marketPrice:30,
+price:15,
 quantity:8,
 image:"universal-clip.jpg",
 category:"المنتجات المتنوعة",
@@ -827,8 +805,8 @@ description:"حامل جوال للسيارة يركب على المرآة."
 {
 id:"P013",
 name:"GLOW GLH-29 - ستاند سيارة مغناطيسي مسطرة",
-marketPrice:20,
-price:10,
+marketPrice:30,
+price:15,
 quantity:30,
 image:"glow-glh29.jpg",
 category:"المنتجات المتنوعة",
@@ -838,8 +816,8 @@ description:"حامل جوال مغناطيسي للسيارة بتصميم مس
 {
 id:"P014",
 name:"NITO CH-512 - راس شاحن مخرجين",
-marketPrice:20,
-price:10,
+marketPrice:30,
+price:15,
 quantity:42,
 image:"nito-ch512.jpg",
 category:"المنتجات المتنوعة",
@@ -849,8 +827,8 @@ description:"رأس شاحن بمنفذين."
 {
 id:"P015",
 name:"PROMASS PM-8509 - راس شاحن سريع PD+QC مجموع 38W",
-marketPrice:20,
-price:10,
+marketPrice:30,
+price:15,
 quantity:12,
 image:"promass-pm8509.jpg",
 category:"المنتجات المتنوعة",
@@ -860,8 +838,8 @@ description:"رأس شاحن سريع PD + QC بقوة إجمالية 38W."
 {
 id:"P016",
 name:"GLOW GLH-26 - ستاند سيارة مغناطيسي صغير ميني",
-marketPrice:20,
-price:10,
+marketPrice:30,
+price:15,
 quantity:9,
 image:"glow-glh26.jpg",
 category:"المنتجات المتنوعة",
@@ -989,11 +967,7 @@ ${DISCOUNT_PERCENT}% خصم
 
 function getDisplayedPrice(product){
 
-if(appliedCoupon){
-return Math.round(product.marketPrice*(1-DISCOUNT_PERCENT/100));
-}
-
-return product.marketPrice;
+return product.price;
 
 }
 
@@ -1020,13 +994,6 @@ const p=selectedProduct;
 let currentPrice=selectedOption
 ?selectedOption.price
 :p.price;
-
-if(appliedCoupon){
-currentPrice=Math.round(
-(selectedOption?selectedOption.marketPrice:p.marketPrice)
-*(1-DISCOUNT_PERCENT/100)
-);
-}
 
 const image=selectedOption
 ?selectedOption.image
@@ -1085,7 +1052,7 @@ ${currentPrice} ر.س
 </div>
 
 <div class="discountBadge">
-${DISCOUNT_PERCENT}% خصم
+50% خصم
 </div>
 
 </div>
@@ -1204,7 +1171,7 @@ const itemsHTML=cart.map(item=>{
 
 const price=appliedCoupon
 ?Math.round(item.marketPrice*(1-DISCOUNT_PERCENT/100))
-:item.marketPrice;
+:item.price;
 
 subtotal+=price*item.qty;
 
@@ -1246,10 +1213,6 @@ ${price} ر.س × ${item.qty}
 `;
 
 }).join("");
-
-const discount=appliedCoupon
-?Math.round(subtotal/(1-DISCOUNT_PERCENT/100)*DISCOUNT_PERCENT/100)
-:0;
 
 const delivery=15;
 
@@ -1377,7 +1340,7 @@ const subtotal=cart.reduce((sum,item)=>{
 
 const price=appliedCoupon
 ?Math.round(item.marketPrice*(1-DISCOUNT_PERCENT/100))
-:item.marketPrice;
+:item.price;
 
 return sum+(price*item.qty);
 
@@ -1407,37 +1370,16 @@ document.getElementById("orderContent").innerHTML=`
 
 <div class="field" id="addressField">
 <label>العنوان</label>
-<textarea id="customerAddress" placeholder="اكتب عنوان التوصيل"></textarea>
-</div>
-
-<div class="field">
-<label>طريقة الدفع</label>
-
-<div class="paymentMethods">
-
-<button class="payment active" onclick="selectPayment(this,'الدفع عند الاستلام')">
+<textarea id="customerAddress" placeholder="اكتب عنوان التوصيل"></textarea></div><div class="field">
+<label>طريقة الدفع</label><div class="paymentMethods"><button class="payment active" onclick="selectPayment(this,'الدفع عند الاستلام')">
 الدفع عند الاستلام
-</button>
-
-<button class="payment" onclick="selectPayment(this,'بطاقة / شبكة')">
+</button><button class="payment" onclick="selectPayment(this,'بطاقة / شبكة')">
 بطاقة / شبكة
-</button>
-
-<button class="payment" onclick="selectPayment(this,'PayPal')">
+</button><button class="payment" onclick="selectPayment(this,'PayPal')">
 PayPal
-</button>
-
-</div>
-
-</div>
-
-<div id="orderTotal" class="totalBox"></div>
-
-<button class="primary" onclick="sendOrder()">
+</button></div></div><div id="orderTotal" class="totalBox"></div><button class="primary" onclick="sendOrder()">
 إرسال الطلب عبر واتساب
-</button>
-
-`;
+</button>`;
 
 window.selectedPayment="الدفع عند الاستلام";
 
@@ -1475,7 +1417,7 @@ const subtotal=cart.reduce((sum,item)=>{
 
 const price=appliedCoupon
 ?Math.round(item.marketPrice*(1-DISCOUNT_PERCENT/100))
-:item.marketPrice;
+:item.price;
 
 return sum+(price*item.qty);
 
@@ -1488,19 +1430,13 @@ document.getElementById("orderTotal").innerHTML=`
 <div class="totalLine">
 <span>الإجمالي</span>
 <strong>${subtotal} ر.س</strong>
-</div>
-
-<div class="totalLine">
+</div><div class="totalLine">
 <span>التوصيل</span>
 <strong>${delivery} ر.س</strong>
-</div>
-
-<div class="totalLine final">
+</div><div class="totalLine final">
 <span>المجموع</span>
 <strong>${total} ر.س</strong>
-</div>
-
-`;
+</div>`;
 
 }
 
@@ -1533,48 +1469,46 @@ const orderId=
 let subtotal=0;
 
 let message=
-`طلب جديد من NEXO STORE\n\n`;
+"طلب جديد من NEXO STORE\n\n";
 
-message+=`رقم الطلب: ${orderId}\n`;
-message+=`الاسم: ${name}\n`;
-message+=`الجوال: ${phone}\n`;
-message+=`طريقة الاستلام: ${
-method==="pickup"?"استلام":"توصيل"
-}\n`;
+message+="رقم الطلب: ${orderId}\n";
+message+="الاسم: ${name}\n";
+message+="الجوال: ${phone}\n";
+message+="طريقة الاستلام: ${ method==="pickup"?"استلام":"توصيل" }\n";
 
 if(method==="delivery"){
-message+=`العنوان: ${address}\n`;
+message+="العنوان: ${address}\n";
 }
 
-message+=`الدفع: ${window.selectedPayment}\n\n`;
-message+=`المنتجات:\n`;
+message+="الدفع: ${window.selectedPayment}\n\n";
+message+="المنتجات:\n";
 
 cart.forEach((item,index)=>{
 
 const price=appliedCoupon
 ?Math.round(item.marketPrice*(1-DISCOUNT_PERCENT/100))
-:item.marketPrice;
+:item.price;
 
 const lineTotal=price*item.qty;
 
 subtotal+=lineTotal;
 
 message+=
-`${index+1}. ${item.name}`+
-`${item.option?" - "+item.option:""}`+
-` | ${item.qty} × ${price} = ${lineTotal} ر.س\n`;
+"${index+1}. ${item.name}"+
+"${item.option?" - "+item.option:""}"+
+" | ${item.qty} × ${price} = ${lineTotal} ر.س\n";
 
 });
 
 const delivery=method==="pickup"?0:DELIVERY_FEE;
 const total=subtotal+delivery;
 
-message+=`\nالإجمالي: ${subtotal} ر.س\n`;
-message+=`التوصيل: ${delivery} ر.س\n`;
-message+=`المجموع: ${total} ر.س\n`;
+message+="\nالإجمالي: ${subtotal} ر.س\n";
+message+="التوصيل: ${delivery} ر.س\n";
+message+="المجموع: ${total} ر.س\n";
 
 if(appliedCoupon){
-message+=`كود الخصم: ${DISCOUNT_CODE}\n`;
+message+="كود الخصم: ${DISCOUNT_CODE}\n";
 }
 
 const url=
@@ -1594,11 +1528,11 @@ document.getElementById(id).style.display="none";
 function escapeHtml(text){
 
 return String(text)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+.replaceAll("&","&")
+.replaceAll("<","<")
+.replaceAll(">",">")
+.replaceAll('"',""")
+.replaceAll("'","'");
 
 }
 
@@ -1616,9 +1550,7 @@ document.getElementById("splash").classList.add("hide");
 
 });
 
-</script>
-
-</body>
+</script></body>
 </html>
 
 
