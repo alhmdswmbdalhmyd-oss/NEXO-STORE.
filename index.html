@@ -173,6 +173,8 @@ header{
   aspect-ratio:1/1;
   object-fit:contain;
   background:#fafafa;
+  cursor:pointer;
+  display:block;
 }
 .productInfo{
   padding:11px;
@@ -430,7 +432,7 @@ header{
 <div class="modal" id="productModal">
   <div class="modalBox">
     <button class="close" onclick="closeModal('productModal')">×</button>
-    <img id="detailImage" class="detailImage">
+    <img id="detailImage" class="detailImage" alt="صورة المنتج">
     <div id="detailTitle" class="detailTitle"></div>
     <div id="detailDesc" class="detailDesc"></div>
     <div id="detailPrice"></div>
@@ -700,7 +702,7 @@ function renderProducts(){
       <img
         src="${p.image}"
         alt="${p.name}"
-        onerror="this.style.display='none'"
+        onerror="this.style.opacity='0.3';"
         onclick="openProduct('${p.id}')"
       >
 
@@ -802,7 +804,7 @@ function renderCart(){
 
     return `
       <div class="cartItem">
-        <img src="${p.image}">
+        <img src="${p.image}" alt="${p.name}">
 
         <div class="cartItemInfo">
           <strong>${p.name}</strong>
@@ -989,6 +991,7 @@ window.addEventListener("load",()=>{
 
 </body>
 </html>
+
 
 
 
