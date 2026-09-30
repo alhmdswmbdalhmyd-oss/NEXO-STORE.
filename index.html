@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NEXO STORE</title>
 
+<!-- مكتبة تحويل HTML إلى PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
 
@@ -405,6 +408,34 @@ header{
   50%{transform:scale(1.07)}
 }
 
+/* تنسيق فاتورة الـ PDF الخفية */
+#invoiceTemplate{
+  display:none;
+  padding:30px;
+  background:#fff;
+  color:#222;
+  font-family:Cairo, sans-serif;
+  direction:rtl;
+}
+#invoiceTemplate h2{
+  color:#087cff;
+  border-bottom:2px solid #087cff;
+  padding-bottom:8px;
+}
+#invoiceTemplate table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+}
+#invoiceTemplate th, #invoiceTemplate td{
+  border:1px solid #ddd;
+  padding:10px;
+  text-align:right;
+}
+#invoiceTemplate th{
+  background:#f4f4f4;
+}
+
 @media(min-width:700px){
   .products{
     grid-template-columns:repeat(4,1fr);
@@ -458,7 +489,7 @@ header{
     <div id="products" class="products"></div>
   </div>
 
-  <!-- صفحة تفاصيل المنتج الكاملة -->
+  <!-- صفحة تفاصيل المنتج -->
   <div id="productView" class="view">
     <button class="backBtn" onclick="history.back()">➡️ العودة للرئيسية</button>
     <div class="productDetailPage">
@@ -479,35 +510,35 @@ header{
   <div class="modalBox">
     <button class="close" onclick="closeModal('cartModal')">×</button>
     <h2>🛒 سلة المشتريات</h2>
+    
+    <div id="freeShippingNotice" style="background:#f0f7ff; color:#087cff; padding:8px 12px; border-radius:10px; font-size:13px; text-align:center; margin:10px 0; font-weight:700;"></div>
+
     <div id="cartItems"></div>
 
     <div class="totalBox">
       <div class="totalRow">
-        <span>المجموع</span>
+        <span>المجموع الفرعي</span>
         <strong id="subtotal">0 ريال</strong>
       </div>
 
-      <input
-        id="coupon"
-        class="search"
-        style="margin-top:8px"
-        placeholder="كود الخصم"
-      >
+      <div style="display:flex; gap:8px; margin-top:10px;">
+        <input id="coupon" class="search" style="margin:0;" placeholder="كود الخصم (NEXO50)">
+        <button class="buy" style="width:auto; white-space:nowrap; padding:0 18px; margin:0;" onclick="applyCoupon()">تطبيق</button>
+      </div>
+      <div id="couponMsg" style="font-size:12px; margin-top:4px; font-weight:700;"></div>
 
-      <button class="buy" onclick="applyCoupon()">تطبيق الخصم</button>
-
-      <div class="totalRow">
+      <div class="totalRow" style="color:#2e7d32">
         <span>الخصم</span>
         <strong id="discount">0 ريال</strong>
       </div>
 
       <div class="totalRow">
-        <span>التوصيل</span>
-        <strong>15 ريال</strong>
+        <span>التوصيل (مكة)</span>
+        <strong id="shippingFee">15 ريال</strong>
       </div>
 
       <div class="totalRow total">
-        <span>الإجمالي</span>
+        <span>الإجمالي النهائي</span>
         <strong id="total">0 ريال</strong>
       </div>
 
@@ -537,8 +568,39 @@ header{
         <option value="تحويل بنكي">تحويل بنكي</option>
       </select>
 
-      <button class="buy" onclick="sendOrder()">تأكيد الطلب عبر واتساب</button>
+      <button class="buy" onclick="sendOrder()">تأكيد الطلب وحفظ الفاتورة PDF</button>
     </div>
+  </div>
+</div>
+
+<!-- قالب الفاتورة الذي سيُطبع في الـ PDF -->
+<div id="invoiceTemplate">
+  <h2>NEXO STORE - فاتورة شراء</h2>
+  <p style="margin-top:10px;"><strong>رقم الطلب:</strong> <span id="pdfOrderId"></span></p>
+  <p><strong>التاريخ:</strong> <span id="pdfDate"></span></p>
+  <p><strong>الاسم:</strong> <span id="pdfName"></span></p>
+  <p><strong>الجوال:</strong> <span id="pdfPhone"></span></p>
+  <p><strong>العنوان:</strong> <span id="pdfAddress"></span></p>
+  <p><strong>طريقة التوصيل:</strong> <span id="pdfDelivery"></span></p>
+  <p><strong>طريقة الدفع:</strong> <span id="pdfPayment"></span></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>المنتج</th>
+        <th>الكمية</th>
+        <th>السعر Individual</th>
+        <th>المجموع</th>
+      </tr>
+    </thead>
+    <tbody id="pdfItems"></tbody>
+  </table>
+
+  <div style="margin-top:15px; text-align:left;">
+    <p>المجموع: <strong id="pdfSubtotal"></strong></p>
+    <p>الخصم: <strong id="pdfDiscount"></strong></p>
+    <p>التوصيل: <strong id="pdfShipping"></strong></p>
+    <h3 style="color:#087cff; margin-top:5px;">الإجمالي: <span id="pdfTotal"></span></h3>
   </div>
 </div>
 
@@ -708,12 +770,15 @@ function removeItem(id){
 
 function renderCart(){
   const box=document.getElementById("cartItems");
+  const shippingNotice=document.getElementById("freeShippingNotice");
 
   if(cart.length===0){
     box.innerHTML=`<div class="empty">السلة فارغة 🛒</div>`;
     document.getElementById("subtotal").textContent="0 ريال";
     document.getElementById("discount").textContent="0 ريال";
+    document.getElementById("shippingFee").textContent="0 ريال";
     document.getElementById("total").textContent="0 ريال";
+    if(shippingNotice) shippingNotice.style.display="none";
     return;
   }
 
@@ -722,41 +787,61 @@ function renderCart(){
     const p=products.find(x=>x.id===item.id);
     if(!p)return "";
 
-    subtotal+=p.price*item.qty;
+    const itemTotal = p.price * item.qty;
+    subtotal += itemTotal;
+
     return `
       <div class="cartItem">
         <img src="${p.image}" alt="${p.name}">
         <div class="cartItemInfo">
-          <strong>${p.name}</strong>
-          <div>${p.price} ريال</div>
+          <strong style="font-size:13px">${p.name}</strong>
+          <div style="color:#087cff; font-weight:700; font-size:13px">${p.price} ريال × ${item.qty} = ${itemTotal} ريال</div>
           <div class="qty">
             <button onclick="changeQty('${p.id}',-1)">−</button>
             <span>${item.qty}</span>
             <button onclick="changeQty('${p.id}',1)">+</button>
           </div>
         </div>
-        <button class="remove" onclick="removeItem('${p.id}')">حذف</button>
+        <button class="remove" onclick="removeItem('${p.id}')">🗑️</button>
       </div>
     `;
   }).join("");
 
+  const freeThreshold = 100;
+  if(shippingNotice){
+    shippingNotice.style.display="block";
+    if(subtotal >= freeThreshold){
+      shippingNotice.innerHTML = "🎉 أضفت منتجات كافية! التوصيل مجاني";
+    } else {
+      shippingNotice.innerHTML = `أضف بـ <strong>${freeThreshold - subtotal} ريال</strong> إضافية للحصول على توصيل مجاني!`;
+    }
+  }
+
   const discountValue=Math.round(subtotal*discount);
-  const delivery=cart.length?15:0;
-  const total=Math.max(0,subtotal-discountValue+delivery);
+  const deliveryFee = (subtotal >= freeThreshold) ? 0 : 15;
+  const total=Math.max(0, subtotal - discountValue + deliveryFee);
 
   document.getElementById("subtotal").textContent=subtotal+" ريال";
   document.getElementById("discount").textContent=discountValue+" ريال";
+  document.getElementById("shippingFee").textContent=deliveryFee+" ريال";
   document.getElementById("total").textContent=total+" ريال";
 }
 
 function applyCoupon(){
   const code=document.getElementById("coupon").value.trim().toUpperCase();
+  const msg = document.getElementById("couponMsg");
+  
   if(code==="NEXO50"){
     discount=.5;
-    alert("تم تطبيق خصم 50%");
+    msg.style.color = "#2e7d32";
+    msg.textContent = "✓ تم تطبيق خصم 50%";
+  }else if(code === ""){
+    discount=0;
+    msg.textContent = "";
   }else{
     discount=0;
-    alert("كود الخصم غير صحيح");
+    msg.style.color = "#d32f2f";
+    msg.textContent = "✕ كود الخصم غير صحيح";
   }
   renderCart();
 }
@@ -781,6 +866,7 @@ function closeModal(id, useHistory = true){
   }
 }
 
+/* الدالة الخاصة بإرسال الطلب + بناء وحفظ ملف PDF */
 function sendOrder(){
   if(cart.length===0)return;
 
@@ -797,20 +883,63 @@ function sendOrder(){
 
   let subtotal=0;
   let itemsText="";
+  let pdfTableHtml="";
 
   cart.forEach(item=>{
     const p=products.find(x=>x.id===item.id);
     if(!p)return;
-    subtotal+=p.price*item.qty;
-    itemsText+=`• ${p.name} × ${item.qty} = ${p.price*item.qty} ريال\n`;
+    const itemTotal = p.price*item.qty;
+    subtotal+=itemTotal;
+    itemsText+=`• ${p.name} × ${item.qty} = ${itemTotal} ريال\n`;
+    pdfTableHtml+=`
+      <tr>
+        <td>${p.name}</td>
+        <td>${item.qty}</td>
+        <td>${p.price} ريال</td>
+        <td>${itemTotal} ريال</td>
+      </tr>
+    `;
   });
 
   const discountValue=Math.round(subtotal*discount);
-  const deliveryFee=delivery==="استلام"?0:15;
+  const freeThreshold=100;
+  const deliveryFee=(delivery==="استلام" || subtotal >= freeThreshold)?0:15;
   const total=subtotal-discountValue+deliveryFee;
 
   const orderId="NEXO-"+Math.floor(10000000+Math.random()*90000000);
+  const dateStr = new Date().toLocaleDateString('ar-SA');
 
+  // تعبئة الفاتورة الخاصة بالـ PDF
+  document.getElementById("pdfOrderId").textContent = orderId;
+  document.getElementById("pdfDate").textContent = dateStr;
+  document.getElementById("pdfName").textContent = name;
+  document.getElementById("pdfPhone").textContent = phone;
+  document.getElementById("pdfAddress").textContent = address;
+  document.getElementById("pdfDelivery").textContent = delivery;
+  document.getElementById("pdfPayment").textContent = payment;
+  document.getElementById("pdfItems").innerHTML = pdfTableHtml;
+  document.getElementById("pdfSubtotal").textContent = subtotal + " ريال";
+  document.getElementById("pdfDiscount").textContent = discountValue + " ريال";
+  document.getElementById("pdfShipping").textContent = deliveryFee + " ريال";
+  document.getElementById("pdfTotal").textContent = total + " ريال";
+
+  // تحويل القالب إلى PDF وتنزيله
+  const element = document.getElementById('invoiceTemplate');
+  element.style.display = 'block'; // إظهاره لحظياً للالتقاط
+  
+  const opt = {
+    margin:       10,
+    filename:     `فاتورة_${orderId}.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(element).save().then(()=>{
+    element.style.display = 'none'; // إخفاء القالب مجدداً
+  });
+
+  // حفظ الطلب في localStorage
   const order={
     orderId,
     customerName:name,
@@ -831,8 +960,7 @@ function sendOrder(){
   orders.push(order);
   localStorage.setItem("nexo_orders",JSON.stringify(orders));
 
-  let message=`طلب جديد من NEXO STORE\n\nرقم الطلب: ${orderId}\n\nالاسم: ${name}\nالجوال: ${phone}\nالعنوان: ${address}\n\nطريقة التوصيل: ${delivery}\nطريقة الدفع: ${payment}\n\nالمنتجات:\n${itemsText}\nالمجموع: ${subtotal} ريال\nالخصم: ${discountValue} ريال\nالتوصيل: ${deliveryFee} ريال\n\nالإجمالي: ${total} ريال`;
-
+  let message=`مرحباً، تم إنشاء طلب جديد رقم: ${orderId}\nتم إرفاق/تحميل الفاتورة صيغة PDF.\n\nالاسم: ${name}\nالإجمالي: ${total} ريال`;
   const url="https://wa.me/966501203710?text="+encodeURIComponent(message);
 
   cart=[];
@@ -868,6 +996,7 @@ window.addEventListener("load",()=>{
 
 </body>
 </html>
+
 
 
 
