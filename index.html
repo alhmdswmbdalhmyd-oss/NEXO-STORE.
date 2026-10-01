@@ -579,9 +579,6 @@ header{
 
 </div>
 
-
-<!-- السلة -->
-
 <div class="modalBackground" id="cartModal">
 
     <div class="modal">
@@ -630,9 +627,6 @@ header{
     </div>
 
 </div>
-
-
-<!-- الطلب -->
 
 <div class="modalBackground" id="orderModal">
 
@@ -710,12 +704,7 @@ header{
 
 </div>
 
-
 <script>
-
-/* =========================
-   المنتجات - 15 فقط
-========================= */
 
 const products = [
 
@@ -871,11 +860,6 @@ const products = [
 
 ];
 
-
-/* =========================
-   الإعدادات
-========================= */
-
 const DELIVERY_FEE = 15;
 const FREE_SHIPPING_LIMIT = 100;
 const COUPON_CODE = "NEXO50";
@@ -883,17 +867,10 @@ const COUPON_RATE = 0.50;
 const WHATSAPP = "966501203710";
 
 let cart = JSON.parse(localStorage.getItem("nexo_cart") || "[]");
-
 let category = "الكل";
-
 let couponApplied = false;
-
 let deliveryMethod = "delivery";
 
-
-/* =========================
-   المنتجات
-========================= */
 
 function renderProducts(){
 
@@ -976,10 +953,6 @@ function renderProducts(){
 }
 
 
-/* =========================
-   التصنيفات
-========================= */
-
 function selectCategory(value,button){
 
     category = value;
@@ -993,10 +966,6 @@ function selectCategory(value,button){
     renderProducts();
 }
 
-
-/* =========================
-   السلة
-========================= */
 
 function saveCart(){
 
@@ -1086,9 +1055,7 @@ function removeItem(id){
 function calculate(){
 
     let originalSubtotal = 0;
-
     let currentSubtotal = 0;
-
 
     cart.forEach(item => {
 
@@ -1106,71 +1073,49 @@ function calculate(){
     });
 
 
+    let discount = 0;
+    let productsTotal = currentSubtotal;
+
+
     /*
-      بدون الكوبون:
-      نستخدم السعر الحالي الموجود في المتجر.
+      NEXO50:
+      الخصم = 50% من oldPrice لكل منتج.
+
+      30 ريال → خصم 15 ريال → السعر 15 ريال
+      20 ريال → خصم 10 ريال → السعر 10 ريال
+      10 ريال → خصم 5 ريال → السعر 5 ريال
+
+      رسوم التوصيل لا يدخل عليها الخصم.
     */
 
-    if(!couponApplied){
+    if(couponApplied){
 
-        const delivery =
-            deliveryMethod === "pickup"
-                ? 0
-                : (
-                    currentSubtotal >= FREE_SHIPPING_LIMIT
-                        ? 0
-                        : DELIVERY_FEE
-                );
+        cart.forEach(item => {
 
-        return {
-            originalSubtotal,
-            currentSubtotal,
-            discount:0,
-            productsTotal:currentSubtotal,
-            delivery,
-            total:currentSubtotal + delivery
-        };
+            const product =
+                products.find(x => x.id === item.id);
+
+            if(!product) return;
+
+            discount +=
+                product.oldPrice *
+                COUPON_RATE *
+                item.qty;
+
+        });
+
+        productsTotal =
+            originalSubtotal - discount;
+
     }
 
 
     /*
-      الكوبون NEXO50
-
-      مهم:
-
-      الخصم يحسب من oldPrice
-
-      30 × 50% = 15 خصم
-      20 × 50% = 10 خصم
-      10 × 50% = 5 خصم
-
-      ثم:
-      السعر الأصلي - الخصم
-
-      ولا يتم خصم التوصيل.
+      التوصيل يبقى كما هو:
+      - استلام من الفرع = مجاني
+      - المجموع الحالي للمنتجات 100 أو أكثر = مجاني
+      - غير ذلك = 15 ريال
     */
-
-    let discount = 0;
-
-
-    cart.forEach(item => {
-
-        const product =
-            products.find(x => x.id === item.id);
-
-        if(!product) return;
-
-        discount +=
-            product.oldPrice *
-            COUPON_RATE *
-            item.qty;
-
-    });
-
-
-    const productsTotal =
-        originalSubtotal - discount;
-
 
     const delivery =
         deliveryMethod === "pickup"
@@ -1183,20 +1128,18 @@ function calculate(){
 
 
     return {
+
         originalSubtotal,
         currentSubtotal,
         discount,
         productsTotal,
         delivery,
         total:productsTotal + delivery
+
     };
 
 }
 
-
-/* =========================
-   فتح السلة
-========================= */
 
 function openCart(){
 
@@ -1205,6 +1148,7 @@ function openCart(){
     document
         .getElementById("cartModal")
         .classList.add("show");
+
 }
 
 
@@ -1234,7 +1178,6 @@ function renderCart(){
 
 
     empty.style.display = "none";
-
     content.style.display = "block";
 
 
@@ -1303,7 +1246,6 @@ function renderCart(){
 
 
     const data = calculate();
-
 
     const freeShipping =
         document.getElementById("freeShipping");
@@ -1412,10 +1354,6 @@ function renderCart(){
 }
 
 
-/* =========================
-   تطبيق الكوبون
-========================= */
-
 function applyCoupon(){
 
     const code =
@@ -1459,10 +1397,6 @@ function applyCoupon(){
 }
 
 
-/* =========================
-   الطلب
-========================= */
-
 function openOrder(){
 
     if(cart.length === 0){
@@ -1479,6 +1413,7 @@ function openOrder(){
         .classList.add("show");
 
     renderOrderSummary();
+
 }
 
 
@@ -1501,6 +1436,7 @@ function setDelivery(type){
         );
 
     renderOrderSummary();
+
 }
 
 
@@ -1569,10 +1505,6 @@ function renderOrderSummary(){
 }
 
 
-/* =========================
-   إرسال الطلب
-========================= */
-
 function sendOrder(){
 
     const name =
@@ -1624,7 +1556,6 @@ function sendOrder(){
 
     const data = calculate();
 
-
     let items = "";
 
 
@@ -1636,19 +1567,9 @@ function sendOrder(){
         if(!product) return;
 
 
-        /*
-          إذا كان الكوبون مفعلاً:
-          سعر الوحدة بعد الخصم يحسب من oldPrice.
-
-          30 → 15
-          20 → 10
-          10 → 5
-        */
-
         const unitPrice =
             couponApplied
-                ? product.oldPrice -
-                  (product.oldPrice * COUPON_RATE)
+                ? product.oldPrice * (1 - COUPON_RATE)
                 : product.price;
 
 
@@ -1793,10 +1714,6 @@ ${address}`;
 }
 
 
-/* =========================
-   إغلاق النوافذ
-========================= */
-
 function closeModal(id){
 
     document
@@ -1823,12 +1740,7 @@ document
     });
 
 
-/* =========================
-   التشغيل
-========================= */
-
 renderProducts();
-
 updateCartNumber();
 
 
