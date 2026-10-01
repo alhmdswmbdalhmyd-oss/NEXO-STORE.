@@ -543,29 +543,30 @@ header{
 </div>
 
 <script>
-// السعر الأساسي للمنتج 30 ريال، وبعد التخفيض 15 ريال
+// تحديث الأسعار للمنتجات المحددة: 10 قبل الخصم -> 5 بعد الخصم
 const products = [
-  { id:"p1", name:"FASTER FT-21 - شاحن جداري بمنفذين USB", oldPrice:30, price:15, category:"شواحن", image:"faster-ft71.jpg", desc:"شاحن جداري عملي بمنفذين USB للاستخدام اليومي." },
-  { id:"p2", name:"LDNIO LS543 - كيبل Type-C إلى Lightning", oldPrice:30, price:15, category:"كيابل", image:"ldnio-ls543.jpg", desc:"كيبل Type-C إلى Lightning للشحن ونقل البيانات." },
-  { id:"p3", name:"OVAST OT-15 - كيبل Type-C 3.1A", oldPrice:30, price:15, category:"كيابل", image:"ovast-ot15.jpg", desc:"كيبل Type-C للشحن بقوة 3.1A." },
-  { id:"p4", name:"NITO N-100 - سماعة سلكية بميكروفون", oldPrice:30, price:15, category:"سماعات", image:"nito-n100.jpg", desc:"سماعة سلكية بميكروفون للاستخدام اليومي." },
-  { id:"p5", name:"iPlus I-18 - سماعة Lightning", oldPrice:30, price:15, category:"سماعات", image:"iplus-i18.jpg", desc:"سماعة Lightning سلكية بتصميم عملي." },
+  { id:"p1", name:"FASTER FT-71 - شاحن جداري بمنفذين USB", oldPrice:30, price:15, category:"شواحن", image:"faster-ft71.jpg", desc:"شاحن جداري عملي بمنفذين USB للاستخدام اليومي." },
+  { id:"p2", name:"LDNIO L563 - كيبل ايفون قماش مقوى", oldPrice:20, price:10, category:"كيابل", image:"ldnio-ls543.jpg", desc:"كيبل شحن قماش مقوى متين ضد القطع." },
+  { id:"p3", name:"LDNIO L563 - كيبل Type-C قماش مقوى", oldPrice:20, price:10, category:"كيابل", image:"ldnio-ls63-typec.jpg", desc:"كيبل Type-C قماش مقاوم للقطع للشحن السريع." },
+  { id:"p4", name:"NITO N-910 - سماعة سلكية بميكروفون", oldPrice:10, price:5, category:"سماعات", image:"nito-n100.jpg", desc:"سماعة سلكية بميكروفون وصوت ستيريو واضح." },
+  { id:"p5", name:"NITO N-44 - سماعة Lightning", oldPrice:20, price:10, category:"سماعات", image:"IMG-20260925-WA7201.jpg", desc:"سماعة آيفون بوب اب بجودة عالية." },
   { id:"p6", name:"GLOW GLH-32 - حامل مغناطيسي 360°", oldPrice:30, price:15, category:"سيارات", image:"glow-glh32.jpg", desc:"حامل جوال مغناطيسي للسيارة مع دوران 360 درجة." },
-  { id:"p7", name:"NITO N-H673 - سماعة رأس Type-C", oldPrice:30, price:15, category:"سماعات", image:"nito-nh673.jpg", desc:"سماعة سلكية بمنفذ Type-C." },
-  { id:"p8", name:"KUMS - كيبل Type-C مضفر 1.2m 3.4A", oldPrice:30, price:15, category:"كيابل", image:"kums-typec-1200mm.jpg", desc:"كيبل Type-C مضفر بطول 1.2 متر وقوة 3.4A." },
-  { id:"p9", name:"WINMFIX LED - لمبة 3 في 1 وحامل جوال", oldPrice:30, price:15, category:"متنوع", image:"winmfix-led.jpg", desc:"لمبة LED متعددة الاستخدامات مع حامل للجوال." },
-  { id:"p10", name:"X.LOOD X-73 - كيبل Type-C 3.1A", oldPrice:30, price:15, category:"كيابل", image:"xlood-x73.jpg", desc:"كيبل Type-C للشحن بقوة 3.1A." },
+  { id:"p7", name:"NITO N-H673 - سماعة رأس Type-C", oldPrice:20, price:10, category:"سماعات", image:"nito-nh673.jpg", desc:"سماعة سلكية بمنفذ Type-C متوافقة مع الأجهزة الحديثة." },
+  { id:"p8", name:"NITO NT22 - كيبل Type-C قماش 1m 3.1A", oldPrice:10, price:5, category:"كيابل", image:"kums-typec-1200mm.jpg", desc:"كيبل Type-C قماش للشحن السريع بقوة 3.1A وطول 1 متر." },
+  { id:"p9", name:"WINMFIX LED - لمبة 3 في 1 وحامل جوال", oldPrice:30, price:15, category:"متنوع", image:"winmfix-led.jpg", desc:"لمبة LED متعددة الاستخدامات مع شاحن USB وحامل للجوال." },
+  { id:"p10", name:"X.LOOD X-73 - كيبل Type-C 3.1A", oldPrice:10, price:5, category:"كيابل", image:"xlood-x73.jpg", desc:"كيبل Type-C للشحن بقوة 3.1A." },
   { id:"p11", name:"UNIVERSAL CLIP - حامل مرآة للسيارة", oldPrice:30, price:15, category:"سيارات", image:"universal-clip.jpg", desc:"حامل جوال يثبت على مرآة السيارة." },
   { id:"p12", name:"GLOW GLH-29 - حامل مغناطيسي للسيارة", oldPrice:30, price:15, category:"سيارات", image:"glow-glh29.jpg", desc:"حامل مغناطيسي عملي للسيارة." },
-  { id:"p13", name:"NITO CH-512 - شاحن بمنفذين", oldPrice:30, price:15, category:"شواحن", image:"nito-ch512.jpg", desc:"شاحن سيارة بمنفذين للشحن." },
-  { id:"p14", name:"PROMASS PM-8509 - شاحن PD+QC 38W", oldPrice:30, price:15, category:"شواحن", image:"promass-pm8509.jpg", desc:"شاحن سريع يدعم PD وQC بقدرة 38W." },
-  { id:"p15", name:"GLOW GLH-26 - حامل مغناطيسي صغير للسيارة", oldPrice:30, price:15, category:"سيارات", image:"glow-glh26.jpg", desc:"حامل مغناطيسي صغير وعملي للسيارة." }
+  { id:"p13", name:"NITO CH-512 - شاحن جداري 2.4A", oldPrice:30, price:15, category:"شواحن", image:"nito-ch512.jpg", desc:"شاحن جداري بمنفذين للشحن السريع 2.4A." },
+  { id:"p14", name:"GLOW GM-03 - حامل سيارة L-Shape", oldPrice:30, price:15, category:"سيارات", image:"glow-gm03.jpg", desc:"حامل جوال مغناطيسي يثبت على فتحات المكيف." },
+  { id:"p15", name:"GLOW GLH-26 - حامل مغناطيسي صغير للسيارة", oldPrice:30, price:15, category:"سيارات", image:"glow-glh26.jpg", desc:"حامل مغناطيسي صغير وعملي للسيارة." },
+  { id:"p16", name:"OVAST OT-15 - كيبل Type-C 3.1A", oldPrice:10, price:5, category:"كيابل", image:"ovast-ot15.jpg", desc:"كيبل Type-C للشحن السريع ونقل البيانات بقوة 3.1A." }
 ];
 
 let category="الكل";
 let cart=JSON.parse(localStorage.getItem("nexo_cart")||"[]");
 let selectedProduct=null;
-let discountRate=0; // نسبة الخصم الإضافي من كود الخصم (0 تعني بدون كود)
+let discountRate=0;
 
 function saveCart(){
   localStorage.setItem("nexo_cart",JSON.stringify(cart));
@@ -707,7 +708,6 @@ function removeItem(id){
   renderCart();
 }
 
-/* حسابات دقيقة للمجموع والخصم والتوصيل */
 function renderCart(){
   const box=document.getElementById("cartItems");
   const shippingNotice=document.getElementById("freeShippingNotice");
@@ -748,7 +748,6 @@ function renderCart(){
     `;
   }).join("");
 
-  // التوصيل مجاني إذا كان المجموع الفرعي 100 ريال أو أكثر
   const freeThreshold = 100;
   const deliveryMethodSelect = document.getElementById("deliveryMethod");
   const isPickup = deliveryMethodSelect && deliveryMethodSelect.value === "استلام";
@@ -768,10 +767,7 @@ function renderCart(){
     }
   }
 
-  // حساب مبلغ الخصم المطبق بكود الخصم على سعر المنتجات فقط
   const discountAmount = Math.round(subtotal * discountRate);
-
-  // الإجمالي = (المجموع الفرعي - الخصم) + رسوم التوصيل الثابتة كاملاً بدون مساس
   const total = Math.max(0, (subtotal - discountAmount)) + deliveryFee;
 
   document.getElementById("subtotal").textContent = subtotal + " ريال";
@@ -785,7 +781,7 @@ function applyCoupon(){
   const msg = document.getElementById("couponMsg");
   
   if(code === "NEXO50"){
-    discountRate = 0.5; // خصم 50% من سعر المنتجات
+    discountRate = 0.5;
     msg.style.color = "#2e7d32";
     msg.textContent = "✓ تم تطبيق خصم 50% على المنتجات";
   } else if(code === ""){
@@ -908,6 +904,7 @@ window.addEventListener("load", ()=>{
 
 </body>
 </html>
+
 
 
 
