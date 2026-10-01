@@ -11,22 +11,106 @@
 
 <style>
 *{box-sizing:border-box}
+
+html{
+    scroll-behavior:smooth;
+}
+
 body{
     margin:0;
     font-family:"Cairo",sans-serif;
     background:#f5f7fa;
     color:#111;
 }
-button,input,textarea,select{font-family:inherit}
-button{cursor:pointer}
+
+button,input,textarea,select{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================
+   LOADER
+========================= */
+
+.loader{
+    position:fixed;
+    inset:0;
+    background:#fff;
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    transition:opacity .35s ease,visibility .35s ease;
+}
+
+.loader.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.loaderLogo{
+    font-size:52px;
+    font-weight:800;
+    letter-spacing:1px;
+    color:#0876d9;
+    margin-bottom:25px;
+}
+
+.loaderLogo span{
+    color:#111;
+}
+
+.loaderLine{
+    width:220px;
+    height:6px;
+    background:#e8edf3;
+    border-radius:20px;
+    overflow:hidden;
+    position:relative;
+}
+
+.loaderLine::after{
+    content:"";
+    position:absolute;
+    top:0;
+    right:100%;
+    width:100%;
+    height:100%;
+    background:#0876d9;
+    border-radius:20px;
+    animation:loading 1.35s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+.loaderText{
+    color:#111;
+    font-size:15px;
+    font-weight:700;
+    margin-top:14px;
+}
+
+@keyframes loading{
+    0%{right:100%}
+    72%{right:8%}
+    88%{right:3%}
+    100%{right:0}
+}
+
+/* =========================
+   HEADER
+========================= */
 
 header{
     background:#fff;
-    height:110px;
+    height:90px;
     display:flex;
     align-items:center;
-    justify-content:space-between;
-    padding:0 28px;
+    justify-content:center;
+    padding:0 18px;
     border-bottom:1px solid #ddd;
     position:sticky;
     top:0;
@@ -34,73 +118,103 @@ header{
 }
 
 .logo{
-    color:#075db4;
-    font-size:34px;
+    color:#0876d9;
+    font-size:32px;
     font-weight:800;
+    letter-spacing:.5px;
 }
 
+.logo span{
+    color:#111;
+}
+
+/* السلة ثابتة في الطرف اليسار */
+
 .cartButton{
-    width:88px;
-    height:88px;
+    position:absolute;
+    left:18px;
+    top:50%;
+    transform:translateY(-50%);
+    width:62px;
+    height:62px;
     border:0;
-    border-radius:25px;
-    background:#075db4;
-    font-size:38px;
-    position:relative;
+    border-radius:20px;
+    background:#0876d9;
+    font-size:28px;
+    position:absolute;
+    box-shadow:0 6px 18px rgba(8,118,217,.20);
+    transition:.2s;
+}
+
+.cartButton:active{
+    transform:translateY(-50%) scale(.94);
 }
 
 .cartNumber{
     position:absolute;
-    top:-5px;
-    right:-5px;
-    width:35px;
-    height:35px;
-    background:#b5202a;
+    top:-6px;
+    right:-6px;
+    width:31px;
+    height:31px;
+    background:#111;
     color:#fff;
     border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:17px;
+    font-size:15px;
     font-weight:800;
     border:3px solid #fff;
 }
 
+/* =========================
+   MAIN
+========================= */
+
 .container{
     max-width:1200px;
     margin:auto;
-    padding:22px 15px 60px;
+    padding:20px 15px 60px;
 }
 
 .deliveryBanner{
     background:#eaf5ff;
     color:#0876d9;
     border-radius:20px;
-    padding:17px;
+    padding:16px;
     text-align:center;
-    font-size:20px;
+    font-size:19px;
     font-weight:800;
-    margin-bottom:18px;
+    margin-bottom:16px;
 }
 
 .search{
     width:100%;
-    height:58px;
+    height:56px;
     border:1px solid #ddd;
     border-radius:17px;
     padding:0 18px;
     font-size:17px;
     outline:none;
     background:#fff;
-    margin-bottom:15px;
+    margin-bottom:14px;
+}
+
+.search:focus{
+    border-color:#0876d9;
 }
 
 .categories{
     display:flex;
     gap:9px;
     overflow-x:auto;
-    padding-bottom:10px;
+    padding-bottom:8px;
     margin-bottom:18px;
+    scrollbar-width:none;
+}
+
+.categories::-webkit-scrollbar{
+    display:none;
 }
 
 .category{
@@ -111,12 +225,17 @@ header{
     padding:10px 17px;
     font-weight:700;
     color:#555;
+    transition:.2s;
 }
 
 .category.active{
     background:#0876d9;
     color:#fff;
 }
+
+/* =========================
+   PRODUCTS
+========================= */
 
 .products{
     display:grid;
@@ -130,6 +249,13 @@ header{
     overflow:hidden;
     border:1px solid #e5e5e5;
     box-shadow:0 3px 12px rgba(0,0,0,.04);
+    transition:transform .18s ease,box-shadow .18s ease;
+    cursor:pointer;
+}
+
+.product:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
 }
 
 .productImg{
@@ -183,6 +309,160 @@ header{
     font-weight:800;
     margin-top:10px;
 }
+
+.addButton:active{
+    transform:scale(.97);
+}
+
+/* =========================
+   PRODUCT PAGE
+========================= */
+
+.productPage{
+    position:fixed;
+    inset:0;
+    background:#f5f7fa;
+    z-index:200;
+    overflow-y:auto;
+    visibility:hidden;
+    opacity:0;
+    transform:translateX(-20px);
+    pointer-events:none;
+    transition:opacity .22s ease,transform .22s ease,visibility .22s ease;
+}
+
+.productPage.show{
+    visibility:visible;
+    opacity:1;
+    transform:translateX(0);
+    pointer-events:auto;
+}
+
+.productPageHeader{
+    height:74px;
+    background:#fff;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.productBack{
+    position:absolute;
+    right:15px;
+    width:48px;
+    height:48px;
+    border:0;
+    border-radius:15px;
+    background:#f1f3f5;
+    color:#111;
+    font-size:27px;
+    font-weight:800;
+}
+
+.productPageLogo{
+    color:#0876d9;
+    font-size:25px;
+    font-weight:800;
+}
+
+.productPageLogo span{
+    color:#111;
+}
+
+.productPageContent{
+    max-width:1000px;
+    margin:auto;
+    padding:25px 15px 50px;
+}
+
+.productDetailCard{
+    background:#fff;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 5px 25px rgba(0,0,0,.06);
+}
+
+.productDetailImageBox{
+    width:100%;
+    height:430px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fff;
+    padding:20px;
+}
+
+.productDetailImage{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+.productDetailInfo{
+    padding:25px;
+}
+
+.productDetailName{
+    font-size:28px;
+    font-weight:800;
+    line-height:1.6;
+}
+
+.productDetailDescription{
+    color:#777;
+    font-size:16px;
+    line-height:2;
+    margin-top:12px;
+}
+
+.productDetailOldPrice{
+    color:#999;
+    text-decoration:line-through;
+    font-size:17px;
+    margin-top:20px;
+}
+
+.productDetailPrice{
+    color:#0876d9;
+    font-size:34px;
+    font-weight:800;
+    margin-top:2px;
+}
+
+.productDetailActions{
+    display:flex;
+    gap:12px;
+    margin-top:22px;
+}
+
+.productAdd{
+    flex:1;
+    height:58px;
+    border:0;
+    border-radius:17px;
+    background:#0876d9;
+    color:#fff;
+    font-size:18px;
+    font-weight:800;
+}
+
+.productCart{
+    width:60px;
+    height:58px;
+    border:0;
+    border-radius:17px;
+    background:#111;
+    color:#fff;
+    font-size:25px;
+}
+
+/* =========================
+   MODALS
+========================= */
 
 .modalBackground{
     display:none;
@@ -436,40 +716,9 @@ header{
     color:#777;
 }
 
-.loader{
-    position:fixed;
-    inset:0;
-    background:#fff;
-    z-index:999;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-}
-
-.loader.hide{
-    display:none;
-}
-
-.loaderCircle{
-    width:55px;
-    height:55px;
-    border:5px solid #e4edf8;
-    border-top-color:#0876d9;
-    border-radius:50%;
-    animation:spin 1s linear infinite;
-}
-
-.loaderText{
-    color:#0876d9;
-    font-size:18px;
-    font-weight:800;
-    margin-top:15px;
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg)}
-}
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:900px){
     .products{
@@ -478,9 +727,9 @@ header{
 }
 
 @media(max-width:650px){
+
     header{
-        height:90px;
-        padding:0 18px;
+        height:82px;
     }
 
     .logo{
@@ -488,10 +737,17 @@ header{
     }
 
     .cartButton{
-        width:62px;
-        height:62px;
-        font-size:28px;
-        border-radius:20px;
+        left:13px;
+        width:57px;
+        height:57px;
+        font-size:26px;
+        border-radius:18px;
+    }
+
+    .cartNumber{
+        width:29px;
+        height:29px;
+        font-size:14px;
     }
 
     .products{
@@ -532,25 +788,92 @@ header{
     .modal{
         padding:22px 16px;
     }
+
+    .productPageContent{
+        padding:12px 10px 30px;
+    }
+
+    .productDetailCard{
+        border-radius:22px;
+    }
+
+    .productDetailImageBox{
+        height:300px;
+    }
+
+    .productDetailInfo{
+        padding:18px;
+    }
+
+    .productDetailName{
+        font-size:21px;
+    }
+
+    .productDetailDescription{
+        font-size:14px;
+    }
+
+    .productDetailPrice{
+        font-size:29px;
+    }
+
+    .productDetailActions{
+        gap:8px;
+    }
+
+    .productAdd{
+        height:54px;
+        font-size:16px;
+    }
+
+    .productCart{
+        height:54px;
+        width:55px;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- =========================
+     WELCOME LOADER
+========================= -->
+
 <div class="loader" id="loader">
-    <div class="loaderCircle"></div>
-    <div class="loaderText">جاري تجهيز المتجر...</div>
+    <div class="loaderLogo">
+        NEXO <span>STORE</span>
+    </div>
+
+    <div class="loaderLine"></div>
+
+    <div class="loaderText">
+        جاري تجهيز المتجر...
+    </div>
 </div>
 
+
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
+
     <button class="cartButton" onclick="openCart()">
         🛒
         <span class="cartNumber" id="cartNumber">0</span>
     </button>
 
-    <div class="logo">NEXO STORE</div>
+    <div class="logo">
+        NEXO <span>STORE</span>
+    </div>
+
 </header>
+
+
+<!-- =========================
+     STORE
+========================= -->
 
 <div class="container">
 
@@ -567,23 +890,158 @@ header{
     >
 
     <div class="categories">
-        <button class="category active" onclick="selectCategory('الكل',this)">الكل</button>
-        <button class="category" onclick="selectCategory('شواحن',this)">شواحن</button>
-        <button class="category" onclick="selectCategory('كيابل',this)">كيابل</button>
-        <button class="category" onclick="selectCategory('سماعات',this)">سماعات</button>
-        <button class="category" onclick="selectCategory('سيارات',this)">سيارات</button>
-        <button class="category" onclick="selectCategory('متنوع',this)">متنوع</button>
+
+        <button
+            class="category active"
+            onclick="selectCategory('الكل',this)"
+        >
+            الكل
+        </button>
+
+        <button
+            class="category"
+            onclick="selectCategory('شواحن',this)"
+        >
+            شواحن
+        </button>
+
+        <button
+            class="category"
+            onclick="selectCategory('كيابل',this)"
+        >
+            كيابل
+        </button>
+
+        <button
+            class="category"
+            onclick="selectCategory('سماعات',this)"
+        >
+            سماعات
+        </button>
+
+        <button
+            class="category"
+            onclick="selectCategory('سيارات',this)"
+        >
+            سيارات
+        </button>
+
+        <button
+            class="category"
+            onclick="selectCategory('متنوع',this)"
+        >
+            متنوع
+        </button>
+
     </div>
 
     <div class="products" id="products"></div>
 
 </div>
 
-<div class="modalBackground" id="cartModal">
+
+<!-- =========================
+     PRODUCT FULL PAGE
+========================= -->
+
+<div class="productPage" id="productPage">
+
+    <div class="productPageHeader">
+
+        <button
+            class="productBack"
+            onclick="closeProductPage()"
+        >
+            ←
+        </button>
+
+        <div class="productPageLogo">
+            NEXO <span>STORE</span>
+        </div>
+
+    </div>
+
+    <div class="productPageContent">
+
+        <div class="productDetailCard">
+
+            <div class="productDetailImageBox">
+
+                <img
+                    id="detailImage"
+                    class="productDetailImage"
+                    src=""
+                    alt=""
+                >
+
+            </div>
+
+            <div class="productDetailInfo">
+
+                <div
+                    id="detailName"
+                    class="productDetailName"
+                ></div>
+
+                <div
+                    id="detailDescription"
+                    class="productDetailDescription"
+                ></div>
+
+                <div
+                    id="detailOldPrice"
+                    class="productDetailOldPrice"
+                ></div>
+
+                <div
+                    id="detailPrice"
+                    class="productDetailPrice"
+                ></div>
+
+                <div class="productDetailActions">
+
+                    <button
+                        id="detailAddButton"
+                        class="productAdd"
+                    >
+                        أضف للسلة
+                    </button>
+
+                    <button
+                        class="productCart"
+                        onclick="openCart()"
+                    >
+                        🛒
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     CART
+========================= -->
+
+<div
+    class="modalBackground"
+    id="cartModal"
+>
 
     <div class="modal">
 
-        <button class="closeButton" onclick="closeModal('cartModal')">×</button>
+        <button
+            class="closeButton"
+            onclick="closeModal('cartModal')"
+        >
+            ×
+        </button>
 
         <div class="modalTitle">
             🛒 سلة المشتريات
@@ -591,13 +1049,20 @@ header{
 
         <div id="cartItems"></div>
 
-        <div id="emptyCart" class="empty" style="display:none">
+        <div
+            id="emptyCart"
+            class="empty"
+            style="display:none"
+        >
             السلة فارغة
         </div>
 
         <div id="cartContent">
 
-            <div id="freeShipping" class="freeShipping"></div>
+            <div
+                id="freeShipping"
+                class="freeShipping"
+            ></div>
 
             <div id="summary"></div>
 
@@ -616,9 +1081,15 @@ header{
 
             </div>
 
-            <div id="couponMessage" class="couponMessage"></div>
+            <div
+                id="couponMessage"
+                class="couponMessage"
+            ></div>
 
-            <button class="checkout" onclick="openOrder()">
+            <button
+                class="checkout"
+                onclick="openOrder()"
+            >
                 إتمام الطلب
             </button>
 
@@ -628,29 +1099,62 @@ header{
 
 </div>
 
-<div class="modalBackground" id="orderModal">
+
+<!-- =========================
+     ORDER
+========================= -->
+
+<div
+    class="modalBackground"
+    id="orderModal"
+>
 
     <div class="modal">
 
-        <button class="closeButton" onclick="closeModal('orderModal')">×</button>
+        <button
+            class="closeButton"
+            onclick="closeModal('orderModal')"
+        >
+            ×
+        </button>
 
         <div class="modalTitle">
             إتمام الطلب
         </div>
 
         <div class="formGroup">
+
             <label>الاسم</label>
-            <input id="name" type="text" placeholder="اكتب اسمك">
+
+            <input
+                id="name"
+                type="text"
+                placeholder="اكتب اسمك"
+            >
+
         </div>
 
         <div class="formGroup">
+
             <label>رقم الجوال</label>
-            <input id="phone" type="tel" placeholder="05xxxxxxxx">
+
+            <input
+                id="phone"
+                type="tel"
+                placeholder="05xxxxxxxx"
+            >
+
         </div>
 
         <div class="formGroup">
+
             <label>العنوان</label>
-            <textarea id="address" placeholder="اكتب عنوان التوصيل داخل مكة"></textarea>
+
+            <textarea
+                id="address"
+                placeholder="اكتب عنوان التوصيل داخل مكة"
+            ></textarea>
+
         </div>
 
         <div class="formGroup">
@@ -688,21 +1192,32 @@ header{
             <label>طريقة الدفع</label>
 
             <select id="payment">
-                <option>دفع عند الاستلام</option>
-                <option>تحويل بنكي</option>
+
+                <option>
+                    دفع عند الاستلام
+                </option>
+
+                <option>
+                    تحويل بنكي
+                </option>
+
             </select>
 
         </div>
 
         <div id="orderSummary"></div>
 
-        <button class="checkout" onclick="sendOrder()">
+        <button
+            class="checkout"
+            onclick="sendOrder()"
+        >
             تأكيد الطلب عبر واتساب
         </button>
 
     </div>
 
 </div>
+
 
 <script>
 
@@ -860,41 +1375,61 @@ const products = [
 
 ];
 
+
 const DELIVERY_FEE = 15;
 const FREE_SHIPPING_LIMIT = 100;
 const COUPON_CODE = "NEXO50";
 const COUPON_RATE = 0.50;
 const WHATSAPP = "966501203710";
 
-let cart = JSON.parse(localStorage.getItem("nexo_cart") || "[]");
+
+let cart =
+    JSON.parse(
+        localStorage.getItem("nexo_cart") || "[]"
+    );
+
 let category = "الكل";
 let couponApplied = false;
 let deliveryMethod = "delivery";
+let currentProduct = null;
 
+
+/* =========================
+   PRODUCTS
+========================= */
 
 function renderProducts(){
 
-    const box = document.getElementById("products");
+    const box =
+        document.getElementById("products");
 
     const search =
-        document.getElementById("search")
+        document
+        .getElementById("search")
         .value
         .trim()
         .toLowerCase();
 
-    const filtered = products.filter(product => {
 
-        const categoryOK =
-            category === "الكل" ||
-            product.category === category;
+    const filtered =
+        products.filter(product => {
 
-        const searchOK =
-            product.name.toLowerCase().includes(search) ||
-            product.desc.toLowerCase().includes(search);
+            const categoryOK =
+                category === "الكل" ||
+                product.category === category;
 
-        return categoryOK && searchOK;
+            const searchOK =
+                product.name
+                .toLowerCase()
+                .includes(search)
+                ||
+                product.desc
+                .toLowerCase()
+                .includes(search);
 
-    });
+            return categoryOK && searchOK;
+
+        });
 
 
     if(filtered.length === 0){
@@ -906,52 +1441,155 @@ function renderProducts(){
         `;
 
         return;
+
     }
 
 
-    box.innerHTML = filtered.map(product => `
+    box.innerHTML =
+        filtered.map(product => `
 
-        <div class="product">
-
-            <img
-                class="productImg"
-                src="${product.image}"
-                alt="${product.name}"
+            <div
+                class="product"
+                onclick="openProduct('${product.id}')"
             >
 
-            <div class="productBody">
-
-                <div class="productName">
-                    ${product.name}
-                </div>
-
-                <div class="productDescription">
-                    ${product.desc}
-                </div>
-
-                <div class="oldPrice">
-                    ${product.oldPrice} ريال
-                </div>
-
-                <div class="price">
-                    ${product.price} ريال
-                </div>
-
-                <button
-                    class="addButton"
-                    onclick="addToCart('${product.id}')"
+                <img
+                    class="productImg"
+                    src="${product.image}"
+                    alt="${product.name}"
+                    loading="lazy"
                 >
-                    أضف للسلة
-                </button>
+
+                <div class="productBody">
+
+                    <div class="productName">
+                        ${product.name}
+                    </div>
+
+                    <div class="productDescription">
+                        ${product.desc}
+                    </div>
+
+                    <div class="oldPrice">
+                        ${product.oldPrice} ريال
+                    </div>
+
+                    <div class="price">
+                        ${product.price} ريال
+                    </div>
+
+                    <button
+                        class="addButton"
+                        onclick="event.stopPropagation();addToCart('${product.id}')"
+                    >
+                        أضف للسلة
+                    </button>
+
+                </div>
 
             </div>
 
-        </div>
-
-    `).join("");
+        `).join("");
 
 }
 
+
+/* =========================
+   PRODUCT PAGE
+========================= */
+
+function openProduct(id){
+
+    const product =
+        products.find(x => x.id === id);
+
+    if(!product) return;
+
+    currentProduct = product;
+
+    document.getElementById("detailImage").src =
+        product.image;
+
+    document.getElementById("detailImage").alt =
+        product.name;
+
+    document.getElementById("detailName").textContent =
+        product.name;
+
+    document.getElementById("detailDescription").textContent =
+        product.desc;
+
+    document.getElementById("detailOldPrice").textContent =
+        product.oldPrice + " ريال";
+
+    document.getElementById("detailPrice").textContent =
+        product.price + " ريال";
+
+
+    document.getElementById("detailAddButton").onclick =
+        function(){
+
+            addToCart(product.id);
+
+        };
+
+
+    const page =
+        document.getElementById("productPage");
+
+    page.classList.add("show");
+
+    document.body.style.overflow = "hidden";
+
+    history.pushState(
+        {
+            product:true,
+            id:product.id
+        },
+        "",
+        "#product-" + product.id
+    );
+
+}
+
+
+function closeProductPage(fromPopState=false){
+
+    const page =
+        document.getElementById("productPage");
+
+    page.classList.remove("show");
+
+    document.body.style.overflow = "";
+
+    if(
+        !fromPopState &&
+        location.hash.startsWith("#product-")
+    ){
+
+        history.back();
+
+    }
+
+}
+
+
+window.addEventListener("popstate",function(){
+
+    if(
+        !location.hash.startsWith("#product-")
+    ){
+
+        closeProductPage(true);
+
+    }
+
+});
+
+
+/* =========================
+   CATEGORY
+========================= */
 
 function selectCategory(value,button){
 
@@ -959,13 +1597,20 @@ function selectCategory(value,button){
 
     document
         .querySelectorAll(".category")
-        .forEach(x => x.classList.remove("active"));
+        .forEach(x =>
+            x.classList.remove("active")
+        );
 
     button.classList.add("active");
 
     renderProducts();
+
 }
 
+
+/* =========================
+   CART
+========================= */
 
 function saveCart(){
 
@@ -975,6 +1620,7 @@ function saveCart(){
     );
 
     updateCartNumber();
+
 }
 
 
@@ -982,12 +1628,15 @@ function updateCartNumber(){
 
     const number =
         cart.reduce(
-            (sum,item) => sum + item.qty,
+            (sum,item) =>
+                sum + item.qty,
             0
         );
 
-    document.getElementById("cartNumber").textContent =
-        number;
+    document
+        .getElementById("cartNumber")
+        .textContent = number;
+
 }
 
 
@@ -995,6 +1644,7 @@ function addToCart(id){
 
     const item =
         cart.find(x => x.id === id);
+
 
     if(item){
 
@@ -1009,9 +1659,9 @@ function addToCart(id){
 
     }
 
+
     saveCart();
 
-    alert("تمت إضافة المنتج إلى السلة");
 }
 
 
@@ -1022,34 +1672,43 @@ function changeQuantity(id,amount){
 
     if(!item) return;
 
+
     item.qty += amount;
+
 
     if(item.qty <= 0){
 
         cart =
-            cart.filter(x => x.id !== id);
+            cart.filter(
+                x => x.id !== id
+            );
 
     }
+
 
     saveCart();
 
     renderCart();
+
 }
 
 
 function removeItem(id){
 
     cart =
-        cart.filter(x => x.id !== id);
+        cart.filter(
+            x => x.id !== id
+        );
 
     saveCart();
 
     renderCart();
+
 }
 
 
 /* =========================
-   حساب الأسعار
+   CALCULATE
 ========================= */
 
 function calculate(){
@@ -1057,12 +1716,16 @@ function calculate(){
     let originalSubtotal = 0;
     let currentSubtotal = 0;
 
+
     cart.forEach(item => {
 
         const product =
-            products.find(x => x.id === item.id);
+            products.find(
+                x => x.id === item.id
+            );
 
         if(!product) return;
+
 
         originalSubtotal +=
             product.oldPrice * item.qty;
@@ -1074,18 +1737,18 @@ function calculate(){
 
 
     let discount = 0;
-    let productsTotal = currentSubtotal;
+    let productsTotal =
+        currentSubtotal;
 
 
     /*
-      NEXO50:
-      الخصم = 50% من oldPrice لكل منتج.
+       NEXO50
+       30 → 15
+       20 → 10
+       10 → 5
 
-      30 ريال → خصم 15 ريال → السعر 15 ريال
-      20 ريال → خصم 10 ريال → السعر 10 ريال
-      10 ريال → خصم 5 ريال → السعر 5 ريال
-
-      رسوم التوصيل لا يدخل عليها الخصم.
+       الخصم على المنتجات فقط.
+       التوصيل لا يدخل في الخصم.
     */
 
     if(couponApplied){
@@ -1093,9 +1756,12 @@ function calculate(){
         cart.forEach(item => {
 
             const product =
-                products.find(x => x.id === item.id);
+                products.find(
+                    x => x.id === item.id
+                );
 
             if(!product) return;
+
 
             discount +=
                 product.oldPrice *
@@ -1104,24 +1770,20 @@ function calculate(){
 
         });
 
+
         productsTotal =
-            originalSubtotal - discount;
+            originalSubtotal -
+            discount;
 
     }
 
-
-    /*
-      التوصيل يبقى كما هو:
-      - استلام من الفرع = مجاني
-      - المجموع الحالي للمنتجات 100 أو أكثر = مجاني
-      - غير ذلك = 15 ريال
-    */
 
     const delivery =
         deliveryMethod === "pickup"
             ? 0
             : (
-                currentSubtotal >= FREE_SHIPPING_LIMIT
+                currentSubtotal >=
+                FREE_SHIPPING_LIMIT
                     ? 0
                     : DELIVERY_FEE
             );
@@ -1134,12 +1796,18 @@ function calculate(){
         discount,
         productsTotal,
         delivery,
-        total:productsTotal + delivery
+        total:
+            productsTotal +
+            delivery
 
     };
 
 }
 
+
+/* =========================
+   OPEN CART
+========================= */
 
 function openCart(){
 
@@ -1151,6 +1819,10 @@ function openCart(){
 
 }
 
+
+/* =========================
+   RENDER CART
+========================= */
 
 function renderCart(){
 
@@ -1185,7 +1857,9 @@ function renderCart(){
         cart.map(item => {
 
             const product =
-                products.find(x => x.id === item.id);
+                products.find(
+                    x => x.id === item.id
+                );
 
             if(!product) return "";
 
@@ -1245,10 +1919,14 @@ function renderCart(){
         }).join("");
 
 
-    const data = calculate();
+    const data =
+        calculate();
+
 
     const freeShipping =
-        document.getElementById("freeShipping");
+        document.getElementById(
+            "freeShipping"
+        );
 
 
     if(deliveryMethod === "pickup"){
@@ -1257,7 +1935,10 @@ function renderCart(){
             "🏪 الاستلام من الفرع مجاني";
 
     }
-    else if(data.currentSubtotal >= FREE_SHIPPING_LIMIT){
+    else if(
+        data.currentSubtotal >=
+        FREE_SHIPPING_LIMIT
+    ){
 
         freeShipping.textContent =
             "🎉 حصلت على التوصيل المجاني";
@@ -1266,13 +1947,18 @@ function renderCart(){
     else{
 
         freeShipping.textContent =
-            `أضف ${FREE_SHIPPING_LIMIT - data.currentSubtotal} ريال إضافية للحصول على توصيل مجاني!`;
+            `أضف ${
+                FREE_SHIPPING_LIMIT -
+                data.currentSubtotal
+            } ريال إضافية للحصول على توصيل مجاني!`;
 
     }
 
 
     const summary =
-        document.getElementById("summary");
+        document.getElementById(
+            "summary"
+        );
 
 
     if(couponApplied){
@@ -1280,28 +1966,53 @@ function renderCart(){
         summary.innerHTML = `
 
             <div class="summaryRow">
-                <span>المجموع الأصلي للمنتجات</span>
-                <strong>${data.originalSubtotal} ريال</strong>
+                <span>
+                    المجموع الأصلي للمنتجات
+                </span>
+
+                <strong>
+                    ${data.originalSubtotal} ريال
+                </strong>
             </div>
 
             <div class="summaryRow discountRow">
-                <span>الخصم 50%</span>
-                <strong>− ${data.discount} ريال</strong>
+                <span>
+                    الخصم 50%
+                </span>
+
+                <strong>
+                    − ${data.discount} ريال
+                </strong>
             </div>
 
             <div class="summaryRow">
-                <span>المنتجات بعد الخصم</span>
-                <strong>${data.productsTotal} ريال</strong>
+                <span>
+                    المنتجات بعد الخصم
+                </span>
+
+                <strong>
+                    ${data.productsTotal} ريال
+                </strong>
             </div>
 
             <div class="summaryRow">
-                <span>رسوم التوصيل (مكة)</span>
-                <strong>${data.delivery} ريال</strong>
+                <span>
+                    رسوم التوصيل (مكة)
+                </span>
+
+                <strong>
+                    ${data.delivery} ريال
+                </strong>
             </div>
 
             <div class="summaryRow totalRow">
-                <span>الإجمالي النهائي</span>
-                <strong>${data.total} ريال</strong>
+                <span>
+                    الإجمالي النهائي
+                </span>
+
+                <strong>
+                    ${data.total} ريال
+                </strong>
             </div>
 
         `;
@@ -1311,18 +2022,33 @@ function renderCart(){
         summary.innerHTML = `
 
             <div class="summaryRow">
-                <span>المجموع الفرعي (للمنتجات)</span>
-                <strong>${data.currentSubtotal} ريال</strong>
+                <span>
+                    المجموع الفرعي (للمنتجات)
+                </span>
+
+                <strong>
+                    ${data.currentSubtotal} ريال
+                </strong>
             </div>
 
             <div class="summaryRow">
-                <span>رسوم التوصيل (مكة)</span>
-                <strong>${data.delivery} ريال</strong>
+                <span>
+                    رسوم التوصيل (مكة)
+                </span>
+
+                <strong>
+                    ${data.delivery} ريال
+                </strong>
             </div>
 
             <div class="summaryRow totalRow">
-                <span>الإجمالي النهائي</span>
-                <strong>${data.total} ريال</strong>
+                <span>
+                    الإجمالي النهائي
+                </span>
+
+                <strong>
+                    ${data.total} ريال
+                </strong>
             </div>
 
         `;
@@ -1331,7 +2057,9 @@ function renderCart(){
 
 
     const message =
-        document.getElementById("couponMessage");
+        document.getElementById(
+            "couponMessage"
+        );
 
 
     if(couponApplied){
@@ -1354,18 +2082,26 @@ function renderCart(){
 }
 
 
+/* =========================
+   COUPON
+========================= */
+
 function applyCoupon(){
 
     const code =
         document
-        .getElementById("couponInput")
+        .getElementById(
+            "couponInput"
+        )
         .value
         .trim()
         .toUpperCase();
 
 
     const message =
-        document.getElementById("couponMessage");
+        document.getElementById(
+            "couponMessage"
+        );
 
 
     if(code === COUPON_CODE){
@@ -1397,6 +2133,10 @@ function applyCoupon(){
 }
 
 
+/* =========================
+   ORDER
+========================= */
+
 function openOrder(){
 
     if(cart.length === 0){
@@ -1404,7 +2144,9 @@ function openOrder(){
         alert("السلة فارغة");
 
         return;
+
     }
+
 
     closeModal("cartModal");
 
@@ -1421,19 +2163,26 @@ function setDelivery(type){
 
     deliveryMethod = type;
 
+
     document
-        .getElementById("deliveryOption")
+        .getElementById(
+            "deliveryOption"
+        )
         .classList.toggle(
             "active",
             type === "delivery"
         );
 
+
     document
-        .getElementById("pickupOption")
+        .getElementById(
+            "pickupOption"
+        )
         .classList.toggle(
             "active",
             type === "pickup"
         );
+
 
     renderOrderSummary();
 
@@ -1442,10 +2191,13 @@ function setDelivery(type){
 
 function renderOrderSummary(){
 
-    const data = calculate();
+    const data =
+        calculate();
 
     const box =
-        document.getElementById("orderSummary");
+        document.getElementById(
+            "orderSummary"
+        );
 
 
     if(couponApplied){
@@ -1453,28 +2205,53 @@ function renderOrderSummary(){
         box.innerHTML = `
 
             <div class="summaryRow">
-                <span>المجموع الأصلي للمنتجات</span>
-                <strong>${data.originalSubtotal} ريال</strong>
+                <span>
+                    المجموع الأصلي للمنتجات
+                </span>
+
+                <strong>
+                    ${data.originalSubtotal} ريال
+                </strong>
             </div>
 
             <div class="summaryRow discountRow">
-                <span>خصم NEXO50</span>
-                <strong>− ${data.discount} ريال</strong>
+                <span>
+                    خصم NEXO50
+                </span>
+
+                <strong>
+                    − ${data.discount} ريال
+                </strong>
             </div>
 
             <div class="summaryRow">
-                <span>المنتجات بعد الخصم</span>
-                <strong>${data.productsTotal} ريال</strong>
+                <span>
+                    المنتجات بعد الخصم
+                </span>
+
+                <strong>
+                    ${data.productsTotal} ريال
+                </strong>
             </div>
 
             <div class="summaryRow">
-                <span>رسوم التوصيل</span>
-                <strong>${data.delivery} ريال</strong>
+                <span>
+                    رسوم التوصيل
+                </span>
+
+                <strong>
+                    ${data.delivery} ريال
+                </strong>
             </div>
 
             <div class="summaryRow totalRow">
-                <span>الإجمالي</span>
-                <strong>${data.total} ريال</strong>
+                <span>
+                    الإجمالي
+                </span>
+
+                <strong>
+                    ${data.total} ريال
+                </strong>
             </div>
 
         `;
@@ -1484,18 +2261,33 @@ function renderOrderSummary(){
         box.innerHTML = `
 
             <div class="summaryRow">
-                <span>المنتجات</span>
-                <strong>${data.currentSubtotal} ريال</strong>
+                <span>
+                    المنتجات
+                </span>
+
+                <strong>
+                    ${data.currentSubtotal} ريال
+                </strong>
             </div>
 
             <div class="summaryRow">
-                <span>رسوم التوصيل</span>
-                <strong>${data.delivery} ريال</strong>
+                <span>
+                    رسوم التوصيل
+                </span>
+
+                <strong>
+                    ${data.delivery} ريال
+                </strong>
             </div>
 
             <div class="summaryRow totalRow">
-                <span>الإجمالي</span>
-                <strong>${data.total} ريال</strong>
+                <span>
+                    الإجمالي
+                </span>
+
+                <strong>
+                    ${data.total} ريال
+                </strong>
             </div>
 
         `;
@@ -1505,25 +2297,36 @@ function renderOrderSummary(){
 }
 
 
+/* =========================
+   SEND ORDER
+========================= */
+
 function sendOrder(){
 
     const name =
-        document.getElementById("name")
+        document
+        .getElementById("name")
         .value
         .trim();
+
 
     const phone =
-        document.getElementById("phone")
+        document
+        .getElementById("phone")
         .value
         .trim();
+
 
     const address =
-        document.getElementById("address")
+        document
+        .getElementById("address")
         .value
         .trim();
 
+
     const payment =
-        document.getElementById("payment")
+        document
+        .getElementById("payment")
         .value;
 
 
@@ -1532,6 +2335,7 @@ function sendOrder(){
         alert("اكتب اسمك");
 
         return;
+
     }
 
 
@@ -1540,6 +2344,7 @@ function sendOrder(){
         alert("اكتب رقم الجوال");
 
         return;
+
     }
 
 
@@ -1551,10 +2356,13 @@ function sendOrder(){
         alert("اكتب عنوان التوصيل");
 
         return;
+
     }
 
 
-    const data = calculate();
+    const data =
+        calculate();
+
 
     let items = "";
 
@@ -1562,19 +2370,24 @@ function sendOrder(){
     cart.forEach(item => {
 
         const product =
-            products.find(x => x.id === item.id);
+            products.find(
+                x => x.id === item.id
+            );
 
         if(!product) return;
 
 
         const unitPrice =
             couponApplied
-                ? product.oldPrice * (1 - COUPON_RATE)
+                ? product.oldPrice *
+                    (1 - COUPON_RATE)
                 : product.price;
 
 
         items +=
-            `• ${product.name} × ${item.qty} = ${unitPrice * item.qty} ريال\n`;
+            `• ${product.name} × ${item.qty} = ${
+                unitPrice * item.qty
+            } ريال\n`;
 
     });
 
@@ -1626,7 +2439,9 @@ function sendOrder(){
 
     const orders =
         JSON.parse(
-            localStorage.getItem("nexo_orders") || "[]"
+            localStorage.getItem(
+                "nexo_orders"
+            ) || "[]"
         );
 
 
@@ -1709,10 +2524,16 @@ ${address}`;
     );
 
 
-    closeModal("orderModal");
+    closeModal(
+        "orderModal"
+    );
 
 }
 
+
+/* =========================
+   CLOSE MODALS
+========================= */
 
 function closeModal(id){
 
@@ -1727,22 +2548,34 @@ document
     .querySelectorAll(".modalBackground")
     .forEach(modal => {
 
-        modal.addEventListener("click",function(e){
+        modal.addEventListener(
+            "click",
+            function(e){
 
-            if(e.target === modal){
+                if(e.target === modal){
 
-                modal.classList.remove("show");
+                    modal.classList.remove(
+                        "show"
+                    );
+
+                }
 
             }
-
-        });
+        );
 
     });
 
 
+/* =========================
+   INITIALIZE
+========================= */
+
 renderProducts();
+
 updateCartNumber();
 
+
+/* التحميل ينتهي بعد أن يقترب الخط من النهاية */
 
 setTimeout(() => {
 
@@ -1750,7 +2583,27 @@ setTimeout(() => {
         .getElementById("loader")
         .classList.add("hide");
 
-},700);
+},1450);
+
+
+/* زر رجوع الجوال */
+
+window.addEventListener(
+    "hashchange",
+    function(){
+
+        if(
+            !location.hash.startsWith(
+                "#product-"
+            )
+        ){
+
+            closeProductPage(true);
+
+        }
+
+    }
+);
 
 </script>
 
