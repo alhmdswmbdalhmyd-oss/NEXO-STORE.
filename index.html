@@ -128,8 +128,6 @@ header{
     color:#111;
 }
 
-/* السلة ثابتة في الطرف اليسار */
-
 .cartButton{
     position:absolute;
     left:18px;
@@ -141,7 +139,6 @@ header{
     border-radius:20px;
     background:#0876d9;
     font-size:28px;
-    position:absolute;
     box-shadow:0 6px 18px rgba(8,118,217,.20);
     transition:.2s;
 }
@@ -1265,12 +1262,12 @@ const products = [
 
 {
     id:"p5",
-    name:"iPlus I-18 - سماعة Lightning Popup",
+    name:"iPlus I-18 - كيبل متعدد المداخل 3 في 1",
     oldPrice:20,
     price:10,
-    category:"سماعات",
+    category:"كيابل",
     image:"iplus-i18.jpg",
-    desc:"سماعة Lightning عملية للاستخدام اليومي."
+    desc:"كيبل شحن متعدد المداخل باللون الأسود يناسب الآيفون والتايب سي والجالكسي."
 },
 
 {
@@ -1379,7 +1376,7 @@ const products = [
     oldPrice:100,
     price:50,
     category:"شواحن",
-    image:"goui-wall-charger-lightning.jpg",
+    image:"new-goui-charger.jpg",
     desc:"شاحن جداري قوي وسريع مع منفذين USB بقدرة 3.1A وكابل Lightning بطول 100 سم معتمد من أبل. (ضمان على المنتج)"
 },
 
@@ -1389,7 +1386,7 @@ const products = [
     oldPrice:100,
     price:50,
     category:"سماعات",
-    image:"nito-wireless-earbuds.jpg",
+    image:"new-nito-h954.jpg",
     desc:"سماعات أذن لاسلكية بتقنية Pure Bass وضبط باللمس مع استشعار داخل الأذن ومقاومة للماء للرياضة. (ضمان على المنتج)"
 },
 
@@ -1399,7 +1396,7 @@ const products = [
     oldPrice:100,
     price:50,
     category:"سماعات",
-    image:"nito-nt-tw312-earbuds.jpg",
+    image:"new-nito-tw312.jpg",
     desc:"سماعات أذن لاسلكية تدعم الشحن اللاسلكي وعقبة شحن 400mAh وبلوتوث 5.0 واستشعار ذكي. (ضمان على المنتج)"
 },
 
@@ -1409,7 +1406,7 @@ const products = [
     oldPrice:60,
     price:30,
     category:"كيابل",
-    image:"anker-powerline-iii-usbc-lightning.jpg",
+    image:"new-anker-cable.jpg",
     desc:"كيبل شحن سريع ومزامنة بطول 0.9m يتضمن تحملاً لأكثر من 25,000 انحناءة ومُعتمد من أبل. (ضمان على المنتج)"
 },
 
@@ -1419,7 +1416,7 @@ const products = [
     oldPrice:60,
     price:30,
     category:"سماعات",
-    image:"apple-earpods-lightning.jpg",
+    image:"new-apple-earpods.jpg",
     desc:"سماعة أبل سلكية بمدخل Lightning وصوت عالي الدقة ووحدة تحكم ومكالمات. (ضمان على المنتج)"
 }
 
@@ -1790,16 +1787,6 @@ function calculate(){
     let productsTotal =
         currentSubtotal;
 
-
-    /*
-       NEXO50
-       30 → 15
-       20 → 10
-       10 → 5
-
-       الخصم على المنتجات فقط.
-       التوصيل لا يدخل في الخصم.
-    */
 
     if(couponApplied){
 
@@ -2521,7 +2508,7 @@ ${items}
 
         message +=
 `💰 المجموع الأصلي للمنتجات: ${data.originalSubtotal} ريال
-🏷️ خصم 50%: ${data.discount} ريال
+🏷️️ خصم 50%: ${data.discount} ريال
 💵 المنتجات بعد الخصم: ${data.productsTotal} ريال
 `;
 
@@ -2625,8 +2612,6 @@ renderProducts();
 updateCartNumber();
 
 
-/* التحميل ينتهي بعد أن يقترب الخط من النهاية */
-
 setTimeout(() => {
 
     document
@@ -2635,8 +2620,6 @@ setTimeout(() => {
 
 },1450);
 
-
-/* زر رجوع الجوال */
 
 window.addEventListener(
     "hashchange",
@@ -2659,6 +2642,7 @@ window.addEventListener(
 
 </body>
 </html>
+
 
 
 
