@@ -1,0 +1,29 @@
+
+{
+  "id": "/NEXO-STORE/",
+  "name": "NEXO STORE",
+  "short_name": "NEXO",
+  "description": "متجر NEXO STORE - تسوق إكسسوارات الجوال داخل مكة المكرمة",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/NEXO-STORE/",
+  "scope": "/NEXO-STORE/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#1677ff",
+  "icons": [
+    {
+      "src": "/NEXO-STORE/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/NEXO-STORE/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
