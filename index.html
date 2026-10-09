@@ -1,9 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>NEXO STORE</title>
+
+<!-- إعدادات تطبيق الجوال المضافة -->
+<link rel="manifest" href="/NEXO-STORE/manifest.json">
+<meta name="theme-color" content="#1677ff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="NEXO STORE">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1397,7 +1405,7 @@ const products = [
     price:50,
     category:"سماعات",
     image:"new-nito-tw312.jpg",
-    desc:"سماعات أذن لاسلكية تدعم الشحن اللاسلكي وعقبة شحن 400mAh وبلوتوث 5.0 واستشعار ذكي. (ضمان على المنتج)"
+    desc:"سماعات أذن لاسلكية تدعم الشحن اللاسلكي وعلبة شحن 400mAh وبلوتوث 5.0 واستشعار ذكي. (ضمان على المنتج)"
 },
 
 {
@@ -2638,10 +2646,26 @@ window.addEventListener(
     }
 );
 
+
+/* =========================
+   تسجيل Service Worker
+   إضافة تجهيز المتجر كتطبيق ويب
+========================= */
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/NEXO-STORE/sw.js")
+            .catch(error => {
+                console.error("Service Worker:", error);
+            });
+    });
+}
+
 </script>
 
 </body>
 </html>
+
 
 
 
