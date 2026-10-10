@@ -1,13 +1,17 @@
 {
   "name": "NEXO STORE",
   "short_name": "NEXO",
+  "description": "متجر NEXO STORE لبيع الشواحن والكيابل والسماعات ومستلزمات السيارات، مع توصيل داخل مكة المكرمة.",
   "start_url": "./index.html",
   "scope": "./",
+  "id": "/index.html",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#1a73e8",
   "lang": "ar",
   "dir": "rtl",
+  "categories": ["shopping", "business"],
   "icons": [
     {
       "src": "icon-192.png",
