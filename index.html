@@ -20,7 +20,6 @@ body{margin:0;font-family:"Cairo",sans-serif;background:#f5f7fa;color:#111;paddi
 button,input,textarea,select{font-family:inherit}
 button{cursor:pointer}
 :root{--b:#0876d9}
-/* LOADER */
 .loader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;overflow:hidden;background:#fff;transition:opacity .6s,visibility .6s,transform .6s}
 .loader.hide{opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.05)}
 .loader::before,.loader::after{content:"";position:absolute;border-radius:50%;border:1.5px solid rgba(27,140,255,.16);width:240px;height:240px;animation:ring 4s ease-out infinite}
@@ -28,7 +27,7 @@ button{cursor:pointer}
 @keyframes ring{0%{transform:scale(.5);opacity:1}100%{transform:scale(3.4);opacity:0}}
 .loaderGlow{position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(27,140,255,.16),transparent 68%);animation:pulse 2.6s ease-in-out infinite}
 @keyframes pulse{0%,100%{transform:scale(.9);opacity:.7}50%{transform:scale(1.12);opacity:1}}
-.loaderMark{position:relative;width:210px;height:162px;animation:pop .9s cubic-bezier(.2,1.3,.4,1) both,float 3s 1s ease-in-out infinite}.loaderMark{filter:drop-shadow(0 10px 18px rgba(27,125,255,.28))}
+.loaderMark{position:relative;width:210px;height:162px;animation:pop .9s cubic-bezier(.2,1.3,.4,1) both,float 3s 1s ease-in-out infinite;filter:drop-shadow(0 10px 18px rgba(27,125,255,.28))}
 .nc{position:absolute;left:0;top:0;width:150px;height:116px;transform:scale(1.4);transform-origin:0 0}
 .nc i{position:absolute;display:block}
 .ncH1{left:2px;top:4.5px;width:30px;height:9px;border-radius:5px;background:linear-gradient(90deg,#2fd0ff,#1fa8ff)}
@@ -46,7 +45,6 @@ button{cursor:pointer}
 .loaderLine::after{content:"";position:absolute;top:0;right:100%;width:100%;height:100%;background:linear-gradient(90deg,#0b5fb0,#1b8cff,#5cc0ff);border-radius:20px;animation:loading 1.9s cubic-bezier(.4,0,.2,1) forwards}
 .loaderText{position:relative;color:#6b7f99;font-size:13px;font-weight:600;margin-top:14px}
 @keyframes loading{0%{right:100%}72%{right:8%}88%{right:3%}100%{right:0}}
-/* HEADER */
 header{position:fixed;top:0;left:0;right:0;z-index:50;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top,0px));background:transparent;transition:background .25s,box-shadow .25s}
 header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .hRow{display:flex;align-items:center;gap:8px}
@@ -56,7 +54,6 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .hBtn svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .hBtn.fav svg{color:#e53950}
 .hBadge{position:absolute;top:-5px;left:-5px;min-width:19px;height:19px;padding:0 4px;border-radius:10px;background:#e53950;color:#fff;font-size:11px;font-weight:800;display:none;align-items:center;justify-content:center;border:2px solid #fff}
-/* MAIN */
 .container{max-width:1200px;margin:auto;padding:0 15px 60px}
 .adBanner{position:relative;margin:0 -15px 12px}
 .adSlides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
@@ -75,7 +72,6 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .category .catImg{width:64px;height:64px;border-radius:50%;object-fit:contain;background:#fff;border:2px solid #e6eaf0;padding:6px;transition:.2s}
 .category.active{color:var(--b)}
 .category.active .catImg{border-color:var(--b);box-shadow:0 4px 12px rgba(8,118,217,.25)}
-/* PRODUCTS */
 .products{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;scroll-margin-top:80px}
 .product{position:relative;background:#fff;border-radius:20px;overflow:hidden;border:1px solid #e5e5e5;box-shadow:0 3px 12px rgba(0,0,0,.04);transition:transform .18s,box-shadow .18s;cursor:pointer}
 .product:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,.08)}
@@ -92,7 +88,6 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .heart.on{color:#e53950}
 .heart.on svg{fill:#e53950}
 .empty{text-align:center;padding:45px 10px;color:#777;grid-column:1/-1}
-/* FULL PAGES */
 .productPage,.fullPage{position:fixed;inset:0;background:#f5f7fa;z-index:200;overflow-y:auto;visibility:hidden;opacity:0;transform:translateX(-20px);pointer-events:none;transition:opacity .22s,transform .22s,visibility .22s}
 .fullPage{z-index:210}
 .productPage.show,.fullPage.show{visibility:visible;opacity:1;transform:none;pointer-events:auto}
@@ -117,7 +112,6 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .favGrid .productImg{height:150px}
 .favGrid .productName{font-size:14px;min-height:48px}
 .favGrid .productDescription{display:none}
-/* messages */
 .card{background:#fff;border-radius:22px;padding:18px;box-shadow:0 3px 14px rgba(0,0,0,.05);margin-bottom:14px}
 .card h3{margin:0 0 12px;font-size:18px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
@@ -125,7 +119,6 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .chip.on{border-color:var(--b);background:#edf6ff;color:var(--b)}
 .msgItem{background:#edf6ff;border-radius:16px 16px 4px 16px;padding:12px 14px;margin-bottom:10px;line-height:1.8}
 .msgItem small{display:block;color:#7a8794;margin-top:4px}
-/* calendar */
 .calHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-weight:800;font-size:19px}
 .calHead button{width:40px;height:40px;border:0;border-radius:12px;background:#f1f3f5;font-size:20px;font-weight:800}
 .calGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
@@ -136,9 +129,17 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .calGrid .d.has::after{content:"";position:absolute;bottom:5px;left:50%;margin-left:-3px;width:6px;height:6px;border-radius:50%;background:#e53950}
 .calGrid .d.sel.has::after{background:#fff}
 .calGrid .d.blank{background:transparent;pointer-events:none}
-.evForm{display:flex;gap:8px;margin:12px 0}.evForm input{height:48px;border:1px solid #d7dce2;border-radius:13px;padding:0 12px;font-size:16px;outline:none;min-width:0}.evForm .evT{flex:1}.evForm .evH{width:112px}.evForm button{flex:0 0 52px;border:0;border-radius:13px;background:var(--b);color:#fff;font-size:24px;font-weight:800}.evItem{display:flex;align-items:center;gap:10px;background:#fff7e6;border-radius:14px;padding:10px 12px;margin-bottom:8px;line-height:1.6}.evItem span{flex:1}.evItem button{border:0;background:#ffe9e9;border-radius:10px;width:34px;height:34px}.calGrid .d.ev::before{content:"";position:absolute;bottom:5px;left:50%;margin-left:-11px;width:6px;height:6px;border-radius:50%;background:#f5a623}.ordItem{border-bottom:1px solid #eee;padding:10px 0;line-height:1.8}
+.evForm{display:flex;gap:8px;margin:12px 0}
+.evForm input{height:48px;border:1px solid #d7dce2;border-radius:13px;padding:0 12px;font-size:16px;outline:none;min-width:0}
+.evForm .evT{flex:1}
+.evForm .evH{width:112px}
+.evForm button{flex:0 0 52px;border:0;border-radius:13px;background:var(--b);color:#fff;font-size:24px;font-weight:800}
+.evItem{display:flex;align-items:center;gap:10px;background:#fff7e6;border-radius:14px;padding:10px 12px;margin-bottom:8px;line-height:1.6}
+.evItem span{flex:1}
+.evItem button{border:0;background:#ffe9e9;border-radius:10px;width:34px;height:34px}
+.calGrid .d.ev::before{content:"";position:absolute;bottom:5px;left:50%;margin-left:-11px;width:6px;height:6px;border-radius:50%;background:#f5a623}
+.ordItem{border-bottom:1px solid #eee;padding:10px 0;line-height:1.8}
 .ordItem:last-child{border:0}
-/* MODALS */
 .modalBackground{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;align-items:center;justify-content:center;padding:10px}
 .modalBackground.show{display:flex}
 .modal{width:100%;max-width:650px;max-height:94vh;overflow:auto;background:#fff;border-radius:30px;padding:28px;position:relative}
@@ -174,14 +175,12 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .option{border:2px solid #e0e3e7;border-radius:15px;padding:12px;text-align:center;font-weight:700}
 .option.active{border-color:var(--b);background:#edf6ff;color:var(--b)}
-/* cats view */
 #catsView{display:none;padding-top:84px}
 .catsTitle{font-size:22px;font-weight:800;margin:4px 4px 14px}
 .catsGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .catCard{border:0;background:#fff;border-radius:20px;padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 3px 14px rgba(0,0,0,.06);font-size:16px;font-weight:800;color:#111}
 .catCard img{width:96px;height:96px;object-fit:contain}
 .catCard small{color:var(--b);font-size:13px;font-weight:700}
-/* bottom nav */
 .bottomNav{position:fixed;bottom:0;left:0;right:0;z-index:60;display:flex;background:#fff;border-radius:22px 22px 0 0;box-shadow:0 -4px 22px rgba(0,0,0,.09);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
 .bottomNav button{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;padding:8px 0 4px;font-size:12px;font-weight:700;color:#8a929c}
 .bottomNav svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:.2s}
@@ -191,7 +190,7 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .navBadge{position:absolute;top:2px;left:50%;margin-left:6px;min-width:19px;height:19px;padding:0 4px;border-radius:10px;background:#111;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center}
 @media(max-width:900px){.products{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:650px){
-.products{grid-template-columns:repeat(2,1fr);gap:10px}
+.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .productImg{height:165px}
 .productBody{padding:10px}
 .productName{font-size:14px;min-height:50px}
@@ -210,8 +209,6 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .productAdd{height:54px;font-size:16px}
 .productCart{height:54px;width:55px}
 }
-
-/* CART PAGE */
 .cartWrap{max-width:720px;padding-bottom:120px}
 .shipBox{background:linear-gradient(135deg,#0b2447,#0876d9);color:#fff;border-radius:22px;padding:16px 18px;margin-bottom:16px;box-shadow:0 8px 24px rgba(8,118,217,.28)}
 .shipText{font-weight:800;font-size:15px;line-height:1.7}
@@ -254,7 +251,6 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 </div></div>
 </div>
 
-<!-- HEADER -->
 <header id="topHeader">
 <div class="hRow">
 <input id="search" class="search" type="text" placeholder="ابحث عن منتج..." oninput="searchInput()">
@@ -271,7 +267,6 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 </div>
 </header>
 
-<!-- STORE -->
 <div class="container">
 <div id="homeView">
 <div class="adBanner">
@@ -295,7 +290,6 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 </div>
 </div>
 
-<!-- PRODUCT PAGE -->
 <div class="productPage" id="productPage">
 <div class="pageHeader">
 <button class="pageBack" onclick="closeProductPage()">←</button>
@@ -319,13 +313,11 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 </div>
 </div>
 
-<!-- FAVORITES PAGE -->
 <div class="fullPage" id="favPage">
 <div class="pageHeader"><button class="pageBack" onclick="closePage('favPage')">←</button>❤️ المفضلة</div>
 <div class="pageContent"><div class="favGrid" id="favList"></div></div>
 </div>
 
-<!-- MESSAGES PAGE -->
 <div class="fullPage" id="msgPage">
 <div class="pageHeader"><button class="pageBack" onclick="closePage('msgPage')">←</button>💬 الرسائل</div>
 <div class="pageContent">
@@ -336,14 +328,10 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 <div class="formGroup"><label>الرسالة</label><textarea id="msgText" placeholder="اكتب رسالتك هنا..."></textarea></div>
 <button class="checkout" style="margin-top:0" onclick="sendMsg()">إرسال عبر واتساب</button>
 </div>
-<div class="card">
-<h3>رسائلك السابقة</h3>
-<div id="msgList"></div>
-</div>
+<div class="card"><h3>رسائلك السابقة</h3><div id="msgList"></div></div>
 </div>
 </div>
 
-<!-- CALENDAR PAGE -->
 <div class="fullPage" id="calPage">
 <div class="pageHeader"><button class="pageBack" onclick="closePage('calPage')">←</button>📅 التقويم</div>
 <div class="pageContent">
@@ -353,13 +341,13 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 </div>
 <div class="card">
 <h3 id="calDayTitle"></h3>
-<div id="calOrders"></div><h3 style="margin-top:14px">⏰ مواعيدي وملاحظاتي</h3><div id="calEvents"></div><div class="evForm"><input id="evText" class="evT" type="text" placeholder="اكتب موعد أو ملاحظة"><input id="evTime" class="evH" type="time"><button onclick="addEv()">+</button></div>
+<div id="calOrders"></div><h3 style="margin-top:14px">⏰ مواعيدي وملاحظاتي</h3><div id="calEvents"></div>
+<div class="evForm"><input id="evText" class="evT" type="text" placeholder="اكتب موعد أو ملاحظة"><input id="evTime" class="evH" type="time"><button onclick="addEv()">+</button></div>
 <button class="checkout" onclick="bookDay()">اطلب موعد توصيل/استلام في هذا اليوم</button>
 </div>
 </div>
 </div>
 
-<!-- CART PAGE -->
 <div class="fullPage" id="cartPage">
 <div class="pageHeader"><button class="pageBack" onclick="closePage('cartPage')">←</button>🛒 سلة المشتريات</div>
 <div class="pageContent cartWrap">
@@ -380,7 +368,6 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 <div class="cartBar" id="cartBar"><div><small>الإجمالي النهائي</small><b id="barTotal"></b></div><button onclick="openOrder()">إتمام الطلب ←</button></div>
 </div>
 
-<!-- ORDER -->
 <div class="modalBackground" id="orderModal">
 <div class="modal">
 <button class="closeButton" onclick="closeModal('orderModal')">×</button>
@@ -417,26 +404,26 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 
 <script>
 const products=[
-{id:"p1",name:"FASTER FT-71 - شاحن جداري بمنفذين USB",oldPrice:30,price:15,category:"شواحن",image:"faster-ft71.jpg",desc:"شاحن جداري عملي بمنفذين USB للاستخدام اليومي."},
-{id:"p2",name:"LDNIO LS543 - كيبل Type-C إلى Lightning",oldPrice:20,price:10,category:"كيابل",image:"ldnio-ls543.jpg",desc:"كيبل Type-C إلى Lightning للشحن والاستخدام اليومي."},
-{id:"p3",name:"OVAST OT-15 - كيبل Type-C 3.1A",oldPrice:10,price:5,category:"كيابل",image:"ovast-ot15.jpg",desc:"كيبل Type-C للشحن السريع بقوة 3.1A."},
-{id:"p4",name:"NITO N-100 - سماعة سلكية بميكروفون",oldPrice:10,price:5,category:"سماعات",image:"nito-n100.jpg",desc:"سماعة سلكية بميكروفون وصوت واضح."},
-{id:"p5",name:"iPlus I-18 - كيبل متعدد المداخل 3 في 1",oldPrice:20,price:10,category:"كيابل",image:"iplus-i18.jpg",desc:"كيبل شحن متعدد المداخل باللون الأسود يناسب الآيفون والتايب سي والجالكسي."},
-{id:"p6",name:"GLOW GLH-32 - حامل مغناطيسي 360°",oldPrice:30,price:15,category:"سيارات",image:"glow-glh32.jpg",desc:"حامل جوال مغناطيسي للسيارة مع دوران 360 درجة."},
-{id:"p7",name:"NITO N-H673 - سماعة رأس Type-C",oldPrice:20,price:10,category:"سماعات",image:"nito-nh673.jpg",desc:"سماعة سلكية بمنفذ Type-C للأجهزة الحديثة."},
-{id:"p8",name:"KUMS - كيبل Type-C قماش 1.2m 3.4A",oldPrice:10,price:5,category:"كيابل",image:"kums-typec-1200mm.jpg",desc:"كيبل Type-C قماش بطول 1.2 متر وقوة 3.4A."},
-{id:"p9",name:"WINMFIX LED - لمبة 3 في 1 وحامل جوال",oldPrice:30,price:15,category:"متنوع",image:"winmfix-led.jpg",desc:"لمبة LED متعددة الاستخدامات وحامل للجوال."},
-{id:"p10",name:"X.LOOD X-73 - كيبل Type-C 3.1A",oldPrice:10,price:5,category:"كيابل",image:"xlood-x73.jpg",desc:"كيبل Type-C للشحن بقوة 3.1A."},
-{id:"p11",name:"UNIVERSAL CLIP - حامل مرآة للسيارة",oldPrice:30,price:15,category:"سيارات",image:"universal-clip.jpg",desc:"حامل جوال يثبت على مرآة السيارة."},
-{id:"p12",name:"GLOW GLH-29 - حامل مغناطيسي للسيارة",oldPrice:30,price:15,category:"سيارات",image:"glow-glh29.jpg",desc:"حامل مغناطيسي عملي للسيارة."},
-{id:"p13",name:"NITO CH-512 - شاحن جداري بمنفذين",oldPrice:30,price:15,category:"شواحن",image:"nito-ch512.jpg",desc:"شاحن جداري بمنفذين للشحن."},
-{id:"p14",name:"PROMASS PM-8509 - شاحن PD+QC 38W",oldPrice:30,price:15,category:"شواحن",image:"promass-pm8509.jpg",desc:"شاحن سريع بتقنية PD وQC بقوة 38W."},
-{id:"p15",name:"GLOW GLH-26 - حامل مغناطيسي صغير للسيارة",oldPrice:30,price:15,category:"سيارات",image:"glow-glh26.jpg",desc:"حامل مغناطيسي صغير وعملي للسيارة."},
-{id:"p16",name:"Goui Wall-I - شاحن جداري بمنفذين USB مع كابل آيفون",oldPrice:100,price:50,category:"شواحن",image:"new-goui-charger.jpg",desc:"شاحن جداري قوي وسريع مع منفذين USB بقدرة 3.1A وكابل Lightning بطول 100 سم معتمد من أبل. (ضمان على المنتج)"},
-{id:"p17",name:"NITO NT-H954 - سماعات لاسلكية T Series",oldPrice:100,price:50,category:"سماعات",image:"new-nito-h954.jpg",desc:"سماعات أذن لاسلكية بتقنية Pure Bass وضبط باللمس مع استشعار داخل الأذن ومقاومة للماء للرياضة. (ضمان على المنتج)"},
-{id:"p18",name:"NITO NT-TW312 - سماعات لاسلكية شحن لاسلكي",oldPrice:100,price:50,category:"سماعات",image:"new-nito-tw312.jpg",desc:"سماعات أذن لاسلكية تدعم الشحن اللاسلكي وعلبة شحن 400mAh وبلوتوث 5.0 واستشعار ذكي. (ضمان على المنتج)"},
-{id:"p19",name:"Anker PowerLine III - كيبل USB-C إلى Lightning",oldPrice:60,price:30,category:"كيابل",image:"new-anker-cable.jpg",desc:"كيبل شحن سريع ومزامنة بطول 0.9m يتضمن تحملاً لأكثر من 25,000 انحناءة ومُعتمد من أبل. (ضمان على المنتج)"},
-{id:"p20",name:"Apple EarPods Lightning - سماعة أبل سلكية",oldPrice:60,price:30,category:"سماعات",image:"new-apple-earpods.jpg",desc:"سماعة أبل سلكية بمدخل Lightning وصوت عالي الدقة ووحدة تحكم ومكالمات. (ضمان على المنتج)"}
+{id:"p1",name:"FASTER FT-71 - شاحن جداري بمنفذين USB",oldPrice:30,price:30,category:"شواحن",image:"faster-ft71.jpg",desc:"شاحن جداري عملي بمنفذين USB للاستخدام اليومي."},
+{id:"p2",name:"LDNIO LS543 - كيبل Type-C إلى Lightning",oldPrice:20,price:20,category:"كيابل",image:"ldnio-ls543.jpg",desc:"كيبل Type-C إلى Lightning للشحن والاستخدام اليومي."},
+{id:"p3",name:"OVAST OT-15 - كيبل Type-C 3.1A",oldPrice:10,price:10,category:"كيابل",image:"ovast-ot15.jpg",desc:"كيبل Type-C للشحن السريع بقوة 3.1A."},
+{id:"p4",name:"NITO N-100 - سماعة سلكية بميكروفون",oldPrice:10,price:10,category:"سماعات",image:"nito-n100.jpg",desc:"سماعة سلكية بميكروفون وصوت واضح."},
+{id:"p5",name:"iPlus I-18 - كيبل متعدد المداخل 3 في 1",oldPrice:20,price:20,category:"كيابل",image:"iplus-i18.jpg",desc:"كيبل شحن متعدد المداخل باللون الأسود يناسب الآيفون والتايب سي والجالكسي."},
+{id:"p6",name:"GLOW GLH-32 - حامل مغناطيسي 360°",oldPrice:30,price:30,category:"سيارات",image:"glow-glh32.jpg",desc:"حامل جوال مغناطيسي للسيارة مع دوران 360 درجة."},
+{id:"p7",name:"NITO N-H673 - سماعة رأس Type-C",oldPrice:20,price:20,category:"سماعات",image:"nito-nh673.jpg",desc:"سماعة سلكية بمنفذ Type-C للأجهزة الحديثة."},
+{id:"p8",name:"KUMS - كيبل Type-C قماش 1.2m 3.4A",oldPrice:10,price:10,category:"كيابل",image:"kums-typec-1200mm.jpg",desc:"كيبل Type-C قماش بطول 1.2 متر وقوة 3.4A."},
+{id:"p9",name:"WINMFIX LED - لمبة 3 في 1 وحامل جوال",oldPrice:30,price:30,category:"متنوع",image:"winmfix-led.jpg",desc:"لمبة LED متعددة الاستخدامات وحامل للجوال."},
+{id:"p10",name:"X.LOOD X-73 - كيبل Type-C 3.1A",oldPrice:10,price:10,category:"كيابل",image:"xlood-x73.jpg",desc:"كيبل Type-C للشحن بقوة 3.1A."},
+{id:"p11",name:"UNIVERSAL CLIP - حامل مرآة للسيارة",oldPrice:30,price:30,category:"سيارات",image:"universal-clip.jpg",desc:"حامل جوال يثبت على مرآة السيارة."},
+{id:"p12",name:"GLOW GLH-29 - حامل مغناطيسي للسيارة",oldPrice:30,price:30,category:"سيارات",image:"glow-glh29.jpg",desc:"حامل مغناطيسي عملي للسيارة."},
+{id:"p13",name:"NITO CH-512 - شاحن جداري بمنفذين",oldPrice:30,price:30,category:"شواحن",image:"nito-ch512.jpg",desc:"شاحن جداري بمنفذين للشحن."},
+{id:"p14",name:"PROMASS PM-8509 - شاحن PD+QC 38W",oldPrice:30,price:30,category:"شواحن",image:"promass-pm8509.jpg",desc:"شاحن سريع بتقنية PD وQC بقوة 38W."},
+{id:"p15",name:"GLOW GLH-26 - حامل مغناطيسي صغير للسيارة",oldPrice:30,price:30,category:"سيارات",image:"glow-glh26.jpg",desc:"حامل مغناطيسي صغير وعملي للسيارة."},
+{id:"p16",name:"Goui Wall-I - شاحن جداري بمنفذين USB مع كابل آيفون",oldPrice:100,price:100,category:"شواحن",image:"new-goui-charger.jpg",desc:"شاحن جداري قوي وسريع مع منفذين USB بقدرة 3.1A وكابل Lightning بطول 100 سم معتمد من أبل. (ضمان على المنتج)"},
+{id:"p17",name:"NITO NT-H954 - سماعات لاسلكية T Series",oldPrice:100,price:100,category:"سماعات",image:"new-nito-h954.jpg",desc:"سماعات أذن لاسلكية بتقنية Pure Bass وضبط باللمس مع استشعار داخل الأذن ومقاومة للماء للرياضة. (ضمان على المنتج)"},
+{id:"p18",name:"NITO NT-TW312 - سماعات لاسلكية شحن لاسلكي",oldPrice:100,price:100,category:"سماعات",image:"new-nito-tw312.jpg",desc:"سماعات أذن لاسلكية تدعم الشحن اللاسلكي وعلبة شحن 400mAh وبلوتوث 5.0 واستشعار ذكي. (ضمان على المنتج)"},
+{id:"p19",name:"Anker PowerLine III - كيبل USB-C إلى Lightning",oldPrice:60,price:60,category:"كيابل",image:"new-anker-cable.jpg",desc:"كيبل شحن سريع ومزامنة بطول 0.9m يتضمن تحملاً لأكثر من 25,000 انحناءة ومُعتمد من أبل. (ضمان على المنتج)"},
+{id:"p20",name:"Apple EarPods Lightning - سماعة أبل سلكية",oldPrice:60,price:60,category:"سماعات",image:"new-apple-earpods.jpg",desc:"سماعة أبل سلكية بمدخل Lightning وصوت عالي الدقة ووحدة تحكم ومكالمات. (ضمان على المنتج)"}
 ];
 
 const DELIVERY_FEE=15,FREE_SHIPPING_LIMIT=100,COUPON_CODE="NEXO50",COUPON_RATE=0.50,WHATSAPP="966501203710";
@@ -451,14 +438,15 @@ let category="الكل",couponApplied=false,deliveryMethod="delivery",currentPro
 
 /* ===== PRODUCTS ===== */
 function card(p,fav){
+const shownPrice=couponApplied?unitPrice(p):p.price;
 return `<div class="product" ${fav?"":`onclick="openProduct('${p.id}')"`}>
 <button class="heart ${favs.includes(p.id)?"on":""}" onclick="event.stopPropagation();toggleFav('${p.id}')">${HEART}</button>
 <img class="productImg" src="${p.image}" alt="${p.name}" loading="lazy">
 <div class="productBody">
 <div class="productName">${p.name}</div>
 <div class="productDescription">${p.desc}</div>
-<div class="oldPrice">${p.oldPrice} ريال</div>
-<div class="price">${p.price} ريال</div>
+${couponApplied?`<div class="oldPrice">${p.oldPrice} ريال</div>`:""}
+<div class="price">${shownPrice} ريال</div>
 <button class="addButton" onclick="event.stopPropagation();addToCart('${p.id}')">أضف للسلة</button>
 </div></div>`}
 
@@ -495,8 +483,9 @@ $("detailHeart").innerHTML=HEART;
 $("detailImage").src=p.image;$("detailImage").alt=p.name;
 $("detailName").textContent=p.name;
 $("detailDescription").textContent=p.desc;
-$("detailOldPrice").textContent=p.oldPrice+" ريال";
-$("detailPrice").textContent=p.price+" ريال";
+$("detailOldPrice").textContent=couponApplied?p.oldPrice+" ريال":"";
+$("detailOldPrice").style.display=couponApplied?"block":"none";
+$("detailPrice").textContent=unitPrice(p)+" ريال";
 $("detailAddButton").onclick=()=>addToCart(p.id);
 $("detailHeart").className="heart"+(favs.includes(p.id)?" on":"");
 $("productPage").classList.add("show");
@@ -620,9 +609,9 @@ saveCart();renderCart();
 }
 function removeItem(id){cart=cart.filter(x=>x.id!==id);saveCart();renderCart()}
 
-/* ===== CALCULATE =====
-   الكوبون: خصم 50% من السعر الأصلي للمنتج (مثال: أصلي 100 ← 50 + توصيل 15 = 65) */
-const unitPrice=p=>couponApplied?p.oldPrice*(1-COUPON_RATE):p.price;
+/* ===== CALCULATE ===== */
+const unitPrice=p=>couponApplied?Math.round(p.oldPrice*(1-COUPON_RATE)*100)/100:p.price;
+
 function calculate(){
 let originalSubtotal=0,currentSubtotal=0,productsTotal=0;
 cart.forEach(i=>{
@@ -632,7 +621,7 @@ currentSubtotal+=p.price*i.qty;
 productsTotal+=unitPrice(p)*i.qty;
 });
 const discount=couponApplied?originalSubtotal-productsTotal:0;
-const delivery=deliveryMethod==="pickup"?0:(currentSubtotal>=FREE_SHIPPING_LIMIT?0:DELIVERY_FEE);
+const delivery=deliveryMethod==="pickup"?0:(productsTotal>=FREE_SHIPPING_LIMIT?0:DELIVERY_FEE);
 return{originalSubtotal,currentSubtotal,discount,productsTotal,delivery,total:productsTotal+delivery};
 }
 
@@ -655,15 +644,15 @@ $("cartItems").innerHTML=cart.map(i=>{
 const p=byId(i.id);if(!p)return"";
 return `<div class="cartItem"><img src="${p.image}" alt="${p.name}">
 <div class="cartInfo"><div class="cartName">${p.name}</div>
-<div class="cartPrice">${couponApplied?`<s>${p.price}</s>`:""}${unitPrice(p)} ريال</div>
+<div class="cartPrice">${couponApplied?`<s>${p.price} ريال</s> `:""}${unitPrice(p)} ريال</div>
 <div class="cartRow"><div class="quantity"><button onclick="changeQuantity('${p.id}',1)">+</button><span>${i.qty}</span><button onclick="changeQuantity('${p.id}',-1)">−</button></div>
 <div class="lineTotal">${unitPrice(p)*i.qty} ريال</div></div></div>
 <button class="delete" onclick="removeItem('${p.id}')">🗑</button></div>`}).join("");
 const d=calculate(),fs=$("freeShipping");
 let pct=100;
 if(deliveryMethod==="pickup")fs.textContent="🏪 الاستلام من الفرع مجاني";
-else if(d.currentSubtotal>=FREE_SHIPPING_LIMIT)fs.textContent="🎉 حصلت على التوصيل المجاني";
-else{const left=FREE_SHIPPING_LIMIT-d.currentSubtotal;pct=d.currentSubtotal/FREE_SHIPPING_LIMIT*100;fs.textContent=`🚚 أضف ${left} ريال إضافية للحصول على توصيل مجاني`}
+else if(d.productsTotal>=FREE_SHIPPING_LIMIT)fs.textContent="🎉 حصلت على التوصيل المجاني";
+else{const left=FREE_SHIPPING_LIMIT-d.productsTotal;pct=d.productsTotal/FREE_SHIPPING_LIMIT*100;fs.textContent=`🚚 أضف ${left} ريال إضافية للحصول على توصيل مجاني`}
 $("shipFill").style.width=pct+"%";
 $("summary").innerHTML=summaryHTML(d,true);
 $("barTotal").textContent=d.total+" ريال";
@@ -677,6 +666,12 @@ function applyCoupon(){
 const ok=$("couponInput").value.trim().toUpperCase()===COUPON_CODE;
 couponApplied=ok;
 renderCart();
+renderProducts();
+if(currentProduct){
+$("detailOldPrice").textContent=couponApplied?currentProduct.oldPrice+" ريال":"";
+$("detailOldPrice").style.display=couponApplied?"block":"none";
+$("detailPrice").textContent=unitPrice(currentProduct)+" ريال";
+}
 if(!ok){const m=$("couponMessage");m.className="couponMessage error";m.textContent="✕ رمز الخصم غير صحيح"}
 }
 
@@ -692,6 +687,7 @@ deliveryMethod=t;
 $("deliveryOption").classList.toggle("active",t==="delivery");
 $("pickupOption").classList.toggle("active",t==="pickup");
 renderOrderSummary();
+renderCart();
 }
 function renderOrderSummary(){$("orderSummary").innerHTML=summaryHTML(calculate(),false)}
 
@@ -717,6 +713,7 @@ if(deliveryMethod==="delivery")msg+=`\n📍 العنوان:\n${address}`;
 const url="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg);
 cart=[];couponApplied=false;$("couponInput").value="";
 saveCart();
+renderProducts();
 window.open(url,"_blank");
 closeModal("orderModal");
 }
@@ -757,7 +754,6 @@ $("products").scrollIntoView({behavior:"smooth",block:"start"});
 }
 window.addEventListener("scroll",updateHeader,{passive:true});
 
-/* غيّر الإعلانات من هنا: ضع اسم الصورة في img (مثل "ad1.jpg") وإذا تركته فاضي يظهر النص */
 const ADS=[
 {img:"",title:"التوصيل داخل مكة 🚚",sub:"اطلب الآن ويوصلك لين الباب",bg:"linear-gradient(135deg,#0876d9,#00c6ff)"},
 {img:"",title:"خصم 50% بكود NEXO50",sub:"على جميع المنتجات",bg:"linear-gradient(135deg,#111,#0876d9)"},
@@ -790,23 +786,3 @@ window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").ca
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
