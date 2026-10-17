@@ -63,7 +63,7 @@ const SB=supabase.createClient(U,K);
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const im=s=>!s?'../icon-192.png':/^http/.test(s)?s:'../'+s;
-const TABS=[['products','المنتجات'],['ads','الإعلانات'],['orders','الطلبات'],['settings','الإعدادات']];
+const TABS=[['products','المنتجات'],['ads','الإعلانات'],['orders','الطلبات'],['coupons','كودات الخصم'],['settings','الإعدادات']];
 let tab='products',cats=[],P=[],A=[];
 function msg(t){const e=$('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2600)}
 function closeM(){$('modal').style.display='none'}
@@ -90,7 +90,7 @@ function go(t){
 tab=t;
 TABS.forEach(([k])=>$('t_'+k).classList.toggle('on',k===t));
 $('view').innerHTML='<p>جاري التحميل...</p>';
-({products:rProducts,ads:rAds,orders:rOrders,settings:rSet})[t]();
+({products:rProducts,ads:rAds,orders:rOrders,coupons:rCoupons,settings:rSet})[t]();
 }
 
 async function up(f){
@@ -170,6 +170,25 @@ const{error}=await(id?SB.from('ads').update(o).eq('id',id):SB.from('ads').insert
 },id?async()=>{const{error}=await SB.from('ads').delete().eq('id',id);if(error)throw error}:null);
 }
 
+/* ---- كودات الخصم ---- */
+let C=[];
+async function rCoupons(){
+const{data}=await SB.from('coupons').select('*').order('code');C=data||[];
+$('view').innerHTML='<button class="btn" onclick="editC()">+ كود جديد</button>'+C.map(x=>`<div class="row ${x.is_active?'':'off'}"><div class="inf"><b>${esc(x.code)}</b><small>خصم ${Math.round(x.rate*100)}% من السعر الأصلي</small></div><button onclick="editC('${esc(x.code)}')">تعديل</button></div>`).join('');
+}
+function editC(code){
+const c=C.find(x=>x.code===code);
+form(code?'تعديل كود':'كود جديد',[['code','الكود (حروف إنجليزية وأرقام بدون مسافات)','t'],['percent','نسبة الخصم %','num'],['is_active','فعّال','chk']],
+c?{code:c.code,percent:Math.round(c.rate*100),is_active:c.is_active}:{is_active:true,percent:10},
+async o=>{
+o.code=o.code.toUpperCase().replace(/\s/g,'');
+if(!/^[A-Z0-9_-]{3,20}$/.test(o.code))throw new Error('الكود من 3 إلى 20 حرف إنجليزي أو رقم');
+if(!(o.percent>0&&o.percent<=100))throw new Error('النسبة من 1 إلى 100');
+const{error}=await SB.from('coupons').upsert({code:o.code,rate:o.percent/100,is_active:o.is_active});if(error)throw error;
+if(code&&code!==o.code)await SB.from('coupons').delete().eq('code',code);
+},code?async()=>{const{error}=await SB.from('coupons').delete().eq('code',code);if(error)throw error}:null);
+}
+
 /* ---- الطلبات ---- */
 async function rOrders(){
 const{data}=await SB.from('orders').select('*,order_items(*)').order('created_at',{ascending:false}).limit(100);
@@ -189,3 +208,5 @@ start();
 </script>
 </body>
 </html>
+
+
