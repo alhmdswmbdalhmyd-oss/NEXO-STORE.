@@ -426,7 +426,7 @@ const products=[
 {id:"p20",name:"Apple EarPods Lightning - سماعة أبل سلكية",oldPrice:60,price:60,category:"سماعات",image:"new-apple-earpods.jpg",desc:"سماعة أبل سلكية بمدخل Lightning وصوت عالي الدقة ووحدة تحكم ومكالمات. (ضمان على المنتج)"}
 ];
 
-const DELIVERY_FEE=15,FREE_SHIPPING_LIMIT=100,COUPON_CODE="NEXO50",COUPON_RATE=0.50,WHATSAPP="966501203710";
+let DELIVERY_FEE=15,FREE_SHIPPING_LIMIT=100,COUPON_CODE="NEXO50",COUPON_RATE=0.50,WHATSAPP="966501203710";
 const $=id=>document.getElementById(id);
 const load=(k,d)=>{const def=JSON.parse(d);try{const v=JSON.parse(localStorage.getItem(k)||d);return v&&typeof v==="object"&&Array.isArray(v)===Array.isArray(def)?v:def}catch(e){return def}};
 const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
