@@ -51,6 +51,25 @@ if(!window.open(url,'_blank'))location.href=url;
 finally{btn.disabled=false;btn.textContent='تأكيد الطلب عبر واتساب'}
 };
 
+/* كودات الخصم من قاعدة البيانات */
+window.applyCoupon=async function(){
+const code=$('couponInput').value.trim();
+let rate=null;
+if(code){try{const r=await fetch(U+'/rest/v1/rpc/validate_coupon',{method:'POST',headers:{...H,'Content-Type':'application/json'},body:JSON.stringify({p_code:code})});rate=await r.json()}catch(e){}}
+if(rate>0){COUPON_RATE=+rate;COUPON_CODE=code.toUpperCase();couponApplied=true}else couponApplied=false;
+renderCart();renderProducts();
+if(currentProduct){
+$('detailOldPrice').textContent=couponApplied?currentProduct.oldPrice+' ريال':'';
+$('detailOldPrice').style.display=couponApplied?'block':'none';
+$('detailPrice').textContent=unitPrice(currentProduct)+' ريال';
+}
+if(!couponApplied){const m=$('couponMessage');m.className='couponMessage error';m.textContent='✕ رمز الخصم غير صحيح'}
+};
+const _rc=renderCart;
+window.renderCart=function(){_rc();if(couponApplied){$('couponMessage').textContent='✓ تم تطبيق خصم '+Math.round(COUPON_RATE*100)+'% من السعر الأصلي'}};
+const _sum=summaryHTML;
+window.summaryHTML=(d,f)=>_sum(d,f).replace('الخصم 50%','الخصم '+Math.round(COUPON_RATE*100)+'%');
+
 /* تحميل البيانات */
 try{
 const[ps,cs,ads]=await Promise.all([get('products?select=*&order=sort'),get('categories?select=*&order=sort'),get('ads?select=*&order=sort')]);
@@ -96,4 +115,11 @@ return `<${link?`a href="${esc(link)}"`:'div'} style="flex:0 0 85%;height:120px;
 $('products').before(s);
 }
 }catch(e){console.error('Supabase:',e)}
+
+/* رسوم التوصيل وحد التوصيل المجاني من الإعدادات */
+try{
+const[s]=await get('settings?select=*&id=eq.1');
+if(s){DELIVERY_FEE=+s.delivery_fee;FREE_SHIPPING_LIMIT=+s.free_shipping_limit;updateCartNumber()}
+}catch(e){console.error('settings:',e)}
 })();
+
