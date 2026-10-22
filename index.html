@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 *{box-sizing:border-box}
 html,body{overscroll-behavior-y:contain}
@@ -45,7 +46,7 @@ button{cursor:pointer}
 .loaderLine::after{content:"";position:absolute;top:0;right:100%;width:100%;height:100%;background:linear-gradient(90deg,#0b5fb0,#1b8cff,#5cc0ff);border-radius:20px;animation:loading 1.9s cubic-bezier(.4,0,.2,1) forwards}
 .loaderText{position:relative;color:#6b7f99;font-size:13px;font-weight:600;margin-top:14px}
 @keyframes loading{0%{right:100%}72%{right:8%}88%{right:3%}100%{right:0}}
-header{position:fixed;top:0;left:0;right:0;z-index:50;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top,0px));background:transparent;transition:background .25s,box-shadow .25s}
+header{position:fixed;top:0;left:0;right:0;z-index:50;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:transparent;transition:background .25s,box-shadow .25s}
 header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .hRow{display:flex;align-items:center;gap:8px}
 .search{flex:1;min-width:0;height:46px;border:0;border-radius:14px;padding:0 16px;font-size:16px;outline:none;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.14)}
@@ -72,8 +73,8 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .category .catImg{width:64px;height:64px;border-radius:50%;object-fit:contain;background:#fff;border:2px solid #e6eaf0;padding:6px;transition:.2s}
 .category.active{color:var(--b)}
 .category.active .catImg{border-color:var(--b);box-shadow:0 4px 12px rgba(8,118,217,.25)}
-.products{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;scroll-margin-top:80px}
-.product{position:relative;background:#fff;border-radius:20px;overflow:hidden;border:1px solid #e5e5e5;box-shadow:0 3px 12px rgba(0,0,0,.04);transition:transform .18s,box-shadow .18s;cursor:pointer}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;scroll-margin-top:80px}
+.product{position:relative;background:#fff;border-radius:20px;overflow:hidden;border:1px solid #e5e5e5;box-shadow:0 3px 12px rgba(0,0,0,.04);transition:transform .18s,box-shadow .18s;cursor:pointer;min-width:0}
 .product:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,.08)}
 .productImg{width:100%;height:220px;object-fit:contain;display:block;background:#fff;padding:10px}
 .productBody{padding:14px}
@@ -91,7 +92,7 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .productPage,.fullPage{position:fixed;inset:0;background:#f5f7fa;z-index:200;overflow-y:auto;visibility:hidden;opacity:0;transform:translateX(-20px);pointer-events:none;transition:opacity .22s,transform .22s,visibility .22s}
 .fullPage{z-index:210}
 .productPage.show,.fullPage.show{visibility:visible;opacity:1;transform:none;pointer-events:auto}
-.pageHeader{height:74px;padding-top:env(safe-area-inset-top,0px);background:#fff;border-bottom:1px solid #ddd;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:10;font-size:21px;font-weight:800}
+.pageHeader{min-height:74px;padding:env(safe-area-inset-top,0px) 60px 0;background:#fff;border-bottom:1px solid #ddd;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:10;font-size:21px;font-weight:800}
 .pageBack{position:absolute;right:15px;width:48px;height:48px;border:0;border-radius:15px;background:#f1f3f5;color:#111;font-size:27px;font-weight:800}
 .pageLogo{color:var(--b);font-size:25px;font-weight:800}
 .pageLogo span{color:#111}
@@ -107,7 +108,7 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .detailActions{display:flex;gap:12px;margin-top:22px}
 .productAdd{flex:1;height:58px;border:0;border-radius:17px;background:var(--b);color:#fff;font-size:18px;font-weight:800}
 .productCart{width:60px;height:58px;border:0;border-radius:17px;background:#111;color:#fff;font-size:25px}
-.favGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.favGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .favGrid .product{cursor:default}
 .favGrid .productImg{height:150px}
 .favGrid .productName{font-size:14px;min-height:48px}
@@ -117,13 +118,13 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
 .chip{border:2px solid #e0e3e7;background:#fff;border-radius:20px;padding:7px 14px;font-weight:700;font-size:14px;color:#555}
 .chip.on{border-color:var(--b);background:#edf6ff;color:var(--b)}
-.msgItem{background:#edf6ff;border-radius:16px 16px 4px 16px;padding:12px 14px;margin-bottom:10px;line-height:1.8}
+.msgItem{background:#edf6ff;border-radius:16px 16px 4px 16px;padding:12px 14px;margin-bottom:10px;line-height:1.8;overflow-wrap:anywhere}
 .msgItem small{display:block;color:#7a8794;margin-top:4px}
 .calHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-weight:800;font-size:19px}
 .calHead button{width:40px;height:40px;border:0;border-radius:12px;background:#f1f3f5;font-size:20px;font-weight:800}
-.calGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.calGrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
 .calGrid .dn{font-size:12px;color:#8a929c;font-weight:700;padding:4px 0}
-.calGrid .d{position:relative;height:42px;border:0;border-radius:12px;background:#f7f9fb;font-weight:700;font-size:15px;color:#222}
+.calGrid .d{position:relative;height:42px;border:0;border-radius:12px;background:#f7f9fb;font-weight:700;font-size:15px;color:#222;min-width:0}
 .calGrid .d.today{border:2px solid var(--b)}
 .calGrid .d.sel{background:var(--b);color:#fff}
 .calGrid .d.has::after{content:"";position:absolute;bottom:5px;left:50%;margin-left:-3px;width:6px;height:6px;border-radius:50%;background:#e53950}
@@ -135,8 +136,8 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .evForm .evH{width:112px}
 .evForm button{flex:0 0 52px;border:0;border-radius:13px;background:var(--b);color:#fff;font-size:24px;font-weight:800}
 .evItem{display:flex;align-items:center;gap:10px;background:#fff7e6;border-radius:14px;padding:10px 12px;margin-bottom:8px;line-height:1.6}
-.evItem span{flex:1}
-.evItem button{border:0;background:#ffe9e9;border-radius:10px;width:34px;height:34px}
+.evItem span{flex:1;overflow-wrap:anywhere}
+.evItem button{border:0;background:#ffe9e9;border-radius:10px;width:34px;height:34px;flex-shrink:0}
 .calGrid .d.ev::before{content:"";position:absolute;bottom:5px;left:50%;margin-left:-11px;width:6px;height:6px;border-radius:50%;background:#f5a623}
 .ordItem{border-bottom:1px solid #eee;padding:10px 0;line-height:1.8}
 .ordItem:last-child{border:0}
@@ -144,24 +145,25 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .modalBackground.show{display:flex}
 .modal{width:100%;max-width:650px;max-height:94vh;overflow:auto;background:#fff;border-radius:30px;padding:28px;position:relative}
 .closeButton{position:absolute;left:15px;top:15px;width:42px;height:42px;border:0;border-radius:50%;background:#f1f1f1;font-size:25px}
-.modalTitle{font-size:26px;font-weight:800;margin-bottom:20px}
+.modalTitle{font-size:26px;font-weight:800;margin-bottom:20px;padding-left:40px}
 .cartItem{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #eee}
 .cartItem img{width:80px;height:80px;object-fit:contain;border-radius:14px;background:#fafafa}
-.cartInfo{flex:1}
-.cartName{font-weight:800;line-height:1.5}
+.cartInfo{flex:1;min-width:0}
+.cartName{font-weight:800;line-height:1.5;overflow-wrap:anywhere}
 .cartPrice{color:var(--b);font-weight:800;margin-top:3px}
 .cartPrice s{color:#999;font-weight:600;margin-left:6px}
 .quantity{display:flex;align-items:center;gap:7px;margin-top:7px}
 .quantity button{width:36px;height:36px;border:0;border-radius:11px;background:#edf0f3;font-size:20px}
 .quantity span{min-width:25px;text-align:center;font-weight:800}
-.delete{width:36px;height:36px;border:0;border-radius:10px;background:#ffe9e9}
+.delete{width:36px;height:36px;border:0;border-radius:10px;background:#ffe9e9;flex-shrink:0}
 .freeShipping{margin:15px 0;background:#edf7ed;color:#3c8144;border-radius:15px;padding:13px;text-align:center;font-weight:800}
 .summary{margin-top:15px}
-.summaryRow{display:flex;align-items:center;justify-content:space-between;padding:9px 0;font-size:18px}
+.summaryRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;font-size:18px}
+.summaryRow strong{text-align:left;white-space:nowrap}
 .discountRow{color:#3c8144}
 .totalRow{color:var(--b);font-size:27px;font-weight:800;border-top:1px solid #eee;margin-top:7px;padding-top:15px}
 .coupon{display:flex;gap:9px;margin-top:15px}
-.coupon input{flex:1;height:57px;border:1px solid #d7dce2;border-radius:15px;background:#f5f8fc;padding:0 15px;font-size:17px;direction:ltr;text-align:right}
+.coupon input{flex:1;min-width:0;height:57px;border:1px solid #d7dce2;border-radius:15px;background:#f5f8fc;padding:0 15px;font-size:17px;direction:ltr;text-align:right}
 .coupon button{width:120px;border:0;border-radius:15px;background:var(--b);color:#fff;font-size:17px;font-weight:800}
 .couponMessage{margin-top:8px;font-size:14px;font-weight:800}
 .success{color:#3b8144}
@@ -171,29 +173,55 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .formGroup label{display:block;font-weight:800;margin-bottom:6px}
 .formGroup input,.formGroup textarea,.formGroup select{width:100%;border:1px solid #d7dce2;border-radius:14px;padding:12px;font-size:16px;outline:none;background:#fff}
 .formGroup input,.formGroup select{height:53px}
-.formGroup textarea{height:100px;resize:none}
+.formGroup textarea{height:100px;resize:vertical}
 .options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .option{border:2px solid #e0e3e7;border-radius:15px;padding:12px;text-align:center;font-weight:700}
 .option.active{border-color:var(--b);background:#edf6ff;color:var(--b)}
 #catsView{display:none;padding-top:84px}
 .catsTitle{font-size:22px;font-weight:800;margin:4px 4px 14px}
-.catsGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.catsGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .catCard{border:0;background:#fff;border-radius:20px;padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 3px 14px rgba(0,0,0,.06);font-size:16px;font-weight:800;color:#111}
 .catCard img{width:96px;height:96px;object-fit:contain}
 .catCard small{color:var(--b);font-size:13px;font-weight:700}
 .bottomNav{position:fixed;bottom:0;left:0;right:0;z-index:60;display:flex;background:#fff;border-radius:22px 22px 0 0;box-shadow:0 -4px 22px rgba(0,0,0,.09);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
-.bottomNav button{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;padding:8px 0 4px;font-size:12px;font-weight:700;color:#8a929c}
+.bottomNav button{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;padding:8px 0 4px;font-size:12px;font-weight:700;color:#8a929c;min-width:0}
 .bottomNav svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:.2s}
 .bottomNav button.on{color:var(--b)}
 .bottomNav button.on svg{fill:rgba(8,118,217,.16);stroke-width:2.2}
 .bottomNav button.on::before{content:"";position:absolute;top:-6px;width:30px;height:3px;border-radius:3px;background:var(--b)}
 .navBadge{position:absolute;top:2px;left:50%;margin-left:6px;min-width:19px;height:19px;padding:0 4px;border-radius:10px;background:#111;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center}
-@media(max-width:900px){.products{grid-template-columns:repeat(3,1fr)}}
+.cartWrap{max-width:720px;padding-bottom:120px}
+.shipBox{background:linear-gradient(135deg,#0b2447,#0876d9);color:#fff;border-radius:22px;padding:16px 18px;margin-bottom:16px;box-shadow:0 8px 24px rgba(8,118,217,.28)}
+.shipText{font-weight:800;font-size:15px;line-height:1.7}
+.shipBar{height:9px;background:rgba(255,255,255,.25);border-radius:9px;margin-top:10px;overflow:hidden}
+.shipBar i{display:block;height:100%;width:0;background:#fff;border-radius:9px;transition:width .4s}
+.cartHead{display:flex;justify-content:space-between;align-items:center;margin:4px 4px 10px;font-size:18px}
+.cartHead span{background:#edf6ff;color:var(--b);border-radius:12px;padding:2px 12px;font-size:14px;font-weight:800}
+.cartItem{display:flex;align-items:center;gap:12px;background:#fff;border:0;border-radius:22px;padding:12px;margin-bottom:12px;box-shadow:0 4px 16px rgba(0,0,0,.06);position:relative}
+.cartItem img{width:92px;height:92px;flex:0 0 92px;border-radius:16px;background:#f6f8fb;padding:6px}
+.cartName{font-size:14px;font-weight:800;line-height:1.6;padding-left:34px}
+.cartRow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.cartItem .quantity{margin:0;background:#f1f4f8;border-radius:14px;padding:3px;gap:2px}
+.cartItem .quantity button{width:34px;height:34px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.1);font-weight:800}
+.cartItem .quantity span{min-width:30px}
+.lineTotal{font-size:18px;font-weight:800;color:#111;white-space:nowrap}
+.cartItem .delete{position:absolute;top:10px;left:10px;width:32px;height:32px;border-radius:10px;font-size:15px}
+.cartEmpty{text-align:center;padding:60px 20px}
+.cartEmpty .big{font-size:76px}
+.cartEmpty h3{font-size:24px;margin:10px 0 4px}
+.cartEmpty p{color:#777;margin:0 0 20px}
+.cartBar{position:fixed;bottom:0;left:0;right:0;z-index:215;display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border-radius:26px 26px 0 0;box-shadow:0 -6px 26px rgba(0,0,0,.12);padding:14px 18px calc(14px + env(safe-area-inset-bottom,0px))}
+.cartBar small{display:block;color:#7a8794;font-weight:700;font-size:12px}
+.cartBar b{font-size:24px;color:var(--b);font-weight:800}
+.cartBar button{flex:0 0 58%;height:54px;border:0;border-radius:17px;background:linear-gradient(135deg,#0876d9,#0b5fb0);color:#fff;font-size:18px;font-weight:800;box-shadow:0 6px 18px rgba(8,118,217,.35)}
+#cartPage .card .summaryRow{font-size:16px}
+#cartPage .card .totalRow{font-size:22px}
+@media(max-width:900px){.products{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:650px){
 .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .productImg{height:165px}
 .productBody{padding:10px}
-.productName{font-size:14px;min-height:50px}
+.productName{font-size:14px;min-height:50px;overflow-wrap:anywhere}
 .productDescription{font-size:11px}
 .price{font-size:20px}
 .addButton{height:44px;font-size:14px}
@@ -208,33 +236,20 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 .detailActions{gap:8px}
 .productAdd{height:54px;font-size:16px}
 .productCart{height:54px;width:55px}
+.cartItem{gap:8px;padding:10px}
+.cartItem img{width:72px;height:82px;flex-basis:72px}
+.cartName{font-size:12px;padding-left:22px}
+.cartRow{flex-wrap:wrap}
+.lineTotal{font-size:15px}
+.cartItem .quantity button{width:30px;height:32px}
+.cartBar{gap:8px;padding-left:12px;padding-right:12px}
+.cartBar b{font-size:20px}
+.cartBar button{flex-basis:58%;font-size:15px}
+.summaryRow{font-size:15px}
+.totalRow{font-size:21px}
+.coupon button{width:90px}
+.evForm .evH{width:100px}
 }
-.cartWrap{max-width:720px;padding-bottom:120px}
-.shipBox{background:linear-gradient(135deg,#0b2447,#0876d9);color:#fff;border-radius:22px;padding:16px 18px;margin-bottom:16px;box-shadow:0 8px 24px rgba(8,118,217,.28)}
-.shipText{font-weight:800;font-size:15px;line-height:1.7}
-.shipBar{height:9px;background:rgba(255,255,255,.25);border-radius:9px;margin-top:10px;overflow:hidden}
-.shipBar i{display:block;height:100%;width:0;background:#fff;border-radius:9px;transition:width .4s}
-.cartHead{display:flex;justify-content:space-between;align-items:center;margin:4px 4px 10px;font-size:18px}
-.cartHead span{background:#edf6ff;color:var(--b);border-radius:12px;padding:2px 12px;font-size:14px;font-weight:800}
-.cartItem{display:flex;align-items:center;gap:12px;background:#fff;border:0;border-radius:22px;padding:12px;margin-bottom:12px;box-shadow:0 4px 16px rgba(0,0,0,.06);position:relative}
-.cartItem img{width:92px;height:92px;flex:0 0 92px;border-radius:16px;background:#f6f8fb;padding:6px}
-.cartName{font-size:14px;font-weight:800;line-height:1.6;padding-left:34px}
-.cartRow{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
-.cartItem .quantity{margin:0;background:#f1f4f8;border-radius:14px;padding:3px;gap:2px}
-.cartItem .quantity button{width:34px;height:34px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.1);font-weight:800}
-.cartItem .quantity span{min-width:30px}
-.lineTotal{font-size:18px;font-weight:800;color:#111}
-.cartItem .delete{position:absolute;top:10px;left:10px;width:32px;height:32px;border-radius:10px;font-size:15px}
-.cartEmpty{text-align:center;padding:60px 20px}
-.cartEmpty .big{font-size:76px}
-.cartEmpty h3{font-size:24px;margin:10px 0 4px}
-.cartEmpty p{color:#777;margin:0 0 20px}
-.cartBar{position:fixed;bottom:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border-radius:26px 26px 0 0;box-shadow:0 -6px 26px rgba(0,0,0,.12);padding:14px 18px calc(14px + env(safe-area-inset-bottom,0px))}
-.cartBar small{display:block;color:#7a8794;font-weight:700;font-size:12px}
-.cartBar b{font-size:24px;color:var(--b);font-weight:800}
-.cartBar button{flex:0 0 58%;height:54px;border:0;border-radius:17px;background:linear-gradient(135deg,#0876d9,#0b5fb0);color:#fff;font-size:18px;font-weight:800;box-shadow:0 6px 18px rgba(8,118,217,.35)}
-#cartPage .card .summaryRow{font-size:16px}
-#cartPage .card .totalRow{font-size:22px}
 </style>
 </head>
 <body>
@@ -249,6 +264,9 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 <i class="ncS" style="left:7.75px;top:88.75px;width:26.5px;opacity:.8"></i>
 <i class="ncS" style="left:12.75px;top:97.75px;width:21.5px;opacity:.6"></i>
 </div></div>
+<div class="loaderSub">NEXO STORE</div>
+<div class="loaderLine"></div>
+<div class="loaderText">جاري تجهيز المتجر...</div>
 </div>
 
 <header id="topHeader">
@@ -336,7 +354,7 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 <div class="pageHeader"><button class="pageBack" onclick="closePage('calPage')">←</button>📅 التقويم</div>
 <div class="pageContent">
 <div class="card">
-<div class="calHead"><button onclick="calMove(1)">›</button><span id="calTitle"></span><button onclick="calMove(-1)">‹</button></div>
+<div class="calHead"><button onclick="calMove(-1)">‹</button><span id="calTitle"></span><button onclick="calMove(1)">›</button></div>
 <div class="calGrid" id="calGrid"></div>
 </div>
 <div class="card">
@@ -372,14 +390,14 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 <div class="modal">
 <button class="closeButton" onclick="closeModal('orderModal')">×</button>
 <div class="modalTitle">إتمام الطلب</div>
-<div class="formGroup"><label>الاسم</label><input id="name" type="text" placeholder="اكتب اسمك"></div>
-<div class="formGroup"><label>رقم الجوال</label><input id="phone" type="tel" placeholder="05xxxxxxxx"></div>
+<div class="formGroup"><label>الاسم</label><input id="name" type="text" autocomplete="name" placeholder="اكتب اسمك"></div>
+<div class="formGroup"><label>رقم الجوال</label><input id="phone" type="tel" autocomplete="tel" placeholder="05xxxxxxxx"></div>
 <div class="formGroup"><label>العنوان</label><textarea id="address" placeholder="اكتب عنوان التوصيل داخل مكة"></textarea></div>
 <div class="formGroup">
 <label>طريقة الاستلام</label>
 <div class="options">
-<div id="deliveryOption" class="option active" onclick="setDelivery('delivery')">🚚 توصيل<br><small>15 ريال</small></div>
-<div id="pickupOption" class="option" onclick="setDelivery('pickup')">🏪 استلام من الفرع<br><small>مجاناً</small></div>
+<div id="deliveryOption" class="option active" role="button" tabindex="0" onclick="setDelivery('delivery')">🚚 توصيل<br><small>15 ريال</small></div>
+<div id="pickupOption" class="option" role="button" tabindex="0" onclick="setDelivery('pickup')">🏪 استلام من الفرع<br><small>مجاناً</small></div>
 </div>
 </div>
 <div class="formGroup">
@@ -403,52 +421,74 @@ header.solid{background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.08)}
 </nav>
 
 <script>
+"use strict";
+
+/* إعدادات المتجر */
+const DELIVERY_FEE=15;
+const FREE_SHIPPING_LIMIT=100;
+const COUPON_CODE="NEXO50";
+const COUPON_RATE=0.50;
+const WHATSAPP="966501203710";
+
+const $=id=>document.getElementById(id);
+
+function load(k,d){
+ try{
+  const v=JSON.parse(localStorage.getItem(k)||d);
+  const def=JSON.parse(d);
+  return v!==null&&typeof v==="object"&&Array.isArray(v)===Array.isArray(def)?v:def;
+ }catch(e){return JSON.parse(d)}
+}
+function save(k,v){
+ try{localStorage.setItem(k,JSON.stringify(v))}
+ catch(e){console.error("Local storage:",e)}
+}
+const money=n=>Number(n.toFixed(2)).toLocaleString("en-US",{maximumFractionDigits:2});
+const byId=id=>products.find(x=>x.id===id);
+
 const products=[
-{id:"p1",name:"FASTER FT-71 - شاحن جداري بمنفذين USB",oldPrice:30,price:30,category:"شواحن",image:"faster-ft71.jpg",desc:"شاحن جداري عملي بمنفذين USB للاستخدام اليومي."},
-{id:"p2",name:"LDNIO LS543 - كيبل Type-C إلى Lightning",oldPrice:20,price:20,category:"كيابل",image:"ldnio-ls543.jpg",desc:"كيبل Type-C إلى Lightning للشحن والاستخدام اليومي."},
-{id:"p3",name:"OVAST OT-15 - كيبل Type-C 3.1A",oldPrice:10,price:10,category:"كيابل",image:"ovast-ot15.jpg",desc:"كيبل Type-C للشحن السريع بقوة 3.1A."},
-{id:"p4",name:"NITO N-100 - سماعة سلكية بميكروفون",oldPrice:10,price:10,category:"سماعات",image:"nito-n100.jpg",desc:"سماعة سلكية بميكروفون وصوت واضح."},
-{id:"p5",name:"iPlus I-18 - كيبل متعدد المداخل 3 في 1",oldPrice:20,price:20,category:"كيابل",image:"iplus-i18.jpg",desc:"كيبل شحن متعدد المداخل باللون الأسود يناسب الآيفون والتايب سي والجالكسي."},
-{id:"p6",name:"GLOW GLH-32 - حامل مغناطيسي 360°",oldPrice:30,price:30,category:"سيارات",image:"glow-glh32.jpg",desc:"حامل جوال مغناطيسي للسيارة مع دوران 360 درجة."},
-{id:"p7",name:"NITO N-H673 - سماعة رأس Type-C",oldPrice:20,price:20,category:"سماعات",image:"nito-nh673.jpg",desc:"سماعة سلكية بمنفذ Type-C للأجهزة الحديثة."},
-{id:"p8",name:"KUMS - كيبل Type-C قماش 1.2m 3.4A",oldPrice:10,price:10,category:"كيابل",image:"kums-typec-1200mm.jpg",desc:"كيبل Type-C قماش بطول 1.2 متر وقوة 3.4A."},
-{id:"p9",name:"WINMFIX LED - لمبة 3 في 1 وحامل جوال",oldPrice:30,price:30,category:"متنوع",image:"winmfix-led.jpg",desc:"لمبة LED متعددة الاستخدامات وحامل للجوال."},
-{id:"p10",name:"X.LOOD X-73 - كيبل Type-C 3.1A",oldPrice:10,price:10,category:"كيابل",image:"xlood-x73.jpg",desc:"كيبل Type-C للشحن بقوة 3.1A."},
-{id:"p11",name:"UNIVERSAL CLIP - حامل مرآة للسيارة",oldPrice:30,price:30,category:"سيارات",image:"universal-clip.jpg",desc:"حامل جوال يثبت على مرآة السيارة."},
-{id:"p12",name:"GLOW GLH-29 - حامل مغناطيسي للسيارة",oldPrice:30,price:30,category:"سيارات",image:"glow-glh29.jpg",desc:"حامل مغناطيسي عملي للسيارة."},
-{id:"p13",name:"NITO CH-512 - شاحن جداري بمنفذين",oldPrice:30,price:30,category:"شواحن",image:"nito-ch512.jpg",desc:"شاحن جداري بمنفذين للشحن."},
-{id:"p14",name:"PROMASS PM-8509 - شاحن PD+QC 38W",oldPrice:30,price:30,category:"شواحن",image:"promass-pm8509.jpg",desc:"شاحن سريع بتقنية PD وQC بقوة 38W."},
-{id:"p15",name:"GLOW GLH-26 - حامل مغناطيسي صغير للسيارة",oldPrice:30,price:30,category:"سيارات",image:"glow-glh26.jpg",desc:"حامل مغناطيسي صغير وعملي للسيارة."},
-{id:"p16",name:"Goui Wall-I - شاحن جداري بمنفذين USB مع كابل آيفون",oldPrice:100,price:100,category:"شواحن",image:"new-goui-charger.jpg",desc:"شاحن جداري قوي وسريع مع منفذين USB بقدرة 3.1A وكابل Lightning بطول 100 سم معتمد من أبل. (ضمان على المنتج)"},
-{id:"p17",name:"NITO NT-H954 - سماعات لاسلكية T Series",oldPrice:100,price:100,category:"سماعات",image:"new-nito-h954.jpg",desc:"سماعات أذن لاسلكية بتقنية Pure Bass وضبط باللمس مع استشعار داخل الأذن ومقاومة للماء للرياضة. (ضمان على المنتج)"},
-{id:"p18",name:"NITO NT-TW312 - سماعات لاسلكية شحن لاسلكي",oldPrice:100,price:100,category:"سماعات",image:"new-nito-tw312.jpg",desc:"سماعات أذن لاسلكية تدعم الشحن اللاسلكي وعلبة شحن 400mAh وبلوتوث 5.0 واستشعار ذكي. (ضمان على المنتج)"},
-{id:"p19",name:"Anker PowerLine III - كيبل USB-C إلى Lightning",oldPrice:60,price:60,category:"كيابل",image:"new-anker-cable.jpg",desc:"كيبل شحن سريع ومزامنة بطول 0.9m يتضمن تحملاً لأكثر من 25,000 انحناءة ومُعتمد من أبل. (ضمان على المنتج)"},
-{id:"p20",name:"Apple EarPods Lightning - سماعة أبل سلكية",oldPrice:60,price:60,category:"سماعات",image:"new-apple-earpods.jpg",desc:"سماعة أبل سلكية بمدخل Lightning وصوت عالي الدقة ووحدة تحكم ومكالمات. (ضمان على المنتج)"}
+{id:"p1",name:"FASTER FT-71 - شاحن جداري بمنفذين USB",oldPrice:30,price:15,category:"شواحن",image:"faster-ft71.jpg",desc:"شاحن جداري عملي بمنفذين USB للاستخدام اليومي."},
+{id:"p2",name:"LDNIO LS543 - كيبل Type-C إلى Lightning",oldPrice:20,price:10,category:"كيابل",image:"ldnio-ls543.jpg",desc:"كيبل Type-C إلى Lightning للشحن والاستخدام اليومي."},
+{id:"p3",name:"OVAST OT-15 - كيبل Type-C 3.1A",oldPrice:10,price:5,category:"كيابل",image:"ovast-ot15.jpg",desc:"كيبل Type-C للشحن بقوة 3.1A."},
+{id:"p4",name:"NITO N-100 - سماعة سلكية بميكروفون",oldPrice:10,price:5,category:"سماعات",image:"nito-n100.jpg",desc:"سماعة سلكية بميكروفون وصوت واضح."},
+{id:"p5",name:"iPlus I-18 - كيبل متعدد المداخل 3 في 1",oldPrice:20,price:10,category:"كيابل",image:"iplus-i18.jpg",desc:"كيبل شحن متعدد المداخل يناسب أجهزة مختلفة."},
+{id:"p6",name:"GLOW GLH-32 - حامل مغناطيسي 360°",oldPrice:30,price:15,category:"سيارات",image:"glow-glh32.jpg",desc:"حامل جوال مغناطيسي للسيارة مع دوران 360 درجة."},
+{id:"p7",name:"NITO N-H673 - سماعة رأس Type-C",oldPrice:20,price:10,category:"سماعات",image:"nito-nh673.jpg",desc:"سماعة سلكية بمنفذ Type-C للأجهزة الحديثة."},
+{id:"p8",name:"KUMS - كيبل Type-C قماش 1.2m 3.4A",oldPrice:10,price:5,category:"كيابل",image:"kums-typec-1200mm.jpg",desc:"كيبل Type-C قماش بطول 1.2 متر وقوة 3.4A."},
+{id:"p9",name:"WINMFIX LED - لمبة 3 في 1 وحامل جوال",oldPrice:30,price:15,category:"متنوع",image:"winmfix-led.jpg",desc:"لمبة LED متعددة الاستخدامات وحامل للجوال."},
+{id:"p10",name:"X.LOOD X-73 - كيبل Type-C 3.1A",oldPrice:10,price:5,category:"كيابل",image:"xlood-x73.jpg",desc:"كيبل Type-C للشحن بقوة 3.1A."},
+{id:"p11",name:"UNIVERSAL CLIP - حامل مرآة للسيارة",oldPrice:30,price:15,category:"سيارات",image:"universal-clip.jpg",desc:"حامل جوال يثبت على مرآة السيارة."},
+{id:"p12",name:"GLOW GLH-29 - حامل مغناطيسي للسيارة",oldPrice:30,price:15,category:"سيارات",image:"glow-glh29.jpg",desc:"حامل مغناطيسي عملي للسيارة."},
+{id:"p13",name:"NITO CH-512 - شاحن جداري بمنفذين",oldPrice:30,price:15,category:"شواحن",image:"nito-ch512.jpg",desc:"شاحن جداري بمنفذين للشحن."},
+{id:"p14",name:"PROMASS PM-8509 - شاحن PD+QC 38W",oldPrice:30,price:15,category:"شواحن",image:"promass-pm8509.jpg",desc:"شاحن سريع بتقنية PD وQC بقوة 38W."},
+{id:"p15",name:"GLOW GLH-26 - حامل مغناطيسي صغير للسيارة",oldPrice:30,price:15,category:"سيارات",image:"glow-glh26.jpg",desc:"حامل مغناطيسي صغير وعملي للسيارة."},
+{id:"p16",name:"Goui Wall-I - شاحن جداري بمنفذين USB مع كابل آيفون",oldPrice:100,price:100,category:"شواحن",image:"new-goui-charger.jpg",desc:"شاحن جداري بمنفذين USB بقدرة 3.1A وكابل Lightning بطول 100 سم. ضمان على المنتج."},
+{id:"p17",name:"NITO NT-H954 - سماعات لاسلكية T Series",oldPrice:100,price:100,category:"سماعات",image:"new-nito-h954.jpg",desc:"سماعات أذن لاسلكية بتقنية Pure Bass وتحكم باللمس ومقاومة للماء. ضمان على المنتج."},
+{id:"p18",name:"NITO NT-TW312 - سماعات لاسلكية شحن لاسلكي",oldPrice:100,price:100,category:"سماعات",image:"new-nito-tw312.jpg",desc:"سماعات لاسلكية تدعم الشحن اللاسلكي وبلوتوث 5.0. ضمان على المنتج."},
+{id:"p19",name:"Anker PowerLine III - كيبل USB-C إلى Lightning",oldPrice:60,price:60,category:"كيابل",image:"new-anker-cable.jpg",desc:"كيبل شحن ومزامنة بطول 0.9 متر. ضمان على المنتج."},
+{id:"p20",name:"Apple EarPods Lightning - سماعة أبل سلكية",oldPrice:60,price:60,category:"سماعات",image:"new-apple-earpods.jpg",desc:"سماعة سلكية بمدخل Lightning ووحدة تحكم للمكالمات."}
 ];
 
-let DELIVERY_FEE=15,FREE_SHIPPING_LIMIT=100,COUPON_CODE="NEXO50",COUPON_RATE=0.50,WHATSAPP="966501203710";
-const $=id=>document.getElementById(id);
-const load=(k,d)=>{const def=JSON.parse(d);try{const v=JSON.parse(localStorage.getItem(k)||d);return v&&typeof v==="object"&&Array.isArray(v)===Array.isArray(def)?v:def}catch(e){return def}};
-const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const byId=id=>products.find(x=>x.id===id);
 const HEART='<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.5 8 3.3 4.8 6.6 4.8c2 0 3.5 1.1 4.4 2.6h2c.9-1.5 2.4-2.6 4.4-2.6 3.3 0 5.1 3.2 3.9 6.5-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>';
 
-let cart=load("nexo_cart","[]"),favs=load("nexo_fav","[]");
+let cart=load("nexo_cart","[]").filter(i=>byId(i.id)&&Number.isInteger(i.qty)&&i.qty>0);
+let favs=load("nexo_fav","[]").filter(id=>byId(id));
 let category="الكل",couponApplied=false,deliveryMethod="delivery",currentProduct=null;
 
-/* ===== PRODUCTS ===== */
-function card(p,fav){
-const shownPrice=couponApplied?unitPrice(p):p.price;
+const unitPrice=p=>couponApplied?Math.round(p.price*(1-COUPON_RATE)*100)/100:p.price;
+
+function card(p,fav=false){
 return `<div class="product" ${fav?"":`onclick="openProduct('${p.id}')"`}>
 <button class="heart ${favs.includes(p.id)?"on":""}" onclick="event.stopPropagation();toggleFav('${p.id}')">${HEART}</button>
-<img class="productImg" src="${p.image}" alt="${p.name}" loading="lazy">
+<img class="productImg" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.style.opacity='.25'">
 <div class="productBody">
 <div class="productName">${p.name}</div>
 <div class="productDescription">${p.desc}</div>
-${couponApplied?`<div class="oldPrice">${p.oldPrice} ريال</div>`:""}
-<div class="price">${shownPrice} ريال</div>
+${p.oldPrice>p.price?`<div class="oldPrice">${money(p.oldPrice)} ريال</div>`:""}
+<div class="price">${money(unitPrice(p))} ريال</div>
 <button class="addButton" onclick="event.stopPropagation();addToCart('${p.id}')">أضف للسلة</button>
-</div></div>`}
+</div></div>`;
+}
 
 function renderProducts(){
 const s=$("search").value.trim().toLowerCase();
@@ -456,7 +496,6 @@ const f=products.filter(p=>(category==="الكل"||p.category===category)&&(p.na
 $("products").innerHTML=f.length?f.map(p=>card(p)).join(""):'<div class="empty">لا توجد منتجات</div>';
 }
 
-/* ===== FAVORITES ===== */
 function toggleFav(id){
 favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];
 save("nexo_fav",favs);
@@ -475,32 +514,35 @@ const l=favs.map(byId).filter(Boolean);
 $("favList").innerHTML=l.length?l.map(p=>card(p,true)).join(""):'<div class="empty">❤️<br>ما أضفت أي منتج للمفضلة بعد</div>';
 }
 
-/* ===== PRODUCT PAGE ===== */
 function openProduct(id){
 const p=byId(id);if(!p)return;
 currentProduct=p;
 $("detailHeart").innerHTML=HEART;
-$("detailImage").src=p.image;$("detailImage").alt=p.name;
+$("detailImage").src=p.image;
+$("detailImage").alt=p.name;
 $("detailName").textContent=p.name;
 $("detailDescription").textContent=p.desc;
-$("detailOldPrice").textContent=couponApplied?p.oldPrice+" ريال":"";
-$("detailOldPrice").style.display=couponApplied?"block":"none";
-$("detailPrice").textContent=unitPrice(p)+" ريال";
+$("detailOldPrice").textContent=p.oldPrice>p.price?money(p.oldPrice)+" ريال":"";
+$("detailOldPrice").style.display=p.oldPrice>p.price?"block":"none";
+$("detailPrice").textContent=money(unitPrice(p))+" ريال";
 $("detailAddButton").onclick=()=>addToCart(p.id);
 $("detailHeart").className="heart"+(favs.includes(p.id)?" on":"");
 $("productPage").classList.add("show");
 document.body.style.overflow="hidden";
-history.pushState({product:true,id:p.id},"","#product-"+p.id);
+if(location.hash!=="#product-"+p.id)history.pushState({product:true,id:p.id},"","#product-"+p.id);
 }
 function closeProductPage(fromPop=false){
 $("productPage").classList.remove("show");
 document.body.style.overflow="";
 if(!fromPop&&location.hash.startsWith("#product-"))history.back();
 }
-window.addEventListener("popstate",()=>{if(!location.hash.startsWith("#product-"))closeProductPage(true)});
-window.addEventListener("hashchange",()=>{if(!location.hash.startsWith("#product-"))closeProductPage(true)});
+window.addEventListener("popstate",()=>{
+if(!location.hash.startsWith("#product-"))closeProductPage(true);
+});
+window.addEventListener("hashchange",()=>{
+if(!location.hash.startsWith("#product-"))closeProductPage(true);
+});
 
-/* ===== FULL PAGES ===== */
 function openPage(id){
 if(id==="favPage")renderFavs();
 if(id==="msgPage")renderMsgs();
@@ -510,10 +552,9 @@ document.body.style.overflow="hidden";
 }
 function closePage(id){
 $(id).classList.remove("show");
-document.body.style.overflow=$("productPage").classList.contains("show")?"hidden":"";
+document.body.style.overflow=$("productPage").classList.contains("show")||$("cartPage").classList.contains("show")?"hidden":"";
 }
 
-/* ===== MESSAGES ===== */
 const MSG_TOPICS=["استفسار عن منتج","متابعة طلب","اقتراح","شكوى"];
 let msgTopic=MSG_TOPICS[0];
 function renderChips(){
@@ -522,7 +563,10 @@ $("msgChips").innerHTML=MSG_TOPICS.map(t=>`<button class="chip ${t===msgTopic?"o
 function renderMsgs(){
 renderChips();
 const m=load("nexo_msgs","[]").slice().reverse();
-$("msgList").innerHTML=m.length?m.map(x=>`<div class="msgItem"><b>${x.topic}</b><br>${x.text}<small>${x.time}</small></div>`).join(""):'<div class="empty" style="padding:20px">لا توجد رسائل سابقة</div>';
+$("msgList").innerHTML=m.length?m.map(x=>`<div class="msgItem"><b>${escapeHTML(x.topic)}</b><br>${escapeHTML(x.text)}<small>${escapeHTML(x.time)}</small></div>`).join(""):'<div class="empty" style="padding:20px">لا توجد رسائل سابقة</div>';
+}
+function escapeHTML(s){
+return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 function sendMsg(){
 const name=$("msgName").value.trim(),text=$("msgText").value.trim();
@@ -536,11 +580,11 @@ renderMsgs();
 window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(`💬 *رسالة - NEXO STORE*\n\n👤 الاسم: ${name}\n📌 الموضوع: ${msgTopic}\n\n${text}`),"_blank");
 }
 
-/* ===== CALENDAR ===== */
 const MONTHS=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 const DAYS=["أحد","اثنين","ثلاثاء","أربعاء","خميس","جمعة","سبت"];
 const dkey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 let calY=new Date().getFullYear(),calM=new Date().getMonth(),calSel=dkey(new Date());
+
 function calMove(n){
 calM+=n;
 if(calM<0){calM=11;calY--}
@@ -562,14 +606,14 @@ $("calGrid").innerHTML=h;
 $("calDayTitle").textContent="📋 "+calSel;
 const day=orders.filter(o=>o&&o.createdAt&&dkey(new Date(o.createdAt))===calSel);
 const el=(evs[calSel]||[]).slice().sort((a,b)=>(a.time||"").localeCompare(b.time||""));
-$("calEvents").innerHTML=el.length?el.map((e,i)=>`<div class="evItem"><span>${e.time?"⏰ "+e.time+" — ":""}${e.text}</span><button onclick="delEv(${i})">🗑</button></div>`).join(""):'<div class="empty" style="padding:10px">لا توجد مواعيد في هذا اليوم</div>';
-$("calOrders").innerHTML=day.length?day.map(o=>`<div class="ordItem"><b>${o.orderId}</b> — ${o.total} ريال<br>${o.deliveryMethod} • ${o.paymentMethod}</div>`).join(""):'<div class="empty" style="padding:14px">لا توجد طلبات في هذا اليوم</div>';
+$("calEvents").innerHTML=el.length?el.map((e,i)=>`<div class="evItem"><span>${e.time?"⏰ "+escapeHTML(e.time)+" — ":""}${escapeHTML(e.text)}</span><button onclick="delEv(${i})">🗑</button></div>`).join(""):'<div class="empty" style="padding:10px">لا توجد مواعيد في هذا اليوم</div>';
+$("calOrders").innerHTML=day.length?day.map(o=>`<div class="ordItem"><b>${escapeHTML(o.orderId)}</b> — ${money(Number(o.total)||0)} ريال<br>${escapeHTML(o.deliveryMethod)} • ${escapeHTML(o.paymentMethod)}</div>`).join(""):'<div class="empty" style="padding:14px">لا توجد طلبات في هذا اليوم</div>';
 }
 function addEv(){
 const t=$("evText").value.trim();
 if(!t){alert("اكتب الموعد أو الملاحظة");return}
 const e=load("nexo_events","{}");
-(e[calSel]=e[calSel]||[]).push({text:t.replace(/</g,"&lt;"),time:$("evTime").value});
+(e[calSel]=e[calSel]||[]).push({text:t,time:$("evTime").value});
 save("nexo_events",e);
 $("evText").value="";$("evTime").value="";
 renderCal();
@@ -585,7 +629,6 @@ function bookDay(){
 window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(`📅 *طلب موعد - NEXO STORE*\n\nأرغب بموعد توصيل/استلام بتاريخ: ${calSel}`),"_blank");
 }
 
-/* ===== CATEGORY ===== */
 function selectCategory(v,b){
 category=v;
 document.querySelectorAll(".category").forEach(x=>x.classList.remove("active"));
@@ -593,13 +636,16 @@ b.classList.add("active");
 renderProducts();
 }
 
-/* ===== CART ===== */
 function saveCart(){save("nexo_cart",cart);updateCartNumber()}
-function updateCartNumber(){$("cartNumber2").textContent=cart.reduce((s,i)=>s+i.qty,0)}
+function updateCartNumber(){
+$("cartNumber2").textContent=cart.reduce((s,i)=>s+i.qty,0);
+}
 function addToCart(id){
+const p=byId(id);if(!p)return;
 const i=cart.find(x=>x.id===id);
 if(i)i.qty++;else cart.push({id,qty:1});
 saveCart();
+if($("cartPage").classList.contains("show"))renderCart();
 }
 function changeQuantity(id,a){
 const i=cart.find(x=>x.id===id);if(!i)return;
@@ -607,10 +653,10 @@ i.qty+=a;
 if(i.qty<=0)cart=cart.filter(x=>x.id!==id);
 saveCart();renderCart();
 }
-function removeItem(id){cart=cart.filter(x=>x.id!==id);saveCart();renderCart()}
-
-/* ===== CALCULATE ===== */
-const unitPrice=p=>couponApplied?Math.round(p.oldPrice*(1-COUPON_RATE)*100)/100:p.price;
+function removeItem(id){
+cart=cart.filter(x=>x.id!==id);
+saveCart();renderCart();
+}
 
 function calculate(){
 let originalSubtotal=0,currentSubtotal=0,productsTotal=0;
@@ -620,62 +666,79 @@ originalSubtotal+=p.oldPrice*i.qty;
 currentSubtotal+=p.price*i.qty;
 productsTotal+=unitPrice(p)*i.qty;
 });
-const discount=couponApplied?originalSubtotal-productsTotal:0;
-const delivery=deliveryMethod==="pickup"?0:(productsTotal>=FREE_SHIPPING_LIMIT?0:DELIVERY_FEE);
+const discount=couponApplied?currentSubtotal-productsTotal:0;
+const delivery=deliveryMethod==="pickup"||productsTotal>=FREE_SHIPPING_LIMIT?0:DELIVERY_FEE;
 return{originalSubtotal,currentSubtotal,discount,productsTotal,delivery,total:productsTotal+delivery};
 }
 
 function summaryHTML(d,full){
 const row=(l,v,c="")=>`<div class="summaryRow ${c}"><span>${l}</span><strong>${v}</strong></div>`;
 let h=couponApplied
-?row("المجموع الأصلي للمنتجات",d.originalSubtotal+" ريال")+row(full?"الخصم 50%":"خصم NEXO50","− "+d.discount+" ريال","discountRow")+row("المنتجات بعد الخصم",d.productsTotal+" ريال")
-:row(full?"المجموع الفرعي (للمنتجات)":"المنتجات",d.currentSubtotal+" ريال");
-return h+row("رسوم التوصيل"+(full?" (مكة)":""),d.delivery+" ريال")+row(full?"الإجمالي النهائي":"الإجمالي",d.total+" ريال","totalRow");
+?row("المجموع قبل الخصم",money(d.currentSubtotal)+" ريال")+row("خصم 50%","− "+money(d.discount)+" ريال","discountRow")+row("المنتجات بعد الخصم",money(d.productsTotal)+" ريال")
+:row(full?"المجموع الفرعي للمنتجات":"المنتجات",money(d.currentSubtotal)+" ريال");
+return h+row("رسوم التوصيل"+(full?" (مكة)":""),money(d.delivery)+" ريال")+row("الإجمالي النهائي",money(d.total)+" ريال","totalRow");
 }
 
-function openCart(){renderCart();$("cartPage").classList.add("show");document.body.style.overflow="hidden"}
-
+function openCart(){
+renderCart();
+$("cartPage").classList.add("show");
+document.body.style.overflow="hidden";
+}
 function renderCart(){
 const empty=$("emptyCart"),content=$("cartContent"),bar=$("cartBar");
-if(!cart.length){$("cartItems").innerHTML="";empty.style.display="block";content.style.display="none";bar.style.display="none";return}
-empty.style.display="none";content.style.display="block";bar.style.display="flex";
+if(!cart.length){
+$("cartItems").innerHTML="";
+empty.style.display="block";
+content.style.display="none";
+bar.style.display="none";
+return;
+}
+empty.style.display="none";
+content.style.display="block";
+bar.style.display="flex";
 $("cartCount").textContent=cart.reduce((a,i)=>a+i.qty,0)+" قطعة";
 $("cartItems").innerHTML=cart.map(i=>{
 const p=byId(i.id);if(!p)return"";
-return `<div class="cartItem"><img src="${p.image}" alt="${p.name}">
-<div class="cartInfo"><div class="cartName">${p.name}</div>
-<div class="cartPrice">${couponApplied?`<s>${p.price} ريال</s> `:""}${unitPrice(p)} ريال</div>
+return `<div class="cartItem"><img src="${p.image}" alt="${escapeHTML(p.name)}" onerror="this.style.opacity='.25'">
+<div class="cartInfo"><div class="cartName">${escapeHTML(p.name)}</div>
+<div class="cartPrice">${couponApplied?`<s>${money(p.price)} ريال</s> `:""}${money(unitPrice(p))} ريال</div>
 <div class="cartRow"><div class="quantity"><button onclick="changeQuantity('${p.id}',1)">+</button><span>${i.qty}</span><button onclick="changeQuantity('${p.id}',-1)">−</button></div>
-<div class="lineTotal">${unitPrice(p)*i.qty} ريال</div></div></div>
-<button class="delete" onclick="removeItem('${p.id}')">🗑</button></div>`}).join("");
+<div class="lineTotal">${money(unitPrice(p)*i.qty)} ريال</div></div></div>
+<button class="delete" onclick="removeItem('${p.id}')" aria-label="حذف المنتج">🗑</button></div>`;
+}).join("");
 const d=calculate(),fs=$("freeShipping");
 let pct=100;
 if(deliveryMethod==="pickup")fs.textContent="🏪 الاستلام من الفرع مجاني";
 else if(d.productsTotal>=FREE_SHIPPING_LIMIT)fs.textContent="🎉 حصلت على التوصيل المجاني";
-else{const left=FREE_SHIPPING_LIMIT-d.productsTotal;pct=d.productsTotal/FREE_SHIPPING_LIMIT*100;fs.textContent=`🚚 أضف ${left} ريال إضافية للحصول على توصيل مجاني`}
+else{
+const left=FREE_SHIPPING_LIMIT-d.productsTotal;
+pct=Math.min(100,d.productsTotal/FREE_SHIPPING_LIMIT*100);
+fs.textContent=`🚚 أضف ${money(left)} ريال للحصول على توصيل مجاني`;
+}
 $("shipFill").style.width=pct+"%";
 $("summary").innerHTML=summaryHTML(d,true);
-$("barTotal").textContent=d.total+" ريال";
+$("barTotal").textContent=money(d.total)+" ريال";
 const m=$("couponMessage");
 m.className="couponMessage"+(couponApplied?" success":"");
-m.textContent=couponApplied?"✓ تم تطبيق خصم 50% من السعر الأصلي":"";
+m.textContent=couponApplied?"✓ تم تطبيق خصم 50% على أسعار المنتجات الحالية":"";
 }
 
-/* ===== COUPON ===== */
 function applyCoupon(){
 const ok=$("couponInput").value.trim().toUpperCase()===COUPON_CODE;
 couponApplied=ok;
 renderCart();
 renderProducts();
 if(currentProduct){
-$("detailOldPrice").textContent=couponApplied?currentProduct.oldPrice+" ريال":"";
-$("detailOldPrice").style.display=couponApplied?"block":"none";
-$("detailPrice").textContent=unitPrice(currentProduct)+" ريال";
+$("detailOldPrice").textContent=currentProduct.oldPrice>currentProduct.price?money(currentProduct.price)+" ريال":"";
+$("detailOldPrice").style.display=currentProduct.oldPrice>currentProduct.price?"block":"none";
+$("detailPrice").textContent=money(unitPrice(currentProduct))+" ريال";
 }
-if(!ok){const m=$("couponMessage");m.className="couponMessage error";m.textContent="✕ رمز الخصم غير صحيح"}
+if(!ok){
+const m=$("couponMessage");
+m.className="couponMessage error";
+m.textContent="✕ رمز الخصم غير صحيح";
 }
-
-/* ===== ORDER ===== */
+}
 function openOrder(){
 if(!cart.length){alert("السلة فارغة");return}
 closePage("cartPage");
@@ -687,43 +750,64 @@ deliveryMethod=t;
 $("deliveryOption").classList.toggle("active",t==="delivery");
 $("pickupOption").classList.toggle("active",t==="pickup");
 renderOrderSummary();
-renderCart();
+if($("cartPage").classList.contains("show"))renderCart();
 }
-function renderOrderSummary(){$("orderSummary").innerHTML=summaryHTML(calculate(),false)}
+function renderOrderSummary(){
+$("orderSummary").innerHTML=summaryHTML(calculate(),false);
+}
 
 function sendOrder(){
-const name=$("name").value.trim(),phone=$("phone").value.trim(),address=$("address").value.trim(),payment=$("payment").value;
+const name=$("name").value.trim();
+const phone=$("phone").value.trim();
+const address=$("address").value.trim();
+const payment=$("payment").value;
 if(!name){alert("اكتب اسمك");return}
 if(!phone){alert("اكتب رقم الجوال");return}
+if(!/^[+\d\s()-]{8,20}$/.test(phone)){alert("تحقق من رقم الجوال");return}
 if(deliveryMethod==="delivery"&&!address){alert("اكتب عنوان التوصيل");return}
+if(!cart.length){alert("السلة فارغة");closeModal("orderModal");return}
+
 const d=calculate();
 let items="";
-cart.forEach(i=>{const p=byId(i.id);if(p)items+=`• ${p.name} × ${i.qty} = ${unitPrice(p)*i.qty} ريال\n`});
+cart.forEach(i=>{
+const p=byId(i.id);
+if(p)items+=`• ${p.name} × ${i.qty} = ${money(unitPrice(p)*i.qty)} ريال\n`;
+});
 const orderId="NEXO-"+Date.now().toString().slice(-8);
-const dm=deliveryMethod==="delivery"?"توصيل":"استلام من الفرع";
+const dm=deliveryMethod==="delivery"?"توصيل داخل مكة":"استلام من الفرع";
 const orders=load("nexo_orders","[]");
-orders.push({orderId,customerName:name,phone,address,deliveryMethod:dm,paymentMethod:payment,items:cart,subtotal:couponApplied?d.originalSubtotal:d.currentSubtotal,discount:d.discount,deliveryFee:d.delivery,total:d.total,status:"جديد",createdAt:new Date().toISOString()});
+orders.push({
+orderId,customerName:name,phone,address,deliveryMethod:dm,
+paymentMethod:payment,items:cart.map(i=>({...i})),
+subtotal:d.currentSubtotal,discount:d.discount,deliveryFee:d.delivery,
+total:d.total,status:"جديد",createdAt:new Date().toISOString()
+});
 save("nexo_orders",orders);
-let msg=`🛒 *طلب جديد - NEXO STORE*\n\nرقم الطلب: ${orderId}\n\n👤 الاسم: ${name}\n📱 الجوال: ${phone}\n\n📦 المنتجات:\n${items}\n`;
+
+let msg=`🛒 *طلب جديد - NEXO STORE*\n\nرقم الطلب: ${orderId}\n\n👤 الاسم: ${name}\n📱 الجوال: ${phone}\n\n📦 المنتجات:\n${items}`;
 msg+=couponApplied
-?`💰 المجموع الأصلي للمنتجات: ${d.originalSubtotal} ريال\n🏷 خصم 50% (${COUPON_CODE}): ${d.discount} ريال\n💵 المنتجات بعد الخصم: ${d.productsTotal} ريال\n`
-:`💰 مجموع المنتجات: ${d.productsTotal} ريال\n`;
-msg+=`🚚 رسوم التوصيل: ${d.delivery} ريال\n💳 طريقة الدفع: ${payment}\n📦 طريقة الاستلام: ${dm}\n\n💵 *الإجمالي النهائي: ${d.total} ريال*\n`;
+?`💰 مجموع المنتجات قبل الخصم: ${money(d.currentSubtotal)} ريال\n🏷 خصم 50% (${COUPON_CODE}): ${money(d.discount)} ريال\n💵 المنتجات بعد الخصم: ${money(d.productsTotal)} ريال\n`
+:`💰 مجموع المنتجات: ${money(d.productsTotal)} ريال\n`;
+msg+=`🚚 رسوم التوصيل: ${money(d.delivery)} ريال\n💳 طريقة الدفع: ${payment}\n📦 طريقة الاستلام: ${dm}\n\n💵 *الإجمالي النهائي: ${money(d.total)} ريال*\n`;
 if(deliveryMethod==="delivery")msg+=`\n📍 العنوان:\n${address}`;
 const url="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg);
-cart=[];couponApplied=false;$("couponInput").value="";
+
+cart=[];
+couponApplied=false;
+$("couponInput").value="";
 saveCart();
 renderProducts();
-window.open(url,"_blank");
 closeModal("orderModal");
+window.open(url,"_blank");
+alert("تم تجهيز الطلب. أرسل الرسالة في واتساب لإكمال الطلب.");
 }
-
 function closeModal(id){$(id).classList.remove("show")}
-document.querySelectorAll(".modalBackground").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("show")}));
+document.querySelectorAll(".modalBackground").forEach(m=>m.addEventListener("click",e=>{
+if(e.target===m)closeModal(m.id);
+}));
 
-/* ===== NAV + ADS ===== */
 let currentView="home";
-function showView(v,keep){
+function showView(v,keep=false){
 currentView=v;
 $("homeView").style.display=v==="home"?"block":"none";
 $("catsView").style.display=v==="cats"?"block":"none";
@@ -732,18 +816,27 @@ $("navCats").classList.toggle("on",v==="cats");
 if(!keep)window.scrollTo(0,0);
 updateHeader();
 }
-function updateHeader(){$("topHeader").classList.toggle("solid",currentView!=="home"||window.scrollY>170)}
-function searchInput(){if(currentView!=="home")showView("home");renderProducts()}
+function updateHeader(){
+$("topHeader").classList.toggle("solid",currentView!=="home"||window.scrollY>170);
+}
+function searchInput(){
+if(currentView!=="home")showView("home");
+renderProducts();
+}
 function navTo(t){
-if(t==="home"){currentView==="home"?window.scrollTo({top:0,behavior:"smooth"}):showView("home")}
-else if(t==="cats")showView("cats");
+if(t==="home"){
+if(currentView==="home")window.scrollTo({top:0,behavior:"smooth"});
+else showView("home");
+}else if(t==="cats")showView("cats");
 else if(t==="wa")window.open("https://wa.me/"+WHATSAPP,"_blank");
 }
+
 const CAT_LIST=[["الكل","icon-192.png"],["شواحن","faster-ft71.jpg"],["كيابل","ldnio-ls543.jpg"],["سماعات","nito-n100.jpg"],["سيارات","glow-glh32.jpg"],["متنوع","winmfix-led.jpg"]];
 function buildCats(){
 $("catsGrid").innerHTML=CAT_LIST.map(([n,img])=>{
 const c=n==="الكل"?products.length:products.filter(p=>p.category===n).length;
-return `<button class="catCard" onclick="goCategory('${n}')"><img src="${img}" alt=""><span>${n==="الكل"?"كل المنتجات":n}</span><small>${c} منتج</small></button>`}).join("");
+return `<button class="catCard" onclick="goCategory('${n}')"><img src="${img}" alt="" onerror="this.style.opacity='.25'"><span>${n==="الكل"?"كل المنتجات":n}</span><small>${c} منتج</small></button>`;
+}).join("");
 }
 function goCategory(n){
 const b=[...document.querySelectorAll(".category")].find(x=>x.querySelector("span").textContent.trim()===n);
@@ -755,19 +848,21 @@ $("products").scrollIntoView({behavior:"smooth",block:"start"});
 window.addEventListener("scroll",updateHeader,{passive:true});
 
 const ADS=[
-{img:"",title:"التوصيل داخل مكة 🚚",sub:"اطلب الآن ويوصلك لين الباب",bg:"linear-gradient(135deg,#0876d9,#00c6ff)"},
-{img:"",title:"خصم 50% بكود NEXO50",sub:"على جميع المنتجات",bg:"linear-gradient(135deg,#111,#0876d9)"},
-{img:"",title:"ضمان على المنتجات الجديدة",sub:"سماعات وكيابل وشواحن",bg:"linear-gradient(135deg,#00a86b,#0876d9)"}
+{title:"التوصيل داخل مكة 🚚",sub:"اطلب الآن ويوصلك لين الباب",bg:"linear-gradient(135deg,#0876d9,#00c6ff)"},
+{title:"خصم 50% بكود NEXO50",sub:"على جميع المنتجات",bg:"linear-gradient(135deg,#111,#0876d9)"},
+{title:"ضمان على المنتجات المحددة",sub:"شواحن وسماعات وكيابل",bg:"linear-gradient(135deg,#00a86b,#0876d9)"}
 ];
 function initAds(){
 const box=$("adSlides"),dots=$("adDots");
-box.innerHTML=ADS.map(a=>a.img?`<div class="adSlide"><img src="${a.img}" alt=""></div>`:`<div class="adSlide" style="background:${a.bg}"><b>${a.title}</b><span>${a.sub}</span></div>`).join("");
+box.innerHTML=ADS.map(a=>`<div class="adSlide" style="background:${a.bg}"><b>${a.title}</b><span>${a.sub}</span></div>`).join("");
 dots.innerHTML=ADS.map(()=>"<i></i>").join("");
 const slides=[...box.children],dd=[...dots.children];
 let cur=0;
 const mark=i=>{cur=i;dd.forEach((d,k)=>d.classList.toggle("on",k===i))};
 mark(0);
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>.6)mark(slides.indexOf(e.target))}),{root:box,threshold:[.6]});
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+if(e.isIntersecting&&e.intersectionRatio>.6)mark(slides.indexOf(e.target));
+}),{root:box,threshold:[.6]});
 slides.forEach(x=>io.observe(x));
 setInterval(()=>{
 const r=box.getBoundingClientRect();
@@ -776,14 +871,21 @@ slides[(cur+1)%slides.length].scrollIntoView({behavior:"smooth",inline:"center",
 },4000);
 }
 
-/* ===== INIT ===== */
-renderProducts();updateCartNumber();initAds();buildCats();updateHeader();refreshFav();
+renderProducts();
+updateCartNumber();
+initAds();
+buildCats();
+updateHeader();
+refreshFav();
+renderCart();
 setTimeout(()=>$("loader").classList.add("hide"),1800);
 
 if("serviceWorker" in navigator){
-window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(e=>console.error("Service Worker:",e))});
+window.addEventListener("load",()=>{
+navigator.serviceWorker.register("sw.js").catch(e=>console.error("Service Worker:",e));
+});
 }
 </script>
-  <script src="nexo-live.js"></script>
+<script src="nexo-live.js"></script>
 </body>
 </html>
