@@ -1,6 +1,7 @@
 /* NEXO STORE - ربط المتجر بـ Supabase (مفتاح عام فقط) */
 (async()=>{
-const U='https://oyoppfccniedlvuqfruj.supabase.co',K='sb_publishable_9PXaN0e_PIHk40utNm_u3w_4fPOGyHo';
+const U='https://hmvjxesfgfjjhangyorq.supabase.co';
+const K='sb_publishable_SZdbk--nDfsTzqlARh3IcA_ZnGm1QPL';
 const H={apikey:K,Authorization:'Bearer '+K};
 const get=async q=>{const r=await fetch(U+'/rest/v1/'+q,{headers:H});if(!r.ok)throw new Error(r.status);return r.json()};
 const img=s=>s||'icon-192.png';
