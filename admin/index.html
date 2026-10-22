@@ -58,12 +58,12 @@ textarea{height:80px}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
-const U='https://tycwaaqhpcvbgdqwzkgr.supabase.co',K='sb_publishable_BNl9LfB9ZhUAPWlH1IHsig_wT2Y7cop';
+const U='https://oyoppfccniedlvuqfruj.supabase.co',K='sb_publishable_9PXaN0e_PIHk40utNm_u3w_4fPOGyHo';
 const SB=supabase.createClient(U,K);
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const im=s=>!s?'../icon-192.png':/^http/.test(s)?s:'../'+s;
-const TABS=[['products','المنتجات'],['ads','الإعلانات'],['orders','الطلبات'],['coupons','كودات الخصم'],['settings','الإعدادات']];
+const TABS=[['products','المنتجات'],['ads','الإعلانات'],['orders','الطلبات'],['messages','الرسائل'],['reviews','التقييمات'],['coupons','كودات الخصم'],['settings','الإعدادات']];
 let tab='products',cats=[],P=[],A=[];
 function msg(t){const e=$('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2600)}
 function closeM(){$('modal').style.display='none'}
@@ -90,7 +90,7 @@ function go(t){
 tab=t;
 TABS.forEach(([k])=>$('t_'+k).classList.toggle('on',k===t));
 $('view').innerHTML='<p>جاري التحميل...</p>';
-({products:rProducts,ads:rAds,orders:rOrders,coupons:rCoupons,settings:rSet})[t]();
+({products:rProducts,ads:rAds,orders:rOrders,coupons:rCoupons,messages:rMsgs,reviews:rRev,settings:rSet})[t]();
 }
 
 async function up(f){
@@ -189,6 +189,23 @@ if(code&&code!==o.code)await SB.from('coupons').delete().eq('code',code);
 },code?async()=>{const{error}=await SB.from('coupons').delete().eq('code',code);if(error)throw error}:null);
 }
 
+/* ---- الرسائل والشكاوي ---- */
+const waNum=p=>{let d=String(p||'').replace(/\D/g,'');if(d.startsWith('0'))d='966'+d.slice(1);return d};
+async function rMsgs(){
+const{data}=await SB.from('messages').select('*').order('created_at',{ascending:false}).limit(100);
+$('view').innerHTML=(data||[]).map(m=>`<div class="card" style="${m.status==='جديد'?'':'opacity:.55'}"><b>${esc(m.topic)}</b> · ${esc(m.name)} ${m.status==='جديد'?'🆕':'✅'}<br><small>${m.phone?`<a href="https://wa.me/${waNum(m.phone)}">${esc(m.phone)}</a> · `:''}${m.order_id?esc(m.order_id)+' · ':''}${new Date(m.created_at).toLocaleString('ar-SA')}</small><p>${esc(m.body)}</p><button class="btn" onclick="msgDone('${m.id}')">تمت المعالجة</button> <button class="btn" style="background:#c62828" onclick="msgDel('${m.id}')">حذف</button></div>`).join('')||'<p>لا توجد رسائل</p>';
+}
+async function msgDone(id){const{error}=await SB.from('messages').update({status:'تمت المعالجة'}).eq('id',id);msg(error?'تعذر التحديث':'تم ✓');go('messages')}
+async function msgDel(id){if(!confirm('حذف الرسالة؟'))return;const{error}=await SB.from('messages').delete().eq('id',id);msg(error?'تعذر الحذف':'تم الحذف');go('messages')}
+
+/* ---- التقييمات ---- */
+async function rRev(){
+const{data}=await SB.from('reviews').select('*,products(name)').order('created_at',{ascending:false}).limit(100);
+$('view').innerHTML=(data||[]).map(r=>`<div class="card" style="${r.is_visible?'':'opacity:.55'}"><b style="color:#f5a623">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</b> · ${esc(r.author)}<br><small>${esc(r.products&&r.products.name)}</small><p>${esc(r.comment)}</p><button class="btn" onclick="revVis('${r.id}',${!r.is_visible})">${r.is_visible?'إخفاء':'إظهار'}</button> <button class="btn" style="background:#c62828" onclick="revDel('${r.id}')">حذف</button></div>`).join('')||'<p>لا توجد تقييمات</p>';
+}
+async function revVis(id,v){const{error}=await SB.from('reviews').update({is_visible:v}).eq('id',id);msg(error?'تعذر التحديث':'تم ✓');go('reviews')}
+async function revDel(id){if(!confirm('حذف التقييم؟'))return;const{error}=await SB.from('reviews').delete().eq('id',id);msg(error?'تعذر الحذف':'تم الحذف');go('reviews')}
+
 /* ---- الطلبات ---- */
 async function rOrders(){
 const{data}=await SB.from('orders').select('*,order_items(*)').order('created_at',{ascending:false}).limit(100);
@@ -208,5 +225,6 @@ start();
 </script>
 </body>
 </html>
+
 
 
