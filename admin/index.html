@@ -154,7 +154,7 @@ $("gl").innerHTML=OD.filter(o=>(OF=="الكل"||o.status==OF)&&(o.order_no+o.cus
 <div class="itm">${(o.items||[]).map(i=>"• "+esc(i.name)+" × "+i.qty).join("<br>")}</div>
 <span class="tot">${o.total} ريال</span> <small>• ${esc(o.payment_method)}${o.coupon_code?" • 🎟 "+esc(o.coupon_code):""}<br>${fmt(o.created_at)}</small>
 <select onchange="st('${o.id}',this.value)">${STS.map(s=>`<option ${s==o.status?"selected":""}>${s}</option>`).join("")}</select>
-<div class="row"><button onclick="conv='${esc(o.order_no)}';go('messages')">💬 محادثة</button><a class="wb" target="_blank" href="${wa(o.phone)}">واتساب</a><button class="d" onclick="del('nexo_orders','${o.id}')">🗑</button></div></div>`).join("")||'<p class="em">لا توجد طلبات</p>'}
+<div class="row"><button onclick="conv='${esc(o.order_no)}';go('messages')">💬 محادثة</button><a class="wb" target="_blank" href="${wa(o.phone)}">واتساب</a><button class="d" onclick="del('nexo_orders','${o.id}')">🗑</button></div>${o.lat!=null?`<a class="wb" style="display:block;margin-top:8px;background:linear-gradient(135deg,#ff7a45,#e8431a)" target="_blank" href="https://www.google.com/maps?q=${o.lat},${o.lng}">📍 فتح موقع الزبون</a>`:""}</div>`).join("")||'<p class="em">لا توجد طلبات</p>'}
 async function st(id,v){const{error}=await sb.from("nexo_orders").update({status:v}).eq("id",id);if(error)return alert(error.message);const o=OD.find(x=>x.id==id);if(o)o.status=v;if(cur=="orders")ol();badges()}
 async function del(t,id){if(!confirm("متأكد من الحذف؟"))return;const{error}=await sb.from(t).delete().eq("id",id);if(error)alert(error.message);go(cur,false)}
 const ck=m=>m.order_no||"g:"+(m.phone||m.name);
@@ -192,6 +192,7 @@ $("main").innerHTML=`<div class="card" style="max-width:560px;margin:auto">${SF.
 async function saveSet(){try{const rows=[];for(const f of SF)rows.push({key:f[0],value:await val(f)});const{error}=await sb.from("nexo_settings").upsert(rows);if(error)throw error;toast("تم الحفظ ✅");settings()}catch(e){alert(e.message)}}
 (async()=>{const{data:{session}}=await sb.auth.getSession();if(session)enter()})();
 </script></body></html>
+
 
 
 
