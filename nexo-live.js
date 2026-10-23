@@ -1,6 +1,6 @@
 /* NEXO STORE - nexo-live.js : Supabase connector + order tracking chat (single file) */
 /* NEXO STORE <-> Supabase connector. Load after the main store script. */
-let sb,appliedCode="";
+let sb,appliedCode="",nxLoc=null;
 (function(){
 const U="https://hmvjxesfgfjjhangyorq.supabase.co",K="sb_publishable_SZdbk--nDfsTzqlARh3IcA_ZnGm1QPL";
 const s=document.createElement("script");
@@ -42,10 +42,30 @@ try{if(S.free_shipping_limit!=null)FREE_SHIPPING_LIMIT=Number(S.free_shipping_li
 if(S.delivery_banner)document.querySelector(".deliveryBanner").textContent=S.delivery_banner;
 }catch(e){console.error("settings:",e)}
 const b=document.querySelector(".deliveryBanner");
-if(b&&!document.getElementById("trackBtn")){
-b.insertAdjacentHTML("afterend",'<button id="trackBtn" class="checkout" style="height:46px;margin:0 0 14px" onclick="trackOrder()">📦 تتبّع طلبي أو إلغاؤه</button>');
+try{
+const ad=$("address");
+if(ad&&!$("locBtn"))ad.closest(".formGroup").insertAdjacentHTML("afterend",'<div class="formGroup"><button type="button" id="locBtn" class="checkout" style="margin:0;height:50px;background:#111" onclick="nxLocate()">📍 تحديد موقعي بدقة</button><div id="locInfo" style="margin-top:8px;font-weight:700;line-height:1.8"></div></div>');
+const mt=$("msgText");
+if(mt&&!$("msgPhone"))mt.closest(".formGroup").insertAdjacentHTML("beforebegin",'<div class="formGroup"><label>رقم الجوال</label><input id="msgPhone" type="tel" placeholder="05xxxxxxxx"></div><div class="formGroup"><label>رقم الطلب (اختياري)</label><input id="msgOrder" dir="ltr" placeholder="NEXO-1001"></div>');
+document.querySelectorAll("#msgPage .checkout").forEach(x=>x.textContent="إرسال");
+const ob=document.querySelector("#orderModal .checkout");if(ob)ob.textContent="تأكيد الطلب";
+}catch(e){console.error(e)}
+if(b&&!document.getElementById("trackBtn"))b.insertAdjacentHTML("afterend",'<button id="trackBtn" class="checkout" style="height:46px;margin:0 0 14px" onclick="trackOrder()">📦 تتبّع طلبي أو إلغاؤه</button>');
 }
-}
+
+window.nxLocate=function(){
+const b=$("locBtn"),i=$("locInfo");
+if(!navigator.geolocation){i.textContent="جوالك ما يدعم تحديد الموقع";return}
+b.disabled=true;i.textContent="⏳ جاري تحديد موقعك...";
+navigator.geolocation.getCurrentPosition(p=>{
+nxLoc={lat:p.coords.latitude,lng:p.coords.longitude};
+i.innerHTML='✅ تم تحديد موقعك (دقة ±'+Math.round(p.coords.accuracy)+' م) <a href="https://www.google.com/maps?q='+nxLoc.lat+','+nxLoc.lng+'" target="_blank">عرض على الخريطة</a>';
+b.disabled=false;b.textContent="📍 تحديث موقعي";
+},e=>{
+b.disabled=false;
+i.textContent=e.code===1?"❌ فعّل صلاحية الموقع للمتصفح ثم أعد المحاولة":"❌ تعذر تحديد الموقع، تأكد من تشغيل GPS";
+},{enableHighAccuracy:true,timeout:20000,maximumAge:0});
+};
 
 window.applyCoupon=async function(){
 const code=$("couponInput").value.trim();
@@ -74,11 +94,26 @@ ${old?`<div class="oldPrice">${money(old)} ريال</div>`:""}
 <button class="addButton" onclick="event.stopPropagation();addToCart('${p.id}')">أضف للسلة</button>
 </div></div>`};
 
-const _sendMsg=window.sendMsg;
-window.sendMsg=function(){
+window.sendMsg=async function(){
 const name=$("msgName").value.trim(),text=$("msgText").value.trim();
-if(name&&text&&sb)sb.from("nexo_messages").insert({name,topic:msgTopic,body:text}).then(()=>{});
-_sendMsg();
+const ph=$("msgPhone")?$("msgPhone").value.trim():"",no=$("msgOrder")?$("msgOrder").value.trim():"";
+if(!name){alert("اكتب اسمك");return}
+if(!text){alert("اكتب رسالتك");return}
+if(!ph){alert("اكتب رقم جوالك عشان نتواصل معك");return}
+try{
+if(no){
+const{data}=await sb.rpc("nexo_order_say",{p_no:no,p_phone:ph,p_body:"("+msgTopic+") "+text});
+if(!data){alert("رقم الطلب أو الجوال غير مطابق، تأكد منهم أو اترك رقم الطلب فاضي");return}
+}else{
+const{error}=await sb.from("nexo_messages").insert({name,phone:ph,topic:msgTopic,body:text});
+if(error)throw error;
+}
+}catch(e){alert("تعذر إرسال الرسالة، حاول مرة أخرى");console.error(e);return}
+const m=load("nexo_msgs","[]");
+m.push({topic:msgTopic,text,time:new Date().toLocaleString("ar-SA")});
+save("nexo_msgs",m);
+$("msgText").value="";renderMsgs();
+alert("وصلت رسالتك ✅ بنتواصل معك قريباً");
 };
 
 window.sendOrder=async function(){
@@ -90,27 +125,19 @@ if(deliveryMethod==="delivery"&&!address){alert("اكتب عنوان التوص�
 if(!cart.length){alert("السلة فارغة");closeModal("orderModal");return}
 let r;
 try{
-const{data,error}=await sb.rpc("nexo_create_order",{p_name:name,p_phone:phone,p_address:address,p_delivery:deliveryMethod,p_payment:payment,p_items:cart.map(i=>({id:i.id,qty:i.qty})),p_coupon:couponApplied?appliedCode:null});
+const{data,error}=await sb.rpc("nexo_create_order",{p_name:name,p_phone:phone,p_address:address,p_delivery:deliveryMethod,p_payment:payment,p_items:cart.map(i=>({id:i.id,qty:i.qty})),p_coupon:couponApplied?appliedCode:null,p_lat:nxLoc?nxLoc.lat:null,p_lng:nxLoc?nxLoc.lng:null});
 if(error)throw error;
 r=data;
 }catch(e){alert("تعذر إرسال الطلب، حاول مرة أخرى");console.error(e);return}
-const d=calculate();
-let items="";
-cart.forEach(i=>{const p=byId(i.id);if(p)items+=`• ${p.name} × ${i.qty}\n`});
 const dm=deliveryMethod==="delivery"?"توصيل داخل مكة":"استلام من الفرع";
 const orders=load("nexo_orders","[]");
 orders.push({orderId:r.order_no,total:r.total,deliveryMethod:dm,paymentMethod:payment,createdAt:new Date().toISOString()});
 save("nexo_orders",orders);
-let msg=`🛒 *طلب جديد - NEXO STORE*\n\nرقم الطلب: ${r.order_no}\n\n👤 الاسم: ${name}\n📱 الجوال: ${phone}\n\n📦 المنتجات:\n${items}`;
-msg+=`🚚 رسوم التوصيل: ${money(d.delivery)} ريال\n💳 طريقة الدفع: ${payment}\n📦 طريقة الاستلام: ${dm}\n\n💵 *الإجمالي النهائي: ${money(Number(r.total))} ريال*\n`;
-if(deliveryMethod==="delivery")msg+=`\n📍 العنوان:\n${address}`;
-const url="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg);
-cart=[];couponApplied=false;appliedCode="";
+cart=[];couponApplied=false;appliedCode="";nxLoc=null;if($("locInfo"))$("locInfo").textContent="";
 $("couponInput").value="";
 saveCart();renderProducts();closeModal("orderModal");
-window.open(url,"_blank");
 save("nexo_last",{no:r.order_no,phone});
-alert("تم تسجيل طلبك ✅\nرقم الطلب: "+r.order_no+"\nاحتفظ به لتتبع الطلب أو إلغائه.\nأرسل الرسالة في واتساب لإكمال الطلب.");
+alert("تم تسجيل طلبك ✅\nرقم الطلب: "+r.order_no+"\nاحتفظ به لتتبع الطلب أو إلغائه.\nبنتواصل معك قريباً لتأكيد الطلب.");
 };
 
 /* NEXO STORE: order tracking + chat with the store (loaded by nexo-cloud.js) */
@@ -199,4 +226,5 @@ window[n]=function(){busy++;try{history.pushState({nxo:1},"");return f.apply(thi
 window[n]=function(){f.apply(this,arguments);if(!busy&&!popping&&history.state&&history.state.nxo)history.back()}});
 addEventListener("popstate",()=>{const c=top();if(c){popping=1;try{c()}finally{popping=0}}});
 })();
+
 
