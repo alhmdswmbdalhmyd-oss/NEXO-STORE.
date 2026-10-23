@@ -1,84 +1,104 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07152e">
 <title>لوحة تحكم NEXO</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <style>
-:root{--b:#0876d9;--n:#0b2447}*{box-sizing:border-box}
-body{margin:0;font-family:Cairo,Tahoma,Arial,sans-serif;background:#f3f6fb;color:#142033}
+:root{--n:#07152e;--b:#1470e6;--g:#f5b942;--bg:#eef2f9;--sh:0 8px 26px rgba(20,40,90,.08)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:Cairo,Tahoma,Arial,sans-serif;background:var(--bg);color:#122036;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 button,input,select,textarea{font:inherit}
-button{border:0;border-radius:12px;padding:10px 16px;background:linear-gradient(135deg,#0876d9,#0b5fb0);color:#fff;font-weight:700;cursor:pointer}
-button.d{background:#fdecee;color:#e53950}button.g{background:#eef2f8;color:#334}
-input,select,textarea{width:100%;padding:11px 13px;border:1px solid #d7dce2;border-radius:12px;background:#fff;outline:none;margin:4px 0 10px}
-input:focus,textarea:focus,select:focus{border-color:var(--b)}input[type=checkbox]{width:22px;height:22px}
-label{font-weight:700;font-size:14px;color:#445}
-#lg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0b2447,#0876d9);padding:16px}
-#lg .box{background:#fff;border-radius:24px;padding:30px;width:100%;max-width:380px;text-align:center}
-#lg h2{margin:6px 0 18px;color:var(--n)}#lg button{width:100%;padding:13px}
+button{border:0;border-radius:14px;padding:11px 16px;background:linear-gradient(135deg,#1a7cf5,#0b57c4);color:#fff;font-weight:700;cursor:pointer;transition:transform .12s}
+button:active{transform:scale(.96)}button.d{background:#fdecee;color:#e53950}button.g{background:#eaf0fa;color:#33415c}
+input,select,textarea{width:100%;padding:12px 14px;border:1.5px solid #dbe2ee;border-radius:14px;background:#fff;outline:none;margin:4px 0 10px;font-size:16px}
+input:focus,textarea:focus,select:focus{border-color:var(--b);box-shadow:0 0 0 4px rgba(20,112,230,.12)}input[type=checkbox]{width:24px;height:24px}
+label{font-weight:700;font-size:14px;color:#3b4a66}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#lg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 20% 10%,#1a5fd0,#07152e 70%);padding:18px}
+#lg .box{background:#fff;border-radius:28px;padding:32px 26px;width:100%;max-width:390px;text-align:center;box-shadow:0 30px 70px rgba(0,0,0,.4);animation:up .5s}
+#lg .lo{width:78px;height:78px;margin:0 auto 10px;border-radius:24px;background:linear-gradient(135deg,#1a7cf5,#07152e);display:flex;align-items:center;justify-content:center;font-size:38px}
+#lg h2{margin:6px 0 20px;color:var(--n)}#lg button{width:100%;padding:14px;font-size:17px}
 #app{display:none;min-height:100vh}
-#sb{width:250px;flex:0 0 250px;background:linear-gradient(180deg,#0b2447,#0a3a7a);color:#fff;padding:18px 12px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;z-index:30}
-.br{font-size:22px;font-weight:800;padding:6px 12px 18px}.br span{color:#5cc0ff}
-.nv{display:flex;align-items:center;gap:10px;background:none;color:#cfe0ff;text-align:right;padding:12px 14px;border-radius:12px;width:100%}
-.nv.on{background:rgba(255,255,255,.15);color:#fff}
-.bd{margin-right:auto;background:#e53950;color:#fff;border-radius:10px;padding:0 7px;font-size:12px;display:none;line-height:19px}
+#sb{display:none;width:260px;flex:0 0 260px;background:linear-gradient(180deg,#07152e,#0a3a7a);color:#fff;padding:20px 14px;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
+.br{font-size:24px;font-weight:800;padding:6px 12px 20px}.br span{color:var(--g)}
+.nv{display:flex;align-items:center;gap:12px;background:none;color:#c6d8ff;text-align:right;padding:13px 14px;border-radius:14px;width:100%;font-size:16px}
+.nv.on{background:rgba(255,255,255,.16);color:#fff}
+.bd{margin-right:auto;background:#e53950;color:#fff;border-radius:11px;padding:0 7px;font-size:12px;display:none;line-height:20px;min-width:20px;text-align:center}
 #mn{flex:1;min-width:0}
-.top{display:flex;align-items:center;gap:10px;padding:14px 18px;background:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 12px rgba(0,0,0,.05)}
-.top h2{margin:0;font-size:20px}#hb{display:none;padding:8px 13px}
-#main{padding:18px;max-width:1200px;margin:auto}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px}
-.sc{background:#fff;border-radius:18px;padding:16px;display:flex;gap:12px;align-items:center;box-shadow:0 3px 14px rgba(0,0,0,.05)}
-.sc i{font-style:normal;font-size:26px;width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 14%,#fff)}
-.sc small{color:#778;display:block}.sc b{font-size:22px}
+.hd{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,#07152e,#0d3b8c);color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 20px 20px;border-radius:0 0 30px 30px;box-shadow:0 12px 32px rgba(7,21,46,.28)}
+.hd small{color:var(--g);font-weight:800;letter-spacing:1px}.hd h2{margin:2px 0 0;font-size:24px}
+#main{padding:16px;max-width:1200px;margin:auto;animation:up .35s}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
+.sc{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;border-radius:22px;padding:16px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.sc i{font-style:normal;font-size:28px;position:absolute;left:12px;top:10px;opacity:.35}.sc small{opacity:.9;display:block;font-size:13px}.sc b{font-size:28px;font-weight:800}
 .bar{display:flex;gap:10px;margin-bottom:12px}.bar input{margin:0}.bar button{white-space:nowrap}
-.chips{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px}.ft{background:#fff;color:#445;white-space:nowrap}.ft.on{background:var(--b);color:#fff}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
-.card,.pc{background:#fff;border-radius:18px;padding:16px;box-shadow:0 3px 14px rgba(0,0,0,.05);overflow-wrap:anywhere;line-height:1.8}
-.card.nw{border-top:4px solid var(--b)}
-.pc{padding:0;overflow:hidden}.pc img,.ph{width:100%;height:170px;object-fit:contain;background:#f7f9fc;display:flex;align-items:center;justify-content:center;font-size:44px}
-.pb{padding:12px}.pm{color:var(--b);font-weight:700;margin:4px 0 8px}
-.row{display:flex;gap:8px}.row>*{flex:1;margin:0}
-.chip{border-radius:10px;padding:2px 10px;font-size:13px;font-weight:700;background:#eef2f8}
-.em{text-align:center;color:#889;padding:30px}.th{width:70px;height:70px;object-fit:contain;display:block}
-.li{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #eef1f5}
-#md{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:60;align-items:flex-start;justify-content:center;overflow:auto;padding:16px}
-#md.on{display:flex}#md .card{width:100%;max-width:520px;margin:auto}
-.chat{display:grid;grid-template-columns:330px 1fr;height:calc(100vh - 110px);background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 3px 14px rgba(0,0,0,.05)}
-.cl{overflow-y:auto;border-left:1px solid #e8edf3}.cw{display:flex;flex-direction:column;min-width:0;background:#eef3f8}
-.ci{display:flex;gap:10px;align-items:center;padding:12px;border-bottom:1px solid #f0f3f7;cursor:pointer}.ci.on,.ci:hover{background:#edf6ff}
-.av{width:44px;height:44px;border-radius:50%;background:var(--b);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex:0 0 44px}
-.cx{min-width:0;flex:1}.cx p{margin:0;color:#778;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ch{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border-bottom:1px solid #e8edf3}.ch>div{flex:1}
-.wb{background:#25d366;color:#fff;border-radius:12px;padding:8px 14px;text-decoration:none;font-weight:700}.bk{display:none}
-.oi{background:#fff8e6;padding:10px 14px;font-size:14px;line-height:1.8}.oi select{width:auto;margin:0 6px;padding:4px 8px}
+.chips{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px;scrollbar-width:none}.ft{background:#fff;color:#445;white-space:nowrap;box-shadow:var(--sh)}.ft.on{background:linear-gradient(135deg,#1a7cf5,#0b57c4);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.card,.pc{background:#fff;border-radius:22px;padding:16px;box-shadow:var(--sh);overflow-wrap:anywhere;line-height:1.8;animation:up .35s}
+.card.nw{border-right:5px solid var(--b)}.card h3{margin-top:0}
+.pc{padding:0;overflow:hidden}.pc img,.ph{width:100%;height:180px;object-fit:contain;background:linear-gradient(135deg,#f6f9ff,#eaf0fa);display:flex;align-items:center;justify-content:center;font-size:46px}
+.pb{padding:14px}.pm{color:var(--b);font-weight:800;margin:4px 0 10px;font-size:17px}
+.row{display:flex;gap:8px;margin-top:8px}.row>*{flex:1;margin:0}
+.chip{border-radius:11px;padding:3px 12px;font-size:13px;font-weight:800;background:#eaf0fa;white-space:nowrap}
+.em{text-align:center;color:#8a96ab;padding:34px}.th{width:72px;height:72px;object-fit:contain;display:block;border-radius:12px;background:#f3f6fb}
+.li{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #eef1f6;align-items:center}.li:last-child{border:0}
+.itm{background:#f4f7fc;border-radius:14px;padding:10px 12px;margin:8px 0;font-size:14px}.tot{font-size:22px;font-weight:800;color:var(--b)}
+.wb{background:linear-gradient(135deg,#2ee27a,#12a84e);color:#fff;border-radius:14px;padding:11px 16px;text-decoration:none;font-weight:700;text-align:center}
+.fab{position:fixed;left:18px;bottom:calc(104px + env(safe-area-inset-bottom,0px));width:60px;height:60px;border-radius:50%;font-size:30px;padding:0;z-index:35;box-shadow:0 12px 28px rgba(11,87,196,.45)}
+#bt{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:28px;box-shadow:0 14px 40px rgba(7,21,46,.25);display:flex;padding:6px;z-index:40}
+#bt button{flex:1;position:relative;background:none;color:#6b7a95;display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 2px;font-size:11.5px;border-radius:22px}
+#bt button i{font-style:normal;font-size:22px}#bt button.on{background:linear-gradient(135deg,#1a7cf5,#0b57c4);color:#fff}
+#bt .bd{position:absolute;top:2px;left:50%;margin:0 0 0 6px}
+#md,#sh{position:fixed;inset:0;background:rgba(7,21,46,.55);backdrop-filter:blur(3px);display:none;z-index:60;align-items:flex-end;justify-content:center}
+#md.on,#sh.on{display:flex}
+#md .card{width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:28px 28px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));animation:up .25s}
+.sp{width:100%;max-width:560px;background:#fff;border-radius:28px 28px 0 0;padding:14px 16px calc(20px + env(safe-area-inset-bottom,0px));animation:up .25s}
+.grab{width:44px;height:5px;border-radius:5px;background:#d5dce8;margin:0 auto 14px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.tile{background:#f1f5fc;color:#122036;display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 6px}.tile i{font-style:normal;font-size:28px}
+#ts{position:fixed;top:calc(16px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:#07152e;color:#fff;padding:10px 20px;border-radius:20px;z-index:99;display:none;font-weight:700}
+.chat{display:grid;grid-template-columns:1fr;height:calc(100vh - 210px);min-height:420px;background:#fff;border-radius:22px;overflow:hidden;box-shadow:var(--sh)}
+.cl{overflow-y:auto}.cw{display:none;flex-direction:column;min-width:0;background:#e9eff8}.chat.open .cl{display:none}.chat.open .cw{display:flex}
+.ci{display:flex;gap:12px;align-items:center;padding:14px;border-bottom:1px solid #f0f3f8;cursor:pointer}.ci.on,.ci:active{background:#edf4ff}
+.av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#1a7cf5,#07152e);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex:0 0 48px;font-size:19px}
+.cx{min-width:0;flex:1}.cx p{margin:0;color:#7a879c;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border-bottom:1px solid #e8edf5}.ch>div{flex:1;min-width:0}
+.oi{background:#fff8e6;padding:10px 14px;font-size:14px;line-height:1.9}.oi select{width:auto;margin:0 6px;padding:4px 8px;font-size:14px}
 .cb{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column}
-.bb{max-width:78%;padding:8px 12px;border-radius:14px;margin:4px 0;line-height:1.7;overflow-wrap:anywhere}.bb small{display:block;color:#889;font-size:11px}
-.bb.c{background:#fff;align-self:flex-start}.bb.a{background:#cfe8ff;align-self:flex-end}
+.bb{max-width:80%;padding:9px 13px;border-radius:18px;margin:4px 0;line-height:1.7;overflow-wrap:anywhere;box-shadow:0 1px 4px rgba(0,0,0,.06)}.bb small{display:block;color:#8a96ab;font-size:11px}
+.bb.c{background:#fff;align-self:flex-start}.bb.a{background:#cfe5ff;align-self:flex-end}
 .cf{display:flex;gap:8px;padding:10px;background:#fff}.cf input{margin:0}
-@media(max-width:860px){
-#sb{position:fixed;top:0;bottom:0;right:0;transform:translateX(100%);transition:.25s}#sb.on{transform:none}#hb{display:block}
-.chat{grid-template-columns:1fr;height:calc(100vh - 100px)}.cw{display:none}.chat.open .cl{display:none}.chat.open .cw{display:flex}.bk{display:block;padding:6px 12px}}
+@media(min-width:900px){
+body{padding-bottom:40px}#app.on{display:flex}#sb{display:flex}#bt{display:none}.stats{grid-template-columns:repeat(5,1fr)}
+.fab{bottom:30px}.chat{grid-template-columns:340px 1fr;height:calc(100vh - 190px)}.chat .cl{border-left:1px solid #e8edf5;display:block!important}.chat .cw{display:flex}
+#md,#sh{align-items:center}#md .card,.sp{border-radius:28px}.bk{display:none}}
 </style></head><body>
-<div id="lg"><div class="box"><div style="font-size:42px">🛍️</div><h2>لوحة تحكم NEXO</h2>
+<div id="lg"><div class="box"><div class="lo">🛍️</div><h2>لوحة تحكم NEXO</h2>
 <input id="em" type="email" placeholder="الإيميل" autocomplete="username">
 <input id="pw" type="password" placeholder="كلمة السر" autocomplete="current-password" onkeydown="if(event.key=='Enter')login()">
 <button onclick="login()">دخول</button></div></div>
 <div id="app"><aside id="sb"><div class="br">NEXO <span>STORE</span></div><div id="nav"></div>
-<button class="nv" style="margin-top:auto" onclick="sb.auth.signOut().then(()=>location.reload())">🚪 تسجيل الخروج</button></aside>
-<div id="mn"><div class="top"><button id="hb" onclick="$('sb').classList.toggle('on')">☰</button><h2 id="tt"></h2></div><div id="main"></div></div></div>
+<button class="nv" style="margin-top:auto" onclick="out()">🚪 تسجيل الخروج</button></aside>
+<div id="mn"><header class="hd"><small>NEXO STORE</small><h2 id="tt"></h2></header><div id="main"></div></div>
+<nav id="bt"></nav></div>
+<div id="sh" onclick="if(event.target==this)closeSheet()"><div class="sp" id="sp"></div></div>
 <div id="md" onclick="if(event.target==this)closeM()"><div class="card" id="mc"></div></div>
+<div id="ts"></div>
 <script>
 const U="https://hmvjxesfgfjjhangyorq.supabase.co",K="sb_publishable_SZdbk--nDfsTzqlARh3IcA_ZnGm1QPL";
 const sb=supabase.createClient(U,K),$=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const STS=["جديد","قيد التجهيز","تم التوصيل","ملغي"],SC={"جديد":"#0876d9","قيد التجهيز":"#f5a623","تم التوصيل":"#1f9d55","ملغي":"#e53950"};
-const NAV=[["dash","📊","الرئيسية"],["orders","🛒","الطلبات"],["messages","💬","الرسائل"],["nexo_products","📦","المنتجات"],["nexo_ads","📣","الإعلانات"],["nexo_coupons","🎟","الكوبونات"],["settings","⚙️","الإعدادات"]];
+const STS=["جديد","قيد التجهيز","تم التوصيل","ملغي"],SC={"جديد":"#1470e6","قيد التجهيز":"#f5a623","تم التوصيل":"#1f9d55","ملغي":"#e53950"};
+const NAV=[["dash","🏠","الرئيسية"],["orders","🛒","الطلبات"],["messages","💬","الرسائل"],["nexo_products","📦","المنتجات"],["nexo_ads","📣","الإعلانات"],["nexo_coupons","🎟","الكوبونات"],["settings","⚙️","الإعدادات"]];
+const BT=["dash","orders","messages","nexo_products"];
 const T={
 nexo_products:{ic:"📦",f:[["name","اسم المنتج","t"],["description","الوصف","a"],["category","الفئة (شواحن / كيابل / سماعات / سيارات / متنوع)","t"],["price","السعر","n"],["old_price","السعر قبل الخصم","n"],["barcode","الباركود","t"],["image_url","صورة المنتج","i"],["sort","الترتيب","n"],["active","ظاهر في المتجر","c"]],show:"name",order:"sort"},
 nexo_ads:{ic:"📣",f:[["title","عنوان الإعلان","t"],["subtitle","النص الفرعي","t"],["image_url","صورة الإعلان (اختياري)","i"],["sort","الترتيب","n"],["active","ظاهر","c"]],show:"title",order:"sort"},
 nexo_coupons:{ic:"🎟",f:[["code","كود الخصم","t"],["rate","نسبة الخصم (0.5 = ٥٠٪)","n"],["active","فعّال","c"]],show:"code",pk:"code",order:"created_at"}};
 const SF=[["store_name","اسم المتجر","t"],["whatsapp","رقم الواتساب (بدون +)","t"],["delivery_fee","رسوم التوصيل","n"],["free_shipping_limit","حد التوصيل المجاني","n"],["delivery_banner","نص شريط التوصيل","t"],["logo_url","الشعار","i"]];
-let cur="dash",E={},L=[],conv=null,MS=[],OD=[],OF="الكل";
+let cur="dash",E={},L=[],conv=null,MS=[],OD=[],OF="الكل",ex=0;const LY=[];
 const fmt=d=>new Date(d).toLocaleString("ar-SA",{dateStyle:"short",timeStyle:"short"});
 const wa=p=>"https://wa.me/"+String(p).replace(/\D/g,"").replace(/^0/,"966");
 const chip=s=>`<span class="chip" style="background:${SC[s]||"#889"}1f;color:${SC[s]||"#889"}">${esc(s)}</span>`;
@@ -87,35 +107,56 @@ async function up(f){const n=Date.now()+"-"+f.name.replace(/[^\w.-]/g,"_");const
 async function val([k,l,ty]){const e=$("f_"+k);if(ty=="c")return e.checked;if(ty=="n")return Number(e.value||0);if(ty=="i"){const fl=$("f_"+k+"_file").files[0];return fl?await up(fl):(E[k]||"")}return e.value.trim()}
 function beep(){try{const a=new AudioContext(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();setTimeout(()=>o.stop(),500)}catch(e){}}
 function ping(t,b){beep();if("Notification"in window&&Notification.permission=="granted")new Notification(t,{body:b})}
+function toast(m){const t=$("ts");t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",2200)}
+/* navigation layers: back gesture closes panels first, then goes to previous section */
+function layer(n){LY.push(n);history.pushState({l:n},"")}
+function shut(n){if(n=="m")$("md").classList.remove("on");else if(n=="s")$("sh").classList.remove("on");else if(n=="c"){const c=$("chat");if(c)c.classList.remove("open");conv=null;if($("cl"))convs()}}
+function closeM(){LY.includes("m")?history.back():shut("m")}
+function closeSheet(){LY.includes("s")?history.back():shut("s")}
+function closeChat(){LY.includes("c")?history.back():shut("c")}
+addEventListener("popstate",e=>{
+if(LY.length){shut(LY.pop());return}
+if($("app").style.display!="flex")return;
+const s=e.state||{};
+if(s.x){if(Date.now()-ex<2500){history.back();return}ex=Date.now();toast("اسحب للخلف مرة ثانية للخروج");history.pushState({t:cur},"");return}
+if(s.l){history.back();return}
+if(s.t)go(s.t,false)});
+function out(){sb.auth.signOut().then(()=>location.reload())}
 async function login(){const{error}=await sb.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});if(error)return alert("بيانات الدخول غير صحيحة");enter()}
 async function enter(){const{data:ok}=await sb.rpc("nexo_is_admin");if(!ok){alert("هذا الحساب غير مصرّح له");await sb.auth.signOut();return}
-$("lg").style.display="none";$("app").style.display="flex";
-$("nav").innerHTML=NAV.map(n=>`<button class="nv" data-t="${n[0]}" onclick="go('${n[0]}')">${n[1]} ${n[2]}<span class="bd" id="b_${n[0]}"></span></button>`).join("");
+$("lg").style.display="none";$("app").style.display="flex";$("app").classList.add("on");
+$("nav").innerHTML=NAV.map(n=>`<button class="nv" data-t="${n[0]}" onclick="go('${n[0]}')">${n[1]} ${n[2]}<span class="bd" data-b="${n[0]}"></span></button>`).join("");
+$("bt").innerHTML=BT.map(id=>{const n=NAV.find(x=>x[0]==id);return`<button data-t="${id}" onclick="go('${id}')"><i>${n[1]}</i>${n[2]}<span class="bd" data-b="${id}"></span></button>`}).join("")+`<button data-t="more" onclick="more()"><i>☰</i>المزيد</button>`;
 if("Notification"in window)Notification.requestPermission();
-sb.channel("rt").on("postgres_changes",{event:"INSERT",schema:"public",table:"nexo_orders"},p=>{ping("🛒 طلب جديد",p.new.order_no+" — "+p.new.total+" ريال");badges();if(cur=="orders"||cur=="dash")go(cur)})
+history.replaceState({x:1},"");history.pushState({t:"dash"},"");
+sb.channel("rt").on("postgres_changes",{event:"INSERT",schema:"public",table:"nexo_orders"},p=>{ping("🛒 طلب جديد",p.new.order_no+" — "+p.new.total+" ريال");badges();if(cur=="orders"||cur=="dash")go(cur,false)})
 .on("postgres_changes",{event:"INSERT",schema:"public",table:"nexo_messages"},p=>{if(p.new.sender!="customer")return;ping("💬 رسالة جديدة",(p.new.order_no||p.new.name)+": "+p.new.body);badges();
 if(cur=="messages"){MS.push(p.new);conv&&conv==ck(p.new)?openConv(conv):convs()}}).subscribe();
-go("dash")}
+go("dash",false)}
 async function badges(){const[a,b]=await Promise.all([sb.from("nexo_orders").select("id",{count:"exact",head:true}).eq("status","جديد"),sb.from("nexo_messages").select("id",{count:"exact",head:true}).eq("is_read",false).eq("sender","customer")]);
-[["orders",a.count],["messages",b.count]].forEach(([k,n])=>{const e=$("b_"+k);if(e){e.textContent=n;e.style.display=n?"block":"none"}})}
-function go(t){cur=t;E={};document.querySelectorAll(".nv[data-t]").forEach(b=>b.classList.toggle("on",b.dataset.t==t));
-$("tt").textContent=NAV.find(n=>n[0]==t)[2];$("sb").classList.remove("on");badges();({dash,orders,messages,settings}[t]||list)(t)}
+[["orders",a.count],["messages",b.count]].forEach(([k,n])=>document.querySelectorAll(`[data-b="${k}"]`).forEach(e=>{e.textContent=n;e.style.display=n?"block":"none"}))}
+function go(t,push=true){LY.length=0;cur=t;E={};if(push&&!(history.state&&history.state.t==t))history.pushState({t},"");
+document.querySelectorAll("[data-t]").forEach(b=>b.classList.toggle("on",b.dataset.t==t||(b.dataset.t=="more"&&!BT.includes(t))));
+$("tt").textContent=NAV.find(n=>n[0]==t)[2];$("sh").classList.remove("on");$("md").classList.remove("on");badges();({dash,orders,messages,settings}[t]||list)(t)}
+function more(){$("sp").innerHTML=`<div class="grab"></div><div class="tiles">${NAV.filter(n=>!BT.includes(n[0])).map(n=>`<button class="tile" onclick="pick('${n[0]}')"><i>${n[1]}</i>${n[2]}</button>`).join("")}</div><button class="d" style="width:100%" onclick="out()">🚪 تسجيل الخروج</button>`;$("sh").classList.add("on");layer("s")}
+function pick(t){LY.length=0;$("sh").classList.remove("on");history.replaceState({t:cur},"");go(t)}
 async function dash(){const[{data:o},a,b]=await Promise.all([sb.from("nexo_orders").select("*").order("created_at",{ascending:false}).limit(300),sb.from("nexo_products").select("id",{count:"exact",head:true}),sb.from("nexo_messages").select("id",{count:"exact",head:true}).eq("is_read",false).eq("sender","customer")]);
 const O=o||[],td=O.filter(x=>new Date(x.created_at).toDateString()==new Date().toDateString()&&x.status!="ملغي");
-const sc=(i,l,v,c)=>`<div class="sc" style="--c:${c}"><i>${i}</i><div><small>${l}</small><b>${v}</b></div></div>`;
-$("main").innerHTML=`<div class="stats">${sc("🆕","طلبات جديدة",O.filter(x=>x.status=="جديد").length,"#0876d9")}${sc("📅","طلبات اليوم",td.length,"#f5a623")}${sc("💰","مبيعات اليوم (ريال)",td.reduce((s,x)=>s+Number(x.total),0),"#1f9d55")}${sc("📦","المنتجات",a.count||0,"#7a4dff")}${sc("💬","رسائل غير مقروءة",b.count||0,"#e53950")}</div>
-<div class="card"><h3 style="margin-top:0">آخر الطلبات</h3>${O.slice(0,6).map(x=>`<div class="li"><span><b>${esc(x.order_no)}</b> ${esc(x.customer_name)}</span><span>${chip(x.status)} <b>${x.total}</b> ريال</span></div>`).join("")||'<p class="em">لا توجد طلبات بعد</p>'}</div>`}
+const sc=(i,l,v,c1,c2)=>`<div class="sc" style="--c1:${c1};--c2:${c2}"><i>${i}</i><small>${l}</small><b>${v}</b></div>`;
+$("main").innerHTML=`<div class="stats">${sc("🆕","طلبات جديدة",O.filter(x=>x.status=="جديد").length,"#1a7cf5","#0b3f94")}${sc("📅","طلبات اليوم",td.length,"#f5a623","#d9730d")}${sc("💰","مبيعات اليوم",td.reduce((s,x)=>s+Number(x.total),0)+" ر.س","#1fb35f","#0b6b3a")}${sc("📦","المنتجات",a.count||0,"#8a5cff","#4b2bd1")}${sc("💬","رسائل جديدة",b.count||0,"#f0506e","#b01a30")}</div>
+<div class="card"><h3>آخر الطلبات</h3>${O.slice(0,6).map(x=>`<div class="li"><span><b>${esc(x.order_no)}</b><br><small>${esc(x.customer_name)}</small></span><span style="text-align:left">${chip(x.status)}<br><b>${x.total}</b> ريال</span></div>`).join("")||'<p class="em">لا توجد طلبات بعد</p>'}</div>`}
 async function orders(){const{data}=await sb.from("nexo_orders").select("*").order("created_at",{ascending:false}).limit(300);OD=data||[];
 $("main").innerHTML=`<div class="bar"><input id="q" placeholder="🔎 بحث برقم الطلب أو الاسم أو الجوال" oninput="ol()"></div><div class="chips" id="oc"></div><div class="grid" id="gl"></div>`;ol()}
 function ol(){const q=($("q").value||"").toLowerCase();
 $("oc").innerHTML=["الكل",...STS].map(s=>`<button class="ft ${s==OF?"on":""}" onclick="OF='${s}';ol()">${s} (${s=="الكل"?OD.length:OD.filter(o=>o.status==s).length})</button>`).join("");
-$("gl").innerHTML=OD.filter(o=>(OF=="الكل"||o.status==OF)&&(o.order_no+o.customer_name+o.phone).toLowerCase().includes(q)).map(o=>`<div class="card ${o.status=="جديد"?"nw":""}"><div style="display:flex;justify-content:space-between"><b>${esc(o.order_no)}</b>${chip(o.status)}</div>
-👤 ${esc(o.customer_name)} — <a href="tel:${esc(o.phone)}">${esc(o.phone)}</a><br>📍 ${esc(o.address||o.delivery_method)}<br>
-${(o.items||[]).map(i=>"• "+esc(i.name)+" × "+i.qty).join("<br>")}<br><b>${o.total} ريال</b> • ${esc(o.payment_method)}${o.coupon_code?" • 🎟 "+esc(o.coupon_code):""}<br><small>${fmt(o.created_at)}</small>
+$("gl").innerHTML=OD.filter(o=>(OF=="الكل"||o.status==OF)&&(o.order_no+o.customer_name+o.phone).toLowerCase().includes(q)).map(o=>`<div class="card ${o.status=="جديد"?"nw":""}"><div class="li" style="padding-top:0"><b style="font-size:18px">${esc(o.order_no)}</b>${chip(o.status)}</div>
+👤 <b>${esc(o.customer_name)}</b> — <a href="tel:${esc(o.phone)}">${esc(o.phone)}</a><br>📍 ${esc(o.address||o.delivery_method)}
+<div class="itm">${(o.items||[]).map(i=>"• "+esc(i.name)+" × "+i.qty).join("<br>")}</div>
+<span class="tot">${o.total} ريال</span> <small>• ${esc(o.payment_method)}${o.coupon_code?" • 🎟 "+esc(o.coupon_code):""}<br>${fmt(o.created_at)}</small>
 <select onchange="st('${o.id}',this.value)">${STS.map(s=>`<option ${s==o.status?"selected":""}>${s}</option>`).join("")}</select>
-<div class="row"><button onclick="conv='${esc(o.order_no)}';go('messages')">💬 محادثة</button><a class="wb" style="text-align:center" target="_blank" href="${wa(o.phone)}">واتساب</a><button class="d" onclick="del('nexo_orders','${o.id}')">حذف</button></div></div>`).join("")||'<p class="em">لا توجد طلبات</p>'}
+<div class="row"><button onclick="conv='${esc(o.order_no)}';go('messages')">💬 محادثة</button><a class="wb" target="_blank" href="${wa(o.phone)}">واتساب</a><button class="d" onclick="del('nexo_orders','${o.id}')">🗑</button></div></div>`).join("")||'<p class="em">لا توجد طلبات</p>'}
 async function st(id,v){const{error}=await sb.from("nexo_orders").update({status:v}).eq("id",id);if(error)return alert(error.message);const o=OD.find(x=>x.id==id);if(o)o.status=v;if(cur=="orders")ol();badges()}
-async function del(t,id){if(!confirm("متأكد من الحذف؟"))return;const{error}=await sb.from(t).delete().eq("id",id);if(error)alert(error.message);go(cur)}
+async function del(t,id){if(!confirm("متأكد من الحذف؟"))return;const{error}=await sb.from(t).delete().eq("id",id);if(error)alert(error.message);go(cur,false)}
 const ck=m=>m.order_no||"g:"+(m.phone||m.name);
 async function messages(){const{data}=await sb.from("nexo_messages").select("*").order("created_at",{ascending:true}).limit(1000);MS=data||[];
 $("main").innerHTML=`<div class="chat" id="chat"><div class="cl" id="cl"></div><div class="cw" id="cw"><p class="em">اختر محادثة من القائمة</p></div></div>`;convs();if(conv)openConv(conv)}
@@ -123,11 +164,11 @@ function convs(){const g={};MS.forEach(m=>(g[ck(m)]=g[ck(m)]||[]).push(m));
 $("cl").innerHTML=Object.entries(g).sort((x,y)=>new Date(y[1][y[1].length-1].created_at)-new Date(x[1][x[1].length-1].created_at)).map(([k,l])=>{const u=l.filter(m=>m.sender=="customer"&&!m.is_read).length,m=l[l.length-1],c=l.find(x=>x.sender=="customer")||m;
 return`<div class="ci ${k==conv?"on":""}" data-k="${esc(k)}" onclick="openConv(this.dataset.k)"><div class="av">${esc((c.name||"؟")[0])}</div><div class="cx"><b>${esc(c.name)}</b> <small>${k.startsWith("g:")?"":esc(k)}</small><p>${esc(m.body)}</p></div>${u?`<span class="bd" style="display:block">${u}</span>`:""}</div>`}).join("")||'<p class="em">لا توجد رسائل بعد</p>'}
 const bub=m=>`<div class="bb ${m.sender=="admin"?"a":"c"}">${esc(m.body)}<small>${fmt(m.created_at)}</small></div>`;
-async function openConv(k){conv=k;$("chat").classList.add("open");const l=MS.filter(m=>ck(m)==k),c=l.find(m=>m.sender=="customer")||l[0]||{},g=k.startsWith("g:");
+async function openConv(k){conv=k;if(!LY.includes("c"))layer("c");$("chat").classList.add("open");const l=MS.filter(m=>ck(m)==k),c=l.find(m=>m.sender=="customer")||l[0]||{},g=k.startsWith("g:");
 const ids=l.filter(m=>m.sender=="customer"&&!m.is_read).map(m=>m.id);if(ids.length){l.forEach(m=>m.is_read=true);sb.from("nexo_messages").update({is_read:true}).in("id",ids).then(badges)}
 convs();let od=null;if(!g)od=(await sb.from("nexo_orders").select("*").eq("order_no",k).maybeSingle()).data;
 const ph=c.phone||(od&&od.phone)||"";
-$("cw").innerHTML=`<div class="ch"><button class="bk g" onclick="$('chat').classList.remove('open');conv=null;convs()">→</button><div><b>${esc(c.name||"")}</b><br><small>${esc(ph)}</small></div>${ph?`<a class="wb" target="_blank" href="${wa(ph)}">واتساب</a>`:""}</div>
+$("cw").innerHTML=`<div class="ch"><button class="bk g" onclick="closeChat()">→</button><div><b>${esc(c.name||"")}</b><br><small>${esc(ph)}</small></div>${ph?`<a class="wb" target="_blank" href="${wa(ph)}">واتساب</a>`:""}</div>
 ${od?`<div class="oi"><b>${esc(od.order_no)}</b> ${chip(od.status)} <select onchange="st('${od.id}',this.value)">${STS.map(s=>`<option ${s==od.status?"selected":""}>${s}</option>`).join("")}</select><b>${od.total} ريال</b><br>${(od.items||[]).map(i=>esc(i.name)+" × "+i.qty).join(" ، ")}<br>📍 ${esc(od.address||od.delivery_method)}</div>`:""}
 <div class="cb" id="cb">${l.map(bub).join("")}</div>
 <div class="cf"><input id="rt" ${g?"disabled":""} placeholder="${g?"رسالة عامة بدون رقم طلب، رد عليه بالواتساب":"اكتب ردك للعميل..."}" onkeydown="if(event.key=='Enter')reply()"><button onclick="reply()">إرسال</button></div>`;
@@ -136,24 +177,23 @@ async function reply(){const t=$("rt").value.trim();if(!t||conv.startsWith("g:")
 const{data,error}=await sb.from("nexo_messages").insert({name:"الإدارة",phone:c.phone||"",order_no:conv,body:t,sender:"admin",is_read:true,topic:"رد"}).select().single();
 if(error)return alert(error.message);MS.push(data);openConv(conv)}
 async function list(t){const c=T[t];const{data}=await sb.from(t).select("*").order(c.order,{ascending:true});L=data||[];
-$("main").innerHTML=`<div class="bar"><input id="q" placeholder="🔎 بحث..." oninput="lq()"><button onclick="form('${t}')">＋ إضافة</button>${t=="nexo_products"?'<button class="g" onclick="imp()">⬇️ استيراد المنتجات القديمة</button>':""}</div><div class="grid" id="gl"></div>`;lq()}
-async function imp(){if(!confirm("استيراد منتجات المتجر القديمة؟ لن تتكرر. لو عدّلت منتج قديم وأعدت الاستيراد ترجع بياناته الأصلية."))return;
-try{const h=await(await fetch("index.html",{cache:"no-store"})).text();const m=h.match(/const products=\[([\s\S]*?)\n\];/);if(!m)throw new Error("ما لقيت قائمة المنتجات في index.html");
-const a=new Function("return["+m[1]+"\n]")();
-const rows=a.map((p,i)=>({id:p.id,name:p.name,description:p.desc||"",category:p.category,price:p.price,old_price:p.oldPrice,image_url:p.image,sort:i,active:true}));
-const{error}=await sb.from("nexo_products").upsert(rows,{onConflict:"id"});if(error)throw error;alert("تم استيراد "+rows.length+" منتج ✅");list("nexo_products")}catch(e){alert(e.message)}}
+$("main").innerHTML=`<div class="bar"><input id="q" placeholder="🔎 بحث..." oninput="lq()">${t=="nexo_products"?'<button class="g" onclick="imp()">⬇️ استيراد القديمة</button>':""}</div><div class="grid" id="gl"></div><button class="fab" onclick="form('${t}')">＋</button>`;lq()}
+const OLDP=[{"id": "p1", "name": "FASTER FT-71 - شاحن جداري بمنفذين USB", "description": "شاحن جداري عملي بمنفذين USB للاستخدام اليومي.", "category": "شواحن", "price": 15, "old_price": 30, "image_url": "faster-ft71.jpg", "sort": 0, "active": true}, {"id": "p2", "name": "LDNIO LS543 - كيبل Type-C إلى Lightning", "description": "كيبل Type-C إلى Lightning للشحن والاستخدام اليومي.", "category": "كيابل", "price": 10, "old_price": 20, "image_url": "ldnio-ls543.jpg", "sort": 1, "active": true}, {"id": "p3", "name": "OVAST OT-15 - كيبل Type-C 3.1A", "description": "كيبل Type-C للشحن بقوة 3.1A.", "category": "كيابل", "price": 5, "old_price": 10, "image_url": "ovast-ot15.jpg", "sort": 2, "active": true}, {"id": "p4", "name": "NITO N-100 - سماعة سلكية بميكروفون", "description": "سماعة سلكية بميكروفون وصوت واضح.", "category": "سماعات", "price": 5, "old_price": 10, "image_url": "nito-n100.jpg", "sort": 3, "active": true}, {"id": "p5", "name": "iPlus I-18 - كيبل متعدد المداخل 3 في 1", "description": "كيبل شحن متعدد المداخل يناسب أجهزة مختلفة.", "category": "كيابل", "price": 10, "old_price": 20, "image_url": "iplus-i18.jpg", "sort": 4, "active": true}, {"id": "p6", "name": "GLOW GLH-32 - حامل مغناطيسي 360°", "description": "حامل جوال مغناطيسي للسيارة مع دوران 360 درجة.", "category": "سيارات", "price": 15, "old_price": 30, "image_url": "glow-glh32.jpg", "sort": 5, "active": true}, {"id": "p7", "name": "NITO N-H673 - سماعة رأس Type-C", "description": "سماعة سلكية بمنفذ Type-C للأجهزة الحديثة.", "category": "سماعات", "price": 10, "old_price": 20, "image_url": "nito-nh673.jpg", "sort": 6, "active": true}, {"id": "p8", "name": "KUMS - كيبل Type-C قماش 1.2m 3.4A", "description": "كيبل Type-C قماش بطول 1.2 متر وقوة 3.4A.", "category": "كيابل", "price": 5, "old_price": 10, "image_url": "kums-typec-1200mm.jpg", "sort": 7, "active": true}, {"id": "p9", "name": "WINMFIX LED - لمبة 3 في 1 وحامل جوال", "description": "لمبة LED متعددة الاستخدامات وحامل للجوال.", "category": "متنوع", "price": 15, "old_price": 30, "image_url": "winmfix-led.jpg", "sort": 8, "active": true}, {"id": "p10", "name": "X.LOOD X-73 - كيبل Type-C 3.1A", "description": "كيبل Type-C للشحن بقوة 3.1A.", "category": "كيابل", "price": 5, "old_price": 10, "image_url": "xlood-x73.jpg", "sort": 9, "active": true}, {"id": "p11", "name": "UNIVERSAL CLIP - حامل مرآة للسيارة", "description": "حامل جوال يثبت على مرآة السيارة.", "category": "سيارات", "price": 15, "old_price": 30, "image_url": "universal-clip.jpg", "sort": 10, "active": true}, {"id": "p12", "name": "GLOW GLH-29 - حامل مغناطيسي للسيارة", "description": "حامل مغناطيسي عملي للسيارة.", "category": "سيارات", "price": 15, "old_price": 30, "image_url": "glow-glh29.jpg", "sort": 11, "active": true}, {"id": "p13", "name": "NITO CH-512 - شاحن جداري بمنفذين", "description": "شاحن جداري بمنفذين للشحن.", "category": "شواحن", "price": 15, "old_price": 30, "image_url": "nito-ch512.jpg", "sort": 12, "active": true}, {"id": "p14", "name": "PROMASS PM-8509 - شاحن PD+QC 38W", "description": "شاحن سريع بتقنية PD وQC بقوة 38W.", "category": "شواحن", "price": 15, "old_price": 30, "image_url": "promass-pm8509.jpg", "sort": 13, "active": true}, {"id": "p15", "name": "GLOW GLH-26 - حامل مغناطيسي صغير للسيارة", "description": "حامل مغناطيسي صغير وعملي للسيارة.", "category": "سيارات", "price": 15, "old_price": 30, "image_url": "glow-glh26.jpg", "sort": 14, "active": true}, {"id": "p16", "name": "Goui Wall-I - شاحن جداري بمنفذين USB مع كابل آيفون", "description": "شاحن جداري بمنفذين USB بقدرة 3.1A وكابل Lightning بطول 100 سم. ضمان على المنتج.", "category": "شواحن", "price": 100, "old_price": 100, "image_url": "new-goui-charger.jpg", "sort": 15, "active": true}, {"id": "p17", "name": "NITO NT-H954 - سماعات لاسلكية T Series", "description": "سماعات أذن لاسلكية بتقنية Pure Bass وتحكم باللمس ومقاومة للماء. ضمان على المنتج.", "category": "سماعات", "price": 100, "old_price": 100, "image_url": "new-nito-h954.jpg", "sort": 16, "active": true}, {"id": "p18", "name": "NITO NT-TW312 - سماعات لاسلكية شحن لاسلكي", "description": "سماعات لاسلكية تدعم الشحن اللاسلكي وبلوتوث 5.0. ضمان على المنتج.", "category": "سماعات", "price": 100, "old_price": 100, "image_url": "new-nito-tw312.jpg", "sort": 17, "active": true}, {"id": "p19", "name": "Anker PowerLine III - كيبل USB-C إلى Lightning", "description": "كيبل شحن ومزامنة بطول 0.9 متر. ضمان على المنتج.", "category": "كيابل", "price": 60, "old_price": 60, "image_url": "new-anker-cable.jpg", "sort": 18, "active": true}, {"id": "p20", "name": "Apple EarPods Lightning - سماعة أبل سلكية", "description": "سماعة سلكية بمدخل Lightning ووحدة تحكم للمكالمات.", "category": "سماعات", "price": 60, "old_price": 60, "image_url": "new-apple-earpods.jpg", "sort": 19, "active": true}];
+async function imp(){if(!confirm("استيراد المنتجات القديمة الـ20؟ لن تتكرر. لو عدّلت منتج قديم وأعدت الاستيراد ترجع بياناته الأصلية."))return;
+try{const{error}=await sb.from("nexo_products").upsert(OLDP,{onConflict:"id"});if(error)throw error;alert("تم استيراد "+OLDP.length+" منتج ✅");list("nexo_products")}catch(e){alert(e.message)}}
 function lq(){const t=cur,c=T[t],q=($("q").value||"").toLowerCase();
-$("gl").innerHTML=L.map((r,i)=>[r,i]).filter(([r])=>String(r[c.show]).toLowerCase().includes(q)).map(([r,i])=>`<div class="pc">${r.image_url?`<img src="${esc(r.image_url)}">`:`<div class="ph">${c.ic}</div>`}<div class="pb"><b>${esc(r[c.show])}</b><div class="pm">${r.price!=null?r.price+" ريال":""}${r.rate!=null?"خصم "+Math.round(r.rate*100)+"%":""} ${r.active?"":'<span class="chip">مخفي</span>'}</div><div class="row"><button onclick="form('${t}',${i})">تعديل</button><button class="d" onclick="rm('${t}',${i})">حذف</button></div></div></div>`).join("")||'<p class="em">لا يوجد شيء بعد</p>'}
-function form(t,i){E=i===undefined?{}:L[i];$("mc").innerHTML=`<h3 style="margin-top:0">${i===undefined?"إضافة جديد":"تعديل"}</h3>${T[t].f.map(f=>fld(f,E[f[0]])).join("")}<div class="row"><button onclick="save('${t}')">حفظ</button><button class="g" onclick="closeM()">إلغاء</button></div>`;$("md").classList.add("on")}
-function closeM(){$("md").classList.remove("on")}
+$("gl").innerHTML=L.map((r,i)=>[r,i]).filter(([r])=>String(r[c.show]).toLowerCase().includes(q)).map(([r,i])=>`<div class="pc">${r.image_url?`<img src="${esc(r.image_url)}">`:`<div class="ph">${c.ic}</div>`}<div class="pb"><b>${esc(r[c.show])}</b><div class="pm">${r.price!=null?r.price+" ريال":""}${r.rate!=null?"خصم "+Math.round(r.rate*100)+"%":""} ${r.active?"":'<span class="chip">مخفي</span>'}</div><div class="row"><button onclick="form('${t}',${i})">✏️ تعديل</button><button class="d" onclick="rm('${t}',${i})">🗑</button></div></div></div>`).join("")||'<p class="em">لا يوجد شيء بعد، اضغط ＋ للإضافة</p>'}
+function form(t,i){E=i===undefined?{}:L[i];$("mc").innerHTML=`<div class="grab"></div><h3 style="margin-top:0">${i===undefined?"إضافة جديد":"تعديل"}</h3>${T[t].f.map(f=>fld(f,E[f[0]])).join("")}<div class="row"><button onclick="save('${t}')">💾 حفظ</button><button class="g" onclick="closeM()">إلغاء</button></div>`;$("md").classList.add("on");layer("m")}
 async function save(t){const c=T[t],r={};try{for(const f of c.f)r[f[0]]=await val(f);if(E.id&&!c.pk)r.id=E.id;if(!r[c.show])return alert("املأ الحقل الأساسي");
-const{error}=await sb.from(t).upsert(r);if(error)throw error;closeM();list(t)}catch(e){alert(e.message)}}
+const{error}=await sb.from(t).upsert(r);if(error)throw error;closeM();list(t);toast("تم الحفظ ✅")}catch(e){alert(e.message)}}
 async function rm(t,i){const pk=T[t].pk||"id";if(!confirm("متأكد من الحذف؟"))return;const{error}=await sb.from(t).delete().eq(pk,L[i][pk]);if(error)alert(error.message);list(t)}
 async function settings(){const{data}=await sb.from("nexo_settings").select("*");E={};(data||[]).forEach(r=>E[r.key]=r.value);
-$("main").innerHTML=`<div class="card" style="max-width:560px">${SF.map(f=>fld(f,E[f[0]])).join("")}<button onclick="saveSet()">حفظ الإعدادات</button></div>`}
-async function saveSet(){try{const rows=[];for(const f of SF)rows.push({key:f[0],value:await val(f)});const{error}=await sb.from("nexo_settings").upsert(rows);if(error)throw error;alert("تم الحفظ ✅");settings()}catch(e){alert(e.message)}}
+$("main").innerHTML=`<div class="card" style="max-width:560px;margin:auto">${SF.map(f=>fld(f,E[f[0]])).join("")}<button style="width:100%" onclick="saveSet()">💾 حفظ الإعدادات</button></div>`}
+async function saveSet(){try{const rows=[];for(const f of SF)rows.push({key:f[0],value:await val(f)});const{error}=await sb.from("nexo_settings").upsert(rows);if(error)throw error;toast("تم الحفظ ✅");settings()}catch(e){alert(e.message)}}
 (async()=>{const{data:{session}}=await sb.auth.getSession();if(session)enter()})();
 </script></body></html>
+
+
 
 
 
