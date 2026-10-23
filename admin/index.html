@@ -1,510 +1,74 @@
-
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
-<title>لوحة تحكم NEXO STORE</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<html lang="ar" dir="rtl"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لوحة تحكم NEXO</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:"Cairo",sans-serif;background:#f5f7fa;color:#111;padding-bottom:40px}
-header{background:#0876d9;color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:18px}
-header button{background:rgba(255,255,255,.2);color:#fff;border:0;border-radius:10px;padding:6px 12px;font-family:inherit}
-.tabs{display:flex;gap:6px;padding:10px;overflow-x:auto;background:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0001}
-.tabs button{flex:1;white-space:nowrap;border:0;border-radius:12px;padding:10px 14px;background:#eef1f5;font-family:inherit;font-weight:700}
-.tabs button.on{background:#0876d9;color:#fff}
-#view{max-width:700px;margin:auto;padding:12px}
-.btn{background:#0876d9;color:#fff;border:0;border-radius:12px;padding:12px 18px;font-family:inherit;font-weight:800;font-size:15px;margin-bottom:10px;cursor:pointer}
-.row,.card{background:#fff;border-radius:16px;padding:10px;margin-bottom:10px;box-shadow:0 2px 10px #0000;display:flex;gap:10px;align-items:center}
-.card{display:block;line-height:1.9;box-shadow:0 2px 10px #0001}
-.row.off{opacity:.5}
-.row img{width:60px;height:60px;object-fit:contain;border-radius:10px;background:#fafafa}
-.inf{flex:1;min-width:0}.inf b{display:block;font-size:14px}.inf small{color:#667}
-.row button{border:0;background:#edf6ff;color:#0876d9;border-radius:10px;padding:8px 12px;font-family:inherit;font-weight:700;cursor:pointer}
-.red{color:#d32f2f;font-weight:800}
-select,input,textarea{width:100%;border:1px solid #d7dce2;border-radius:12px;padding:10px;font-family:inherit;font-size:15px;background:#fff}
-input[type=checkbox]{width:22px;height:22px}
-textarea{height:80px}
-#modal{display:none;position:fixed;inset:0;background:#0009;z-index:20;align-items:flex-start;justify-content:center;overflow:auto;padding:14px}
-.box{background:#fff;border-radius:20px;padding:18px;width:100%;max-width:520px;margin:auto}
-.box label{display:block;font-weight:700;margin:10px 0 4px}
-.acts{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
-.acts button{flex:1;border:0;border-radius:12px;padding:12px;font-family:inherit;font-weight:800;background:#eef1f5;cursor:pointer}
-.acts .btn{background:#0876d9;color:#fff;margin:0}.acts .del{background:#ffe9e9;color:#c62828}
-.pv{width:90px;height:90px;object-fit:contain;display:block;margin-bottom:6px}
-#toast{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 18px;border-radius:20px;z-index:30;max-width:90%;text-align:center}
-#login{max-width:380px;margin:60px auto;padding:20px;background:#fff;border-radius:20px;box-shadow:0 4px 20px #0001}
-#login h2{margin-top:0;color:#0876d9}#login input{margin-bottom:10px}#lerr{color:#c62828;min-height:22px}
-#app{display:none}
-a{color:#0876d9}
-</style>
-</head>
-<body>
-<div id="login">
-<h2>دخول الأدمن</h2>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f5f7fa;color:#111;padding-bottom:70px}
+.card{background:#fff;border-radius:16px;padding:14px;margin:10px;box-shadow:0 2px 10px rgba(0,0,0,.06);line-height:1.8;overflow-wrap:anywhere}
+input,select,textarea,button{font:inherit;width:100%;padding:11px;border:1px solid #d7dce2;border-radius:12px;margin:4px 0 8px}
+input[type=checkbox]{width:22px;height:22px}button{background:#0876d9;color:#fff;border:0;font-weight:700;cursor:pointer}
+button.d{background:#e53950}.row{display:flex;gap:8px}.row>*{flex:1}label{font-weight:700}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#fff;box-shadow:0 -3px 14px rgba(0,0,0,.1);overflow-x:auto}
+nav button{background:none;color:#667;border-radius:0;margin:0;padding:12px 10px;font-size:13px;white-space:nowrap;width:auto;flex:1}
+nav button.on{color:#0876d9;border-top:3px solid #0876d9}.th{width:64px;height:64px;object-fit:contain;display:block}
+.st{background:#edf6ff;color:#0876d9;border-radius:10px;padding:2px 10px;font-size:13px}.un{border-right:4px solid #e53950}
+#lg{max-width:380px;margin:12vh auto}#app{display:none}h2,h3{margin:8px 12px}
+</style></head><body>
+<div id="lg" class="card"><h2>🔐 دخول لوحة التحكم</h2>
 <input id="em" type="email" placeholder="الإيميل" autocomplete="username">
-<input id="pw" type="password" placeholder="كلمة المرور" autocomplete="current-password">
-<div id="lerr"></div>
-<button class="btn" style="width:100%" id="loginBtn">دخول</button>
-</div>
-
-<div id="app">
-<header><span>لوحة NEXO STORE</span><button id="outBtn">خروج</button></header>
-<div class="tabs" id="tabs"></div>
-<div id="view"></div>
-</div>
-<div id="modal"></div>
-<div id="toast"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<input id="pw" type="password" placeholder="كلمة السر" autocomplete="current-password">
+<button onclick="login()">دخول</button></div>
+<div id="app"><div id="main"></div>
+<nav>
+<button data-t="orders" onclick="go('orders')">🛒 الطلبات</button>
+<button data-t="nexo_products" onclick="go('nexo_products')">📦 المنتجات</button>
+<button data-t="nexo_ads" onclick="go('nexo_ads')">📣 الإعلانات</button>
+<button data-t="nexo_coupons" onclick="go('nexo_coupons')">🎟 الكوبونات</button>
+<button data-t="messages" onclick="go('messages')">💬 الرسائل</button>
+<button data-t="settings" onclick="go('settings')">⚙️ الإعدادات</button>
+</nav></div>
 <script>
-/* إعدادات مشروع Supabase الصحيح */
-const U='https://hmvjxesfgfjjhangyorq.supabase.co';
-const K='sb_publishable_SZdbk--nDfsTzqlARh3IcA_ZnGm1QPL';
-const SB=supabase.createClient(U,K);
+const U="https://hmvjxesfgfjjhangyorq.supabase.co",K="sb_publishable_SZdbk--nDfsTzqlARh3IcA_ZnGm1QPL";
+const sb=supabase.createClient(U,K),$=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const STS=["جديد","قيد التجهيز","تم التوصيل","ملغي"];
+const T={
+nexo_products:{f:[["name","الاسم","t"],["description","الوصف","a"],["category","الفئة (شواحن/كيابل/سماعات/سيارات/متنوع)","t"],["price","السعر","n"],["old_price","السعر قبل الخصم","n"],["barcode","الباركود","t"],["image_url","الصورة","i"],["sort","الترتيب","n"],["active","ظاهر في المتجر","c"]],show:"name",order:"sort"},
+nexo_ads:{f:[["title","العنوان","t"],["subtitle","النص الفرعي","t"],["image_url","صورة (اختياري)","i"],["sort","الترتيب","n"],["active","ظاهر","c"]],show:"title",order:"sort"},
+nexo_coupons:{f:[["code","الكود","t"],["rate","نسبة الخصم (0.5 = ٥٠٪)","n"],["active","فعّال","c"]],show:"code",pk:"code",order:"created_at"}};
+const SF=[["store_name","اسم المتجر","t"],["whatsapp","رقم الواتساب (بدون +)","t"],["delivery_fee","رسوم التوصيل","n"],["free_shipping_limit","حد التوصيل المجاني","n"],["delivery_banner","نص شريط التوصيل","t"],["logo_url","الشعار","i"]];
+let cur="orders",E={},L=[];
+const fld=([k,l,ty],v)=>`<label>${l}</label>`+(ty=="a"?`<textarea id="f_${k}">${esc(v)}</textarea>`:ty=="c"?`<br><input type="checkbox" id="f_${k}" ${v!==false?"checked":""}>`:ty=="i"?`${v?`<img src="${esc(v)}" class="th">`:""}<input type="file" id="f_${k}_file" accept="image/*">`:`<input id="f_${k}" type="${ty=="n"?"number":"text"}" step="any" value="${esc(v)}">`);
+async function up(f){const n=Date.now()+"-"+f.name.replace(/[^\w.-]/g,"_");const{error}=await sb.storage.from("nexo-images").upload(n,f);if(error)throw error;return sb.storage.from("nexo-images").getPublicUrl(n).data.publicUrl}
+async function val([k,l,ty]){const e=$("f_"+k);if(ty=="c")return e.checked;if(ty=="n")return Number(e.value||0);if(ty=="i"){const fl=$("f_"+k+"_file").files[0];return fl?await up(fl):(E[k]||"")}return e.value.trim()}
+function beep(){try{const a=new AudioContext(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();setTimeout(()=>o.stop(),500)}catch(e){}}
+async function login(){const{error}=await sb.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});if(error)return alert("بيانات الدخول غير صحيحة");enter()}
+async function enter(){const{data:ok}=await sb.rpc("nexo_is_admin");if(!ok){alert("هذا الحساب غير مصرّح له");await sb.auth.signOut();return}
+$("lg").style.display="none";$("app").style.display="block";
+if("Notification"in window)Notification.requestPermission();
+sb.channel("o").on("postgres_changes",{event:"INSERT",schema:"public",table:"nexo_orders"},p=>{beep();if("Notification"in window&&Notification.permission=="granted")new Notification("🛒 طلب جديد",{body:p.new.order_no+" — "+p.new.total+" ريال"});if(cur=="orders")go("orders")}).subscribe();
+go("orders")}
+function go(t){cur=t;E={};document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t==t));({orders,messages,settings}[t]||(()=>crud(t)))(t)}
+async function orders(){const{data}=await sb.from("nexo_orders").select("*").order("created_at",{ascending:false}).limit(200);
+$("main").innerHTML=`<h3>🛒 الطلبات (${(data||[]).length})</h3>`+((data||[]).map(o=>`<div class="card ${o.status=="جديد"?"un":""}"><b>${esc(o.order_no)}</b> <span class="st">${esc(o.status)}</span><br>👤 ${esc(o.customer_name)} — 📱 <a href="tel:${esc(o.phone)}">${esc(o.phone)}</a><br>📍 ${esc(o.address)}<br>${(o.items||[]).map(i=>esc(i.name)+" × "+i.qty).join("<br>")}<br><b>${o.total} ريال</b> (${esc(o.delivery_method)} / ${esc(o.payment_method)})${o.coupon_code?" 🎟 "+esc(o.coupon_code):""}<br><small>${new Date(o.created_at).toLocaleString("ar-SA")}</small>
+<div class="row"><select onchange="st('${o.id}',this.value)">${STS.map(s=>`<option ${s==o.status?"selected":""}>${s}</option>`).join("")}</select><button class="d" onclick="del('nexo_orders','${o.id}')">حذف</button></div></div>`).join("")||'<div class="card">لا توجد طلبات</div>')}
+async function st(id,v){const{error}=await sb.from("nexo_orders").update({status:v}).eq("id",id);if(error)alert(error.message)}
+async function del(t,id){if(!confirm("متأكد من الحذف؟"))return;const{error}=await sb.from(t).delete().eq("id",id);if(error)alert(error.message);go(cur)}
+async function messages(){const{data}=await sb.from("nexo_messages").select("*").order("created_at",{ascending:false}).limit(200);
+$("main").innerHTML=`<h3>💬 الرسائل والشكاوى</h3>`+((data||[]).map(m=>`<div class="card ${m.is_read?"":"un"}"><b>${esc(m.topic)}</b> — ${esc(m.name)} ${m.phone?"📱 "+esc(m.phone):""}<br>${esc(m.body)}<br><small>${new Date(m.created_at).toLocaleString("ar-SA")}</small><div class="row"><button onclick="rd('${m.id}',${!m.is_read})">${m.is_read?"إرجاع كغير مقروءة":"تمت القراءة"}</button><button class="d" onclick="del('nexo_messages','${m.id}')">حذف</button></div></div>`).join("")||'<div class="card">لا توجد رسائل</div>')}
+async function rd(id,v){await sb.from("nexo_messages").update({is_read:v}).eq("id",id);go("messages")}
+async function crud(t){const c=T[t],pk=c.pk||"id";const{data}=await sb.from(t).select("*").order(c.order,{ascending:true});L=data||[];
+$("main").innerHTML=`<div class="card"><h3>${E[pk]!==undefined?"تعديل":"إضافة جديد"}</h3>${c.f.map(f=>fld(f,E[f[0]])).join("")}<button onclick="save('${t}')">حفظ</button>${E[pk]!==undefined?`<button class="d" onclick="E={};crud('${t}')">إلغاء التعديل</button>`:""}</div>`+L.map((r,i)=>`<div class="card">${r.image_url?`<img src="${esc(r.image_url)}" class="th">`:""}<b>${esc(r[c.show])}</b> ${r.price!=null?r.price+" ريال":""}${r.rate!=null?" — "+r.rate*100+"%":""} ${r.active?"":"<span class='st'>مخفي</span>"}<div class="row"><button onclick="E=L[${i}];crud('${t}');scrollTo(0,0)">تعديل</button><button class="d" onclick="rm('${t}',${i})">حذف</button></div></div>`).join("")}
+async function save(t){const c=T[t],r={};try{for(const f of c.f)r[f[0]]=await val(f);if(E.id&&!c.pk)r.id=E.id;if(!r[c.show])return alert("املأ الحقل الأساسي");
+const{error}=await sb.from(t).upsert(r);if(error)throw error;E={};crud(t)}catch(e){alert(e.message)}}
+async function rm(t,i){const c=T[t],pk=c.pk||"id";if(!confirm("متأكد من الحذف؟"))return;const{error}=await sb.from(t).delete().eq(pk,L[i][pk]);if(error)alert(error.message);crud(t)}
+async function settings(){const{data}=await sb.from("nexo_settings").select("*");E={};(data||[]).forEach(r=>E[r.key]=r.value);
+$("main").innerHTML=`<div class="card"><h3>⚙️ إعدادات المتجر</h3>${SF.map(f=>fld(f,E[f[0]])).join("")}<button onclick="saveSet()">حفظ</button></div>`}
+async function saveSet(){try{const rows=[];for(const f of SF)rows.push({key:f[0],value:await val(f)});const{error}=await sb.from("nexo_settings").upsert(rows);if(error)throw error;alert("تم الحفظ ✅");settings()}catch(e){alert(e.message)}}
+(async()=>{const{data:{session}}=await sb.auth.getSession();if(session)enter()})();
+</script></body></html>
 
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const im=s=>!s?'':/^https?:\/\//i.test(s)?s:s;
-const TABS=[['products','المنتجات'],['ads','الإعلانات'],['orders','الطلبات'],['messages','الرسائل'],['reviews','التقييمات'],['coupons','كودات الخصم'],['settings','الإعدادات']];
-let tab='products',cats=[],P=[],A=[],C=[];
-
-function msg(t){
-const e=$('toast');
-e.textContent=t;
-e.style.display='block';
-clearTimeout(window.toastTimer);
-window.toastTimer=setTimeout(()=>e.style.display='none',3500);
-}
-function closeM(){$('modal').style.display='none'}
-function showError(context,error){
-console.error(context,error);
-msg(context+': '+(error?.message||'تعذر تنفيذ العملية'));
-}
-async function queryCheck(result){
-if(result.error)throw result.error;
-return result.data;
-}
-
-/* تسجيل الدخول */
-$('loginBtn').onclick=async()=>{
-const b=$('loginBtn');
-$('lerr').textContent='';
-if(!SB){$('lerr').textContent='تعذر تشغيل الاتصال';return}
-if(!$('em').value.trim()||!$('pw').value){
-$('lerr').textContent='أدخل البريد الإلكتروني وكلمة المرور';
-return;
-}
-b.disabled=true;
-b.textContent='جارٍ الدخول...';
-try{
-const{error}=await SB.auth.signInWithPassword({
-email:$('em').value.trim(),
-password:$('pw').value
-});
-if(error)throw error;
-await start();
-}catch(e){
-$('lerr').textContent='تعذر الدخول: '+(e.message||'تحقق من بيانات الحساب');
-}finally{
-b.disabled=false;
-b.textContent='دخول';
-}
-};
-$('pw').addEventListener('keydown',e=>{if(e.key==='Enter')$('loginBtn').click()});
-$('outBtn').onclick=async()=>{
-await SB.auth.signOut();
-location.reload();
-};
-
-/* التحقق من جلسة الأدمن */
-async function start(){
-try{
-const{data:{session},error}=await SB.auth.getSession();
-if(error)throw error;
-if(!session)return;
-
-const{data,error:adminError}=await SB.from('admins')
-.select('user_id')
-.eq('user_id',session.user.id)
-.maybeSingle();
-
-if(adminError)throw adminError;
-if(!data){
-await SB.auth.signOut();
-$('lerr').textContent='الحساب مسجل، لكنه غير مضاف إلى جدول admins';
-return;
-}
-
-$('login').style.display='none';
-$('app').style.display='block';
-$('tabs').innerHTML=TABS.map(([k,l])=>
-`<button id="t_${k}" data-tab="${k}">${l}</button>`
-).join('');
-
-TABS.forEach(([k])=>{
-$('t_'+k).onclick=()=>go(k);
-});
-await go('products');
-}catch(e){
-console.error(e);
-$('lerr').textContent='خطأ في التحقق: '+(e.message||'تحقق من الجداول والصلاحيات');
-}
-}
-
-async function go(t){
-tab=t;
-TABS.forEach(([k])=>{
-const b=$('t_'+k);
-if(b)b.classList.toggle('on',k===t);
-});
-$('view').innerHTML='<p>جاري التحميل...</p>';
-try{
-const actions={
-products:rProducts,
-ads:rAds,
-orders:rOrders,
-coupons:rCoupons,
-messages:rMsgs,
-reviews:rRev,
-settings:rSet
-};
-await actions[t]();
-}catch(e){
-showError('تعذر تحميل القسم',e);
-$('view').innerHTML='<div class="card">تعذر تحميل البيانات. تحقق من أسماء الأعمدة وصلاحيات Supabase ثم حاول مرة أخرى.<p>'+esc(e.message)+'</p><button class="btn" id="retryBtn">إعادة المحاولة</button></div>';
-$('retryBtn').onclick=()=>go(t);
-}
-}
-
-/* رفع الصور */
-async function up(f){
-if(!f) return null;
-const ext=(f.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');
-const path=Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.'+ext;
-const{error}=await SB.storage.from('product-images').upload(path,f,{
-contentType:f.type||'image/jpeg',
-upsert:false
-});
-if(error)throw error;
-return SB.storage.from('product-images').getPublicUrl(path).data.publicUrl;
-}
-
-/* النماذج */
-function form(title,fields,v,save,del){
-const m=$('modal');
-m.innerHTML=`<div class="box"><h3>${esc(title)}</h3>`+
-fields.map(([k,l,t,o])=>{
-const val=v[k]??'';
-let h='';
-if(t==='area')h=`<textarea id="f_${k}">${esc(val)}</textarea>`;
-else if(t==='sel'){
-h=`<select id="f_${k}">`+
-(o||[]).map(x=>`<option value="${esc(x)}" ${String(x)===String(val)?'selected':''}>${esc(x)}</option>`).join('')+
-'</select>';
-}else if(t==='chk'){
-h=`<input type="checkbox" id="f_${k}" ${val?'checked':''}>`;
-}else if(t==='img'){
-h=`${val?`<img class="pv" src="${esc(im(val))}" alt="الصورة الحالية">`:''}<input type="file" id="f_${k}" accept="image/*">`;
-}else{
-h=`<input id="f_${k}" type="${t==='num'?'number':'text'}" step="any" value="${esc(val)}">`;
-}
-return `<label>${esc(l)}</label>${h}`;
-}).join('')+
-`<div class="acts"><button class="btn" id="saveBtn">حفظ</button><button id="cancelBtn">إلغاء</button>${del?'<button class="del" id="delBtn">حذف</button>':''}</div></div>`;
-
-m.style.display='flex';
-$('cancelBtn').onclick=closeM;
-
-$('saveBtn').onclick=async()=>{
-const b=$('saveBtn');
-b.disabled=true;
-b.textContent='جارٍ الحفظ...';
-try{
-const o={};
-for(const[k,,t]of fields){
-const e=$('f_'+k);
-if(t==='chk')o[k]=e.checked;
-else if(t==='num')o[k]=e.value.trim()===''?null:Number(e.value);
-else if(t==='img')o[k]=e.files[0]?await up(e.files[0]):(v[k]||null);
-else o[k]=e.value.trim();
-}
-await save(o);
-closeM();
-msg('تم الحفظ بنجاح');
-await go(tab);
-}catch(e){
-showError('فشل الحفظ',e);
-}finally{
-if($('saveBtn')){
-$('saveBtn').disabled=false;
-$('saveBtn').textContent='حفظ';
-}
-}
-};
-
-if(del)$('delBtn').onclick=async()=>{
-if(!confirm('تأكيد الحذف؟'))return;
-try{
-await del();
-closeM();
-msg('تم الحذف');
-await go(tab);
-}catch(e){
-showError('فشل الحذف',e);
-}
-};
-}
-
-/* المنتجات */
-async function rProducts(){
-const c=await queryCheck(await SB.from('categories').select('*').order('sort'));
-const p=await queryCheck(await SB.from('products').select('*').order('sort'));
-cats=c||[];
-P=p||[];
-
-$('view').innerHTML='<button class="btn" id="newP">+ منتج جديد</button>'+
-P.map(x=>`<div class="row ${x.is_active?'':'off'}">
-${x.image?`<img src="${esc(im(x.image))}" alt="">`:''}
-<div class="inf"><b>${esc(x.name)}</b>
-<small>${esc(x.price)} ر.س · الكمية: <span class="${Number(x.stock)<=0?'red':''}">${Number(x.stock)<=0?'نفدت':esc(x.stock)}</span></small></div>
-<button data-editp="${esc(x.id)}">تعديل</button></div>`).join('')||
-'<p>لا توجد منتجات حتى الآن.</p>';
-
-$('newP').onclick=()=>editP();
-document.querySelectorAll('[data-editp]').forEach(b=>b.onclick=()=>editP(b.dataset.editp));
-}
-function editP(id){
-const p=P.find(x=>String(x.id)===String(id))||{
-is_active:true,stock:0,category:cats[0]?.name||'',sort:0
-};
-const fields=[
-['name','الاسم','t'],
-['description','الوصف','area'],
-['old_price','السعر الأصلي قبل الخصم','num'],
-['price','السعر الحالي','num'],
-['category','الفئة','sel',cats.map(c=>c.name)],
-['stock','الكمية المتوفرة','num'],
-['sort','الترتيب','num'],
-['image','الصورة','img'],
-['is_active','ظاهر في المتجر','chk']
-];
-form(id?'تعديل منتج':'منتج جديد',fields,p,async o=>{
-if(!o.name)throw new Error('اكتب اسم المنتج');
-o.stock=Math.max(0,Math.round(o.stock||0));
-if(!o.category)throw new Error('اختر فئة المنتج');
-if(id){
-const{error}=await SB.from('products').update(o).eq('id',id);
-if(error)throw error;
-}else{
-const{error}=await SB.from('products').insert(o);
-if(error)throw error;
-}
-},id?async()=>{
-const{error}=await SB.from('products').delete().eq('id',id);
-if(error)throw error;
-}:null);
-}
-
-/* الإعلانات */
-async function rAds(){
-const{data,error}=await SB.from('ads').select('*').order('sort');
-if(error)throw error;
-A=data||[];
-$('view').innerHTML='<button class="btn" id="newA">+ إعلان جديد</button>'+
-A.map(x=>`<div class="row ${x.is_active?'':'off'}">
-${x.image_url?`<img src="${esc(im(x.image_url))}" alt="">`:''}
-<div class="inf"><b>${esc(x.title||'(بدون عنوان)')}</b>
-<small>${esc(x.placement||'')}</small></div>
-<button data-edita="${esc(x.id)}">تعديل</button></div>`).join('')||'<p>لا توجد إعلانات.</p>';
-$('newA').onclick=()=>editA();
-document.querySelectorAll('[data-edita]').forEach(b=>b.onclick=()=>editA(b.dataset.edita));
-}
-function editA(id){
-const a=A.find(x=>String(x.id)===String(id))||{
-is_active:true,placement:'home_banner',sort:0,
-bg:'linear-gradient(135deg,#0876d9,#00c6ff)'
-};
-form(id?'تعديل إعلان':'إعلان جديد',[
-['title','العنوان','t'],
-['subtitle','النص الفرعي','t'],
-['image_url','صورة الإعلان','img'],
-['button_text','نص الزر','t'],
-['button_link','رابط الزر','t'],
-['placement','مكان الظهور','sel',['home_banner','above_products']],
-['sort','الترتيب','num'],
-['bg','لون الخلفية','t'],
-['is_active','فعّال','chk']
-],a,async o=>{
-if(o.button_link&&!/^https?:\/\//i.test(o.button_link))
-throw new Error('الرابط يجب أن يبدأ بـ https:// أو http://');
-if(id){
-const{error}=await SB.from('ads').update(o).eq('id',id);
-if(error)throw error;
-}else{
-const{error}=await SB.from('ads').insert(o);
-if(error)throw error;
-}
-},id?async()=>{
-const{error}=await SB.from('ads').delete().eq('id',id);
-if(error)throw error;
-}:null);
-}
-
-/* كودات الخصم */
-async function rCoupons(){
-const{data,error}=await SB.from('coupons').select('*').order('code');
-if(error)throw error;
-C=data||[];
-$('view').innerHTML='<button class="btn" id="newC">+ كود جديد</button>'+
-C.map(x=>`<div class="row ${x.is_active?'':'off'}">
-<div class="inf"><b>${esc(x.code)}</b><small>خصم ${Math.round(Number(x.rate)*100)}%</small></div>
-<button data-editc="${esc(x.code)}">تعديل</button></div>`).join('')||'<p>لا توجد كودات خصم.</p>';
-$('newC').onclick=()=>editC();
-document.querySelectorAll('[data-editc]').forEach(b=>b.onclick=()=>editC(b.dataset.editc));
-}
-function editC(code){
-const c=C.find(x=>x.code===code);
-form(code?'تعديل كود':'كود جديد',[
-['code','الكود','t'],
-['percent','نسبة الخصم %','num'],
-['is_active','فعّال','chk']
-],c?{code:c.code,percent:Math.round(Number(c.rate)*100),is_active:c.is_active}:{is_active:true,percent:10},
-async o=>{
-o.code=o.code.toUpperCase().replace(/\s/g,'');
-if(!/^[A-Z0-9_-]{3,20}$/.test(o.code))
-throw new Error('الكود من 3 إلى 20 حرفًا أو رقمًا إنجليزيًا');
-if(!(o.percent>0&&o.percent<=100))
-throw new Error('النسبة يجب أن تكون من 1 إلى 100');
-const payload={code:o.code,rate:o.percent/100,is_active:o.is_active};
-if(code&&code!==o.code){
-const{error}=await SB.from('coupons').delete().eq('code',code);
-if(error)throw error;
-}
-const{error}=await SB.from('coupons').upsert(payload,{onConflict:'code'});
-if(error)throw error;
-},code?async()=>{
-const{error}=await SB.from('coupons').delete().eq('code',code);
-if(error)throw error;
-}:null);
-}
-
-/* الرسائل */
-const waNum=p=>{
-let d=String(p||'').replace(/\D/g,'');
-if(d.startsWith('0'))d='966'+d.slice(1);
-return d;
-};
-async function rMsgs(){
-const{data,error}=await SB.from('messages').select('*').order('created_at',{ascending:false}).limit(100);
-if(error)throw error;
-const rows=data||[];
-$('view').innerHTML=rows.map(m=>`<div class="card" style="${m.status==='جديد'?'':'opacity:.65'}">
-<b>${esc(m.topic||'رسالة')} · ${esc(m.name||'')}</b> ${m.status==='جديد'?'🆕':'✅'}<br>
-<small>${m.phone?`<a href="https://wa.me/${waNum(m.phone)}">${esc(m.phone)}</a> · `:''}
-${m.order_id?esc(m.order_id)+' · ':''}${m.created_at?new Date(m.created_at).toLocaleString('ar-SA'):''}</small>
-<p>${esc(m.body||'')}</p>
-<button class="btn" data-msgdone="${esc(m.id)}">تمت المعالجة</button>
-<button class="btn" style="background:#c62828" data-msgdel="${esc(m.id)}">حذف</button>
-</div>`).join('')||'<p>لا توجد رسائل.</p>';
-document.querySelectorAll('[data-msgdone]').forEach(b=>b.onclick=()=>msgDone(b.dataset.msgdone));
-document.querySelectorAll('[data-msgdel]').forEach(b=>b.onclick=()=>msgDel(b.dataset.msgdel));
-}
-async function msgDone(id){
-const{error}=await SB.from('messages').update({status:'تمت المعالجة'}).eq('id',id);
-if(error)return showError('تعذر تحديث الرسالة',error);
-msg('تم تحديث الرسالة');
-go('messages');
-}
-async function msgDel(id){
-if(!confirm('حذف الرسالة؟'))return;
-const{error}=await SB.from('messages').delete().eq('id',id);
-if(error)return showError('تعذر حذف الرسالة',error);
-msg('تم حذف الرسالة');
-go('messages');
-}
-
-/* التقييمات */
-async function rRev(){
-const{data,error}=await SB.from('reviews').select('*,products(name)').order('created_at',{ascending:false}).limit(100);
-if(error)throw error;
-$('view').innerHTML=(data||[]).map(r=>`<div class="card" style="${r.is_visible?'':'opacity:.65'}">
-<b style="color:#f5a623">${'★'.repeat(Math.max(0,Math.min(5,Number(r.rating)||0)))}${'☆'.repeat(5-Math.max(0,Math.min(5,Number(r.rating)||0)))}</b> · ${esc(r.author||'')}
-<br><small>${esc(r.products?.name||'')}</small>
-<p>${esc(r.comment||'')}</p>
-<button class="btn" data-revvis="${esc(r.id)}" data-visible="${!r.is_visible}">${r.is_visible?'إخفاء':'إظهار'}</button>
-<button class="btn" style="background:#c62828" data-revdel="${esc(r.id)}">حذف</button>
-</div>`).join('')||'<p>لا توجد تقييمات.</p>';
-document.querySelectorAll('[data-revvis]').forEach(b=>b.onclick=()=>revVis(b.dataset.revvis,b.dataset.visible==='true'));
-document.querySelectorAll('[data-revdel]').forEach(b=>b.onclick=()=>revDel(b.dataset.revdel));
-}
-async function revVis(id,v){
-const{error}=await SB.from('reviews').update({is_visible:v}).eq('id',id);
-if(error)return showError('تعذر تحديث التقييم',error);
-msg('تم تحديث التقييم');
-go('reviews');
-}
-async function revDel(id){
-if(!confirm('حذف التقييم؟'))return;
-const{error}=await SB.from('reviews').delete().eq('id',id);
-if(error)return showError('تعذر حذف التقييم',error);
-msg('تم حذف التقييم');
-go('reviews');
-}
-
-/* الطلبات */
-async function rOrders(){
-const{data,error}=await SB.from('orders').select('*,order_items(*)').order('created_at',{ascending:false}).limit(100);
-if(error)throw error;
-$('view').innerHTML=(data||[]).map(o=>`<div class="card">
-<b>${esc(o.id)}</b> · ${esc(o.total)} ر.س<br>
-<small>${esc(o.customer_name||'')} · ${o.phone?`<a href="tel:${esc(o.phone)}">${esc(o.phone)}</a>`:''}
-<br>${o.delivery_method==='delivery'?'توصيل':'استلام'} · ${esc(o.payment_method||'')}
-${o.address?'<br>'+esc(o.address):''}
-<br>${(o.order_items||[]).map(i=>esc(i.name||'منتج')+' × '+esc(i.qty)).join('<br>')}
-<br>${o.created_at?new Date(o.created_at).toLocaleString('ar-SA'):''}</small>
-<label>حالة الطلب</label>
-<select data-order="${esc(o.id)}">
-${['جديد','قيد التجهيز','خرج للتوصيل','تم التسليم','ملغي'].map(s=>`<option value="${esc(s)}" ${s===o.status?'selected':''}>${esc(s)}</option>`).join('')}
-</select>
-</div>`).join('')||'<p>لا توجد طلبات بعد.</p>';
-document.querySelectorAll('[data-order]').forEach(s=>{
-s.onchange=()=>setSt(s.dataset.order,s.value);
-});
-}
-async function setSt(id,s){
-const{error}=await SB.from('orders').update({status:s}).eq('id',id);
-if(error)return showError('تعذر تحديث الطلب',error);
-msg('تم تحديث حالة الطلب');
-}
-
-/* الإعدادات */
-async function rSet(){
-const{data,error}=await SB.from('settings').select('*').eq('id',1).maybeSingle();
-if(error)throw error;
-if(!data){
-$('view').innerHTML='<div class="card">لم يتم العثور على سجل الإعدادات بالمعرّف 1. تأكد من وجود سجل في جدول settings.</div>';
-return;
-}
-$('view').innerHTML=`<div class="card">رسوم التوصيل: <b>${esc(data.delivery_fee)}</b> ر.س<br>
-حد التوصيل المجاني: <b>${esc(data.free_shipping_limit)}</b> ر.س</div>
-<button class="btn" id="eS">تعديل الإعدادات</button>`;
-$('eS').onclick=()=>form('الإعدادات',[
-['delivery_fee','رسوم التوصيل','num'],
-['free_shipping_limit','حد التوصيل المجاني','num']
-],data,async o=>{
-const{error}=await SB.from('settings').update(o).eq('id',1);
-if(error)throw error;
-});
-}
-
-/* استعادة الجلسة عند فتح الصفحة */
-start();
-</script>
-</body>
-</html>
 
 
 
