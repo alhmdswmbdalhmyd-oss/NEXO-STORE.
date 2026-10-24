@@ -143,27 +143,27 @@ alert("تم تسجيل طلبك ✅\nرقم الطلب: "+r.order_no+"\nاحتف
 /* NEXO STORE: order tracking + chat with the store (loaded by nexo-cloud.js) */
 (function(){
 const css=`#nx{position:fixed;inset:0;z-index:400;background:#f5f7fa;display:none;flex-direction:column;font-family:Cairo,sans-serif}
-#nx.on{display:flex}.nh{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);font-size:18px}
-.nh button{width:44px;height:44px;border:0;border-radius:14px;background:#f1f3f5;font-size:24px}
+#nx.on{display:flex}.nxhead{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);font-size:18px}
+.nxhead button{width:44px;height:44px;border:0;border-radius:14px;background:#f1f3f5;font-size:24px}
 #nb{flex:1;display:flex;flex-direction:column;min-height:0;padding:12px}
-.nc{background:#fff;border-radius:18px;padding:14px;box-shadow:0 3px 14px rgba(0,0,0,.05);line-height:1.9}
-.nc input{width:100%;height:48px;border:1px solid #d7dce2;border-radius:13px;padding:0 12px;font-size:16px;margin:4px 0 10px}
-.nc button,.ni button{border:0;border-radius:13px;background:#0876d9;color:#fff;font-weight:800;font-size:16px;padding:0 18px;height:48px}
-.nc button.nd{background:#fdecee;color:#e53950;height:42px;margin-top:8px}
-.ns{border-radius:10px;padding:2px 12px;font-weight:800;font-size:14px;color:#fff}
-.nm{flex:1;overflow-y:auto;display:flex;flex-direction:column;padding:10px 2px}
-.nm p{text-align:center;color:#778}.nbb{max-width:80%;padding:8px 12px;border-radius:16px;margin:4px 0;line-height:1.7;overflow-wrap:anywhere}
-.nbb small{display:block;color:#889;font-size:11px}.nbb.me{background:#0876d9;color:#fff;align-self:flex-start}.nbb.me small{color:#d6e9ff}
-.nbb.ad{background:#fff;align-self:flex-end;box-shadow:0 1px 6px rgba(0,0,0,.08)}
-.ni{display:flex;gap:8px;padding-top:8px;padding-bottom:env(safe-area-inset-bottom,0px)}.ni input{flex:1;height:48px;border:1px solid #d7dce2;border-radius:13px;padding:0 12px;font-size:16px}`;
+.nxcard{background:#fff;border-radius:18px;padding:14px;box-shadow:0 3px 14px rgba(0,0,0,.05);line-height:1.9}
+.nxcard input{width:100%;height:48px;border:1px solid #d7dce2;border-radius:13px;padding:0 12px;font-size:16px;margin:4px 0 10px}
+.nxcard button,.nxin button{border:0;border-radius:13px;background:#0876d9;color:#fff;font-weight:800;font-size:16px;padding:0 18px;height:48px}
+.nxcard button.nxdel{background:#fdecee;color:#e53950;height:42px;margin-top:8px}
+.nxst{border-radius:10px;padding:2px 12px;font-weight:800;font-size:14px;color:#fff}
+.nxmsgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;padding:10px 2px}
+.nxmsgs p{text-align:center;color:#778}.nxbub{max-width:80%;padding:8px 12px;border-radius:16px;margin:4px 0;line-height:1.7;overflow-wrap:anywhere}
+.nxbub small{display:block;color:#889;font-size:11px}.nxbub.me{background:#0876d9;color:#fff;align-self:flex-start}.nxbub.me small{color:#d6e9ff}
+.nxbub.ad{background:#fff;align-self:flex-end;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.nxin{display:flex;gap:8px;padding-top:8px;padding-bottom:env(safe-area-inset-bottom,0px)}.nxin input{flex:1;height:48px;border:1px solid #d7dce2;border-radius:13px;padding:0 12px;font-size:16px}`;
 const st=document.createElement("style");st.textContent=css;document.head.appendChild(st);
 const el=document.createElement("div");el.id="nx";
-el.innerHTML='<div class="nh"><button onclick="nxClose()">←</button><b>📦 تتبّع طلبي</b></div><div id="nb"></div>';
+el.innerHTML='<div class="nxhead"><button onclick="nxClose()">←</button><b>📦 تتبّع طلبي</b></div><div id="nb"></div>';
 document.body.appendChild(el);
 const COL={"جديد":"#0876d9","قيد التجهيز":"#f5a623","تم التوصيل":"#1f9d55","ملغي":"#e53950"};
 let cur=null,tm=null,cnt=-1;
 function form(no,ph){
-$("nb").innerHTML='<div class="nc"><label><b>رقم الطلب</b></label><input id="nxn" dir="ltr" placeholder="NEXO-1001" value="'+escapeHTML(no)+'"><label><b>رقم الجوال</b></label><input id="nxp" type="tel" value="'+escapeHTML(ph)+'"><button style="width:100%" onclick="nxGo()">عرض طلبي</button></div>';
+$("nb").innerHTML='<div class="nxcard"><label><b>رقم الطلب</b></label><input id="nxn" dir="ltr" placeholder="NEXO-1001" value="'+escapeHTML(no)+'"><label><b>رقم الجوال</b></label><input id="nxp" type="tel" value="'+escapeHTML(ph)+'"><button style="width:100%" onclick="nxGo()">عرض طلبي</button></div>';
 }
 window.nxClose=()=>{el.classList.remove("on");clearInterval(tm);document.body.style.overflow=""};
 window.trackOrder=()=>{
@@ -183,17 +183,17 @@ const d=await fetchChat();
 if(!d){alert("ما لقينا الطلب، تأكد من رقم الطلب والجوال");cur=null;form(no,ph);return}
 save("nexo_last",{no:d.order_no,phone:ph});
 cur.no=d.order_no;cnt=-1;
-$("nb").innerHTML='<div class="nc" id="nxo"></div><div class="nm" id="nxm"></div><div class="ni"><input id="nxt" placeholder="اسأل عن توصيل طلبك..." onkeydown="if(event.key===\'Enter\')nxSend()"><button onclick="nxSend()">إرسال</button></div>';
+$("nb").innerHTML='<div class="nxcard" id="nxo"></div><div class="nxmsgs" id="nxm"></div><div class="nxin"><input id="nxt" placeholder="اسأل عن توصيل طلبك..." onkeydown="if(event.key===\'Enter\')nxSend()"><button onclick="nxSend()">إرسال</button></div>';
 draw(d);
 clearInterval(tm);tm=setInterval(async()=>{if(!cur)return;const x=await fetchChat();if(x)draw(x)},8000);
 }
 function draw(d){
-$("nxo").innerHTML='<b>'+escapeHTML(d.order_no)+'</b> <span class="ns" style="background:'+(COL[d.status]||"#889")+'">'+escapeHTML(d.status)+'</span><br>'
+$("nxo").innerHTML='<b>'+escapeHTML(d.order_no)+'</b> <span class="nxst" style="background:'+(COL[d.status]||"#889")+'">'+escapeHTML(d.status)+'</span><br>'
 +(d.items||[]).map(i=>"• "+escapeHTML(i.name)+" × "+i.qty).join("<br>")+'<br><b>الإجمالي: '+money(Number(d.total))+' ريال</b>'
-+(d.status==="جديد"?'<br><button class="nd" onclick="nxCancel()">إلغاء الطلب</button>':'');
++(d.status==="جديد"?'<br><button class="nxdel" onclick="nxCancel()">إلغاء الطلب</button>':'');
 const m=d.messages||[];
 if(m.length===cnt)return;cnt=m.length;
-$("nxm").innerHTML=m.length?m.map(x=>'<div class="nbb '+(x.sender==="admin"?"ad":"me")+'">'+escapeHTML(x.body)+'<small>'+new Date(x.at).toLocaleString("ar-SA",{dateStyle:"short",timeStyle:"short"})+'</small></div>').join(""):'<p>اكتب استفسارك عن التوصيل وراح نرد عليك هنا 👇</p>';
+$("nxm").innerHTML=m.length?m.map(x=>'<div class="nxbub '+(x.sender==="admin"?"ad":"me")+'">'+escapeHTML(x.body)+'<small>'+new Date(x.at).toLocaleString("ar-SA",{dateStyle:"short",timeStyle:"short"})+'</small></div>').join(""):'<p>اكتب استفسارك عن التوصيل وراح نرد عليك هنا 👇</p>';
 const b=$("nxm");b.scrollTop=b.scrollHeight;
 }
 window.nxSend=async()=>{
@@ -226,6 +226,7 @@ window[n]=function(){busy++;try{history.pushState({nxo:1},"");return f.apply(thi
 window[n]=function(){f.apply(this,arguments);if(!busy&&!popping&&history.state&&history.state.nxo)history.back()}});
 addEventListener("popstate",()=>{const c=top();if(c){popping=1;try{c()}finally{popping=0}}});
 })();
+
 
 
 
