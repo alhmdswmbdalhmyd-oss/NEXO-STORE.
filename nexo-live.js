@@ -48,7 +48,7 @@ if(ad&&!$("locBtn"))ad.closest(".formGroup").insertAdjacentHTML("afterend",'<div
 const mt=$("msgText");
 if(mt&&!$("msgPhone"))mt.closest(".formGroup").insertAdjacentHTML("beforebegin",'<div class="formGroup"><label>رقم الجوال</label><input id="msgPhone" type="tel" placeholder="05xxxxxxxx"></div><div class="formGroup"><label>رقم الطلب (اختياري)</label><input id="msgOrder" dir="ltr" placeholder="NEXO-1001"></div>');
 document.querySelectorAll("#msgPage .checkout").forEach(x=>x.textContent="إرسال");
-const ob=document.querySelector("#orderModal .checkout");if(ob)ob.textContent="تأكيد الطلب";
+const ob=document.querySelector('#orderModal button[onclick="sendOrder()"]');if(ob)ob.textContent="تأكيد الطلب";
 }catch(e){console.error(e)}
 if(b&&!document.getElementById("trackBtn"))b.insertAdjacentHTML("afterend",'<button id="trackBtn" class="checkout" style="height:46px;margin:0 0 14px" onclick="trackOrder()">📦 تتبّع طلبي أو إلغاؤه</button>');
 }
@@ -128,7 +128,7 @@ try{
 const{data,error}=await sb.rpc("nexo_create_order",{p_name:name,p_phone:phone,p_address:address,p_delivery:deliveryMethod,p_payment:payment,p_items:cart.map(i=>({id:i.id,qty:i.qty})),p_coupon:couponApplied?appliedCode:null,p_lat:nxLoc?nxLoc.lat:null,p_lng:nxLoc?nxLoc.lng:null});
 if(error)throw error;
 r=data;
-}catch(e){alert("تعذر إرسال الطلب، حاول مرة أخرى");console.error(e);return}
+}catch(e){alert("تعذر إرسال الطلب، حاول مرة أخرى\n\n("+(e&&e.message?e.message:"خطأ")+")");console.error(e);return}
 const dm=deliveryMethod==="delivery"?"توصيل داخل مكة":"استلام من الفرع";
 const orders=load("nexo_orders","[]");
 orders.push({orderId:r.order_no,total:r.total,deliveryMethod:dm,paymentMethod:payment,createdAt:new Date().toISOString()});
@@ -226,5 +226,6 @@ window[n]=function(){busy++;try{history.pushState({nxo:1},"");return f.apply(thi
 window[n]=function(){f.apply(this,arguments);if(!busy&&!popping&&history.state&&history.state.nxo)history.back()}});
 addEventListener("popstate",()=>{const c=top();if(c){popping=1;try{c()}finally{popping=0}}});
 })();
+
 
 
