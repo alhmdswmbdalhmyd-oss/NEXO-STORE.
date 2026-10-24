@@ -156,7 +156,7 @@ const css=`#nx{position:fixed;inset:0;z-index:400;background:#f5f7fa;display:non
 .nxbub small{display:block;color:#889;font-size:11px}.nxbub.me{background:#0876d9;color:#fff;align-self:flex-start}.nxbub.me small{color:#d6e9ff}
 .nxbub.ad{background:#fff;align-self:flex-end;box-shadow:0 1px 6px rgba(0,0,0,.08)}
 .nxin{display:flex;gap:8px;padding-top:8px;padding-bottom:env(safe-area-inset-bottom,0px)}.nxin input{flex:1;height:48px;border:1px solid #d7dce2;border-radius:13px;padding:0 12px;font-size:16px}`;
-const st=document.createElement("style");st.textContent=css;document.head.appendChild(st);
+const st=document.createElement("style");st.textContent=css+".nxpush{border:0;border-radius:13px;background:#eaf5ff;color:#0876d9;font-weight:800;font-size:15px;height:44px;margin:8px 0 0;width:100%}";document.head.appendChild(st);
 const el=document.createElement("div");el.id="nx";
 el.innerHTML='<div class="nxhead"><button onclick="nxClose()">←</button><b>📦 تتبّع طلبي</b></div><div id="nb"></div>';
 document.body.appendChild(el);
@@ -183,7 +183,7 @@ const d=await fetchChat();
 if(!d){alert("ما لقينا الطلب، تأكد من رقم الطلب والجوال");cur=null;form(no,ph);return}
 save("nexo_last",{no:d.order_no,phone:ph});
 cur.no=d.order_no;cnt=-1;
-$("nb").innerHTML='<div class="nxcard" id="nxo"></div><div class="nxmsgs" id="nxm"></div><div class="nxin"><input id="nxt" placeholder="اسأل عن توصيل طلبك..." onkeydown="if(event.key===\'Enter\')nxSend()"><button onclick="nxSend()">إرسال</button></div>';
+$("nb").innerHTML='<div class="nxcard" id="nxo"></div><button class="nxpush" id="nxPush" onclick="nxEnablePush()">🔔 فعّل إشعارات هذا الطلب</button><div class="nxmsgs" id="nxm"></div><div class="nxin"><input id="nxt" placeholder="اسأل عن توصيل طلبك..." onkeydown="if(event.key===\'Enter\')nxSend()"><button onclick="nxSend()">إرسال</button></div>';
 draw(d);
 clearInterval(tm);tm=setInterval(async()=>{if(!cur)return;const x=await fetchChat();if(x)draw(x)},8000);
 }
@@ -201,6 +201,27 @@ const t=$("nxt").value.trim();if(!t||!cur)return;
 const{data:ok}=await sb.rpc("nexo_order_say",{p_no:cur.no,p_phone:cur.ph,p_body:t});
 if(!ok){alert("تعذر إرسال الرسالة");return}
 $("nxt").value="";const d=await fetchChat();if(d)draw(d);
+};
+const VAPID="BIMHz2oam2NAwK7E-9wzY5twcBDzFw9iOMxtz43TRS4kVJLtzhqyFtsxSX6gbfe53s-vC9LkNQDILgiXf-8NMVQ";
+const b64u=t=>{const p="=".repeat((4-t.length%4)%4),r=atob((t+p).replace(/-/g,"+").replace(/_/g,"/"));return Uint8Array.from([...r].map(c=>c.charCodeAt(0)))};
+window.nxEnablePush=async()=>{
+if(!cur)return;
+if(!("serviceWorker" in navigator)||!("PushManager" in window)||!("Notification" in window)){
+alert("جوالك أو المتصفح ما يدعم الإشعارات.\nعلى الآيفون أضف الموقع للشاشة الرئيسية أول ثم افتحه منها.");return}
+const b=$("nxPush");
+try{
+const perm=await Notification.requestPermission();
+if(perm!=="granted"){alert("ما تم السماح بالإشعارات. فعّلها من إعدادات المتصفح للموقع ثم أعد المحاولة.");return}
+b.textContent="⏳ جاري التفعيل...";
+const reg=await navigator.serviceWorker.register("nexo-push-sw.js",{scope:"./nexo-push/"});
+await new Promise(r=>{if(reg.active)return r();const w=reg.installing||reg.waiting;if(!w)return r();w.addEventListener("statechange",()=>{if(w.state==="activated")r()})});
+let sub=await reg.pushManager.getSubscription();
+if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(VAPID)});
+const j=sub.toJSON();
+const{data:ok}=await sb.rpc("nexo_push_subscribe",{p_no:cur.no,p_phone:cur.ph,p_endpoint:j.endpoint,p_p256dh:j.keys.p256dh,p_auth:j.keys.auth});
+b.textContent=ok?"✅ الإشعارات مفعّلة لهذا الطلب":"🔔 فعّل إشعارات هذا الطلب";
+if(!ok)alert("تعذر تفعيل الإشعارات");
+}catch(e){console.error(e);b.textContent="🔔 فعّل إشعارات هذا الطلب";alert("تعذر تفعيل الإشعارات: "+(e&&e.message?e.message:""))}
 };
 window.nxCancel=async()=>{
 if(!confirm("متأكد تبغى تلغي الطلب؟"))return;
@@ -226,6 +247,7 @@ window[n]=function(){busy++;try{history.pushState({nxo:1},"");return f.apply(thi
 window[n]=function(){f.apply(this,arguments);if(!busy&&!popping&&history.state&&history.state.nxo)history.back()}});
 addEventListener("popstate",()=>{const c=top();if(c){popping=1;try{c()}finally{popping=0}}});
 })();
+
 
 
 
